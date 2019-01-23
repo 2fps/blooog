@@ -1,0 +1,19 @@
+.brief-card {
+    margin-top: 15px;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+.brief-header {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: rgba(0,0,0,.85);
+}
+
+.brief-meta {
+    font-size: 14px;
+    color: rgba(0,0,0,.4);
+}
+.brief-description {
+    margin-top: 6px;
+    color: rgba(0,0,0,.68);
+}

@@ -1,0 +1,14 @@
+.content-container {
+    max-width: 1080px;
+    margin: 0 auto !important;
+    margin-top: 90px !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.content-brief {
+    border: none !important;
+}
+.content-brief,
+.article-info {
+    display: inline-block;
+}
