@@ -13,4 +13,13 @@
 .article-info {
     /* display: inline-block; */
     float: left;
+    border: none !important;
+}
+
+ul, li body, html {
+    padding: 0;
+    margin: 0;
+}
+a {
+    text-decoration: none !important;
 }

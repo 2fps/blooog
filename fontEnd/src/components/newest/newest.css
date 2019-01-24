@@ -1,0 +1,20 @@
+.newest-head {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 20px 0 12px;
+}
+.newest-list {
+    list-style: none;
+}
+.newest-item {
+    color: #666;
+    margin: 5px 0;
+}
+.newest-item > a {
+    color: #666 !important;
+    cursor: pointer;
+    font-size: 1.4rem;
+}
+.newest-item:hover > a {
+    color: #333 !important;
+}

@@ -1,0 +1,32 @@
+.article-tags {
+    margin: 15px 0;
+}
+.tags-head {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 20px 0 12px;
+}
+.tags-list {
+    list-style: none;
+}
+.tags-item {
+    color: #666;
+    margin: 5px 0;
+}
+.tags-item > a {
+    color: #666 !important;
+    cursor: pointer;
+    font-size: 1.4rem;
+}
+.tags-item:hover > a {
+    color: #333 !important;
+}
+.tags-content > span > a {
+    cursor: pointer;
+    float: left;
+    margin: 3px 5px;
+    color: #666 !important;
+}
+.tags-content > span:hover > a {
+    color: #333 !important;
+}

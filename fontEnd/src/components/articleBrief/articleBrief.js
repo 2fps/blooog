@@ -4,19 +4,21 @@ import './articleBrief.css';
 
 export default class ArticleBrief extends React.Component {
 
-
     render() {
         return (
-            <div class="brief-card">
-                <div class="brief-content">
-                    <div class="brief-header">Matthew</div>
-                    <div class="brief-meta">
-                        <span class="brief-date">Joined in 2015</span>
+            <div className="brief-card">
+                <div className="brief-content">
+                    <div className="brief-header">
+                        <h2>我是文章的题目</h2>
                     </div>
-                    <div class="brief-description">Matthew is a musician living in Nashville.</div>
+                    <div className="brief-meta">
+                        <span className="brief-date">2015.04.23</span>&nbsp;
+                        <span className="brief-comments">39</span>条评论&nbsp;
+                        <span className="brief-date">123</span>次阅读
+                    </div>
+                    <div className="brief-description">我是文章的缩略内容，最大字数可以后台修改</div>
                 </div>
-                <div class="brief-extra">
-                    <span><i aria-hidden="true" class="user icon"></i>22 Friends</span>
+                <div className="brief-extra">
                 </div>
             </div>
         );
