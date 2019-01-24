@@ -4,11 +4,13 @@
     margin-top: 90px !important;
     border: none !important;
     box-shadow: none !important;
+    overflow: auto;
 }
 .content-brief {
     border: none !important;
 }
 .content-brief,
 .article-info {
-    display: inline-block;
+    /* display: inline-block; */
+    float: left;
 }
