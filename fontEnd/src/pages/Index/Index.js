@@ -4,13 +4,17 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 // import Grid from 'react-bootstrap/lib/Grid';
 
+import AllArticles from '../../components/allArticles/allArticles';
 import Header from '../../components/header/header';
-import ArticleBrief from '../../components/articleBrief/articleBrief';
 import Tags from '../../components/tags/tags';
 import Newest from '../../components/newest/newest';
 import Footer from '../../components/footer/footer';
 
-import { Grid, Image } from 'semantic-ui-react';
+
+import {
+    Switch,
+    Route
+} from 'react-router-dom';
 
 import './Index.css';
 import '../../static/css/bootstrap.min.css';
@@ -58,9 +62,10 @@ export default class index extends React.Component {
                 <Header/>
                 <div className="content-container">
                     <div className="col-sm-8 col-xs-12 content-brief">
-                        <ArticleBrief key="0" />
-                        <ArticleBrief key="1" />
-                        <ArticleBrief key="2" />
+                        <Switch>
+                            <Route path="/" exact component={ AllArticles }/>
+                            <Route path="/ii" exact component={ Newest }/>
+                        </Switch>
                     </div>
                     <div className="col-sm-4 col-xs-0 article-info">
                         <Newest />
