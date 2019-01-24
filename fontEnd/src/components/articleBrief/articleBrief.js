@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, Icon, Image } from 'semantic-ui-react'
 
 import './articleBrief.css';
 
@@ -8,21 +7,18 @@ export default class ArticleBrief extends React.Component {
 
     render() {
         return (
-            <Card>
-                <Card.Content>
-                    <Card.Header>Matthew</Card.Header>
-                        <Card.Meta>
-                            <span className='date'>Joined in 2015</span>
-                        </Card.Meta>
-                    <Card.Description>Matthew is a musician living in Nashville.</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                    <a>
-                        <Icon name='user' />
-                        22 Friends
-                    </a>
-                </Card.Content>
-            </Card>
+            <div class="brief-card">
+                <div class="brief-content">
+                    <div class="brief-header">Matthew</div>
+                    <div class="brief-meta">
+                        <span class="brief-date">Joined in 2015</span>
+                    </div>
+                    <div class="brief-description">Matthew is a musician living in Nashville.</div>
+                </div>
+                <div class="brief-extra">
+                    <span><i aria-hidden="true" class="user icon"></i>22 Friends</span>
+                </div>
+            </div>
         );
     }
 }

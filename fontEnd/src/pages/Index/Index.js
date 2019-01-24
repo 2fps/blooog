@@ -26,6 +26,14 @@ export default class index extends React.Component {
                         Visible only if display has <code>992px</code> width and higher
                     </Responsive>
                 </Segment.Group>
+                <Grid>
+                    <Grid.Column key="6">
+                        <div>111111111111111111111111111111111111111111</div>
+                    </Grid.Column>
+                    <Grid.Column key="6">
+                        <div>222222222222222222222222222222222222222222</div>
+                    </Grid.Column>
+                </Grid>
 {/*                 <div className="content-container">
                     <div className="content-brief">
                         <ArticleBrief />
