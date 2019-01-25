@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { Provider} from 'react-redux';
 
-import 'semantic-ui-css/semantic.min.css';
-import './App.css';
+import store from './store/store';
 
 import {
     BrowserRouter,
@@ -9,14 +9,19 @@ import {
     Route
 } from 'react-router-dom';
 
+// import 'semantic-ui-css/semantic.min.css';
+import './App.css';
+
 import index from './pages/Index/Index.js';
 
 class App extends Component {
     render() {
         return (
-            <HashRouter>
-                <Route path="/" component={index}></Route>
-            </HashRouter>
+            <Provider store={ store }>
+                <HashRouter>
+                    <Route path="/" component={index}></Route>
+                </HashRouter>
+            </Provider>
         );
     }
 }

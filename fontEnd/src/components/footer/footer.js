@@ -10,8 +10,10 @@ export default class Footer extends React.Component {
         return (
             <div className="footer">
                 <div className="container">
-                    <p>© 2019 <a href="http://www.zhuyuntao.cn/">zyt</a>. Powered by <a href="http://www.zhuyuntao.cn" target="_blank">blog</a> &amp; <a href="http://www.zhuyuntao.cn" target="_blank">Initial</a>.</p>
-                    <p><a href="http://www.miitbeian.gov.cn" className="icpnum" target="_blank" rel="nofollow">苏</a></p>
+                    <p>
+                        © 2019 <a href="http://www.zhuyuntao.cn/">zyt</a>. Powered by <a href="http://www.zhuyuntao.cn" target="_blank" rel="noopener noreferrer">blog</a><a href="http://www.zhuyuntao.cn" target="_blank" rel="noopener noreferrer">ALL RIGHTS RESERVED</a>.
+                    </p>
+                    <p><a href="http://www.miitbeian.gov.cn" className="icpnum" target="_blank" rel="noopener noreferrer">苏</a></p>
                 </div>
             </div>
         );

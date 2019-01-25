@@ -24,7 +24,7 @@
 .tags-content > span > a {
     cursor: pointer;
     float: left;
-    margin: 3px 5px;
+    margin: 5px;
     color: #666 !important;
 }
 .tags-content > span:hover > a {

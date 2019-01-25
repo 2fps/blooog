@@ -1,25 +1,25 @@
 import React from 'react';
-import { Responsive, Segment } from 'semantic-ui-react';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-// import Grid from 'react-bootstrap/lib/Grid';
-
-import AllArticles from '../../components/allArticles/allArticles';
-import Header from '../../components/header/header';
-import Tags from '../../components/tags/tags';
-import Newest from '../../components/newest/newest';
-import Footer from '../../components/footer/footer';
-
+import { connect } from 'react-redux';
 
 import {
     Switch,
     Route
 } from 'react-router-dom';
 
+import AllArticles from '../../components/allArticles/allArticles';
+import Header from '../../components/header/header';
+import Tags from '../../components/tags/tags';
+import Newest from '../../components/newest/newest';
+import Footer from '../../components/footer/footer';
+import ArticleDetail from '../../components/articleDetail/articleDetail';
+
+import tagsAction from '../../store/tags/tagsAction';
+import filterAction from '../../store/filter/filterAction';
+
 import './Index.css';
 import '../../static/css/bootstrap.min.css';
 
-export default class index extends React.Component {
+class Index extends React.Component {
     constructor(props) {
         super(props);
 
@@ -28,33 +28,8 @@ export default class index extends React.Component {
         };
     }
     componentDidMount() {
-        this.getTagsInfo();
-    }
-    // 获取tags信息
-    getTagsInfo = () => {
-        this.setState({
-            tags: [{
-                id: 1,
-                name: "Electron",
-                alias: "桌面化",
-                nums: 123
-            }, {
-                id: 2,
-                name: "HTML",
-                alias: "HTML",
-                nums: 123
-            }, {
-                id: 4,
-                name: "CSS",
-                alias: "CSS",
-                nums: 123
-            }, {
-                id: 3,
-                name: "Javascript",
-                alias: "Javascript",
-                nums: 123
-            }]
-        });
+        this.props.getTags();
+        this.props.getNewestArticleName();
     }
     render() {
         return (
@@ -64,13 +39,16 @@ export default class index extends React.Component {
                     <div className="col-sm-8 col-xs-12 content-brief">
                         <Switch>
                             <Route path="/" exact component={ AllArticles }/>
+                            <Route path="/detail/:articleId" exact component={ ArticleDetail }/>
                             <Route path="/ii" exact component={ Newest }/>
                         </Switch>
                     </div>
                     <div className="col-sm-4 col-xs-0 article-info">
-                        <Newest />
+                        <Newest
+                            newest={ this.props.newestArticles }
+                            />
                         <Tags
-                            tags={ this.state.tags }
+                            tags={ this.props.tags }
                             />
                     </div>
                 </div>
@@ -79,3 +57,21 @@ export default class index extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        tags: state.tags,
+        newestArticles: state.filter.newestArticles
+    }
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        // 获取标签数据
+        getTags: (...args) => dispatch(tagsAction.getTags(...args)),
+        getNewestArticleName: (...args) => dispatch(filterAction.getNewestArticleName(...args))
+    }
+};
+
+// 通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

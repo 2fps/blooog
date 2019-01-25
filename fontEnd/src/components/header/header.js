@@ -1,55 +1,57 @@
 import React from 'react';
-import { Input, Menu } from 'semantic-ui-react';
+
+import Navbar from 'react-bootstrap/lib/Navbar';
+import Nav from 'react-bootstrap/lib/Nav';
+import NavItem from 'react-bootstrap/lib/NavItem';
+import NavDropdown from 'react-bootstrap/lib/NavDropdown';
+import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import './header.css';
 
+let scrollFn = function() {};
+
 export default class index extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeItem: 'home'
-        };
-    }
-    handleItemClick = (e, { name }) => {
-        this.setState({
-            activeItem: name
+    componentDidMount() {
+        let me = this;
+        // 绑定监听滚动条，处理navbar
+        window.addEventListener('scroll', scrollFn = () => {
+            let rate = Math.min(window.scrollY / 100, 1),
+                padding = (1 - rate) * 15;
+
+            me.refs.header.style.paddingTop = padding + 'px';
+            me.refs.header.style.paddingBottom = padding + 'px';
         });
+    }
+    componentWillUnmount() {
+        // 滚动事件解绑定
+        window.removeEventListener('scroll', scrollFn);
+        scrollFn = function() {};
     }
     render() {
         return (
-            <header id="header" className="top-header">
-                <div className="container clearfix">
-                    <div className="site-name">
-                        <h1>
-                            <a id="logo" href="http://www.zhuyuntao.cn/">zyt</a>
-                        </h1>
-                    </div>
-                    <div id="nav" className="site-choice">
-                        <Menu secondary>
-                            <Menu.Item name='home' active={this.activeItem === 'home'} onClick={this.handleItemClick} />
-                            <Menu.Item
-                                name='messages'
-                                active={this.activeItem === 'messages'}
-                                onClick={this.handleItemClick}
-                                />
-                            <Menu.Item
-                                name='friends'
-                                active={this.activeItem === 'friends'}
-                                onClick={this.handleItemClick}
-                                />
-                            <Menu.Menu position='right'>
-                                <Menu.Item>
-                                    <Input icon='search' placeholder='Search...' />
-                                </Menu.Item>
-                                <Menu.Item
-                                    name='logout'
-                                    active={this.activeItem === 'logout'}
-                                    onClick={this.handleItemClick}
-                                />
-                            </Menu.Menu>
-                        </Menu>
-                    </div>
-                </div>
+            <header id="header" ref="header" className="top-header">
+                <Navbar collapseOnSelect>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="#">zzz</a>
+                        </Navbar.Brand>
+                        <Navbar.Toggle />
+                    </Navbar.Header>
+                    <Navbar.Collapse>
+                        <Nav pullRight>
+                            <NavItem eventKey={1} href="#">
+                                登录
+                            </NavItem>
+                            {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
+                                <MenuItem eventKey={3.1}>Action</MenuItem>
+                                <MenuItem eventKey={3.2}>Another action</MenuItem>
+                                <MenuItem eventKey={3.3}>Something else here</MenuItem>
+                                <MenuItem divider />
+                                <MenuItem eventKey={3.3}>Separated link</MenuItem>
+                            </NavDropdown> */}
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
             </header>
         );
     }
