@@ -1,3 +1,11 @@
 .article-title {
     text-align: center;
 }
+.article-meta {
+    text-align: center;
+    font-size: 14px;
+    color: rgba(0,0,0,.4);
+}
+.article-content {
+    padding: 15px;
+}

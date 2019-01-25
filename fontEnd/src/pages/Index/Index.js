@@ -16,6 +16,8 @@ import ArticleDetail from '../../components/articleDetail/articleDetail';
 import tagsAction from '../../store/tags/tagsAction';
 import filterAction from '../../store/filter/filterAction';
 
+import Filter from '../Filter/Filter';
+
 import './Index.css';
 import '../../static/css/bootstrap.min.css';
 
@@ -40,19 +42,19 @@ class Index extends React.Component {
                         <Switch>
                             <Route path="/" exact component={ AllArticles }/>
                             <Route path="/detail/:articleId" exact component={ ArticleDetail }/>
-                            <Route path="/ii" exact component={ Newest }/>
+                            <Route path="/filter" exact component={ Filter }/>
                         </Switch>
                     </div>
                     <div className="col-sm-4 col-xs-0 article-info">
                         <Newest
                             newest={ this.props.newestArticles }
                             />
-                        <Tags
+                        {/* <Tags
                             tags={ this.props.tags }
-                            />
+                            /> */}
                     </div>
                 </div>
-                <Footer />
+                <Footer website={ this.props.website } />
             </div>
         );
     }
@@ -61,7 +63,9 @@ class Index extends React.Component {
 const mapStateToProps = (state) => {
     return {
         tags: state.tags,
-        newestArticles: state.filter.newestArticles
+        newestArticles: state.filter.newestArticles,
+        website: state.website,                         // 站点配置信息
+        articles: state.filter.articles
     }
 };
 

@@ -9,7 +9,7 @@ export default class Newest extends React.Component {
         this.props.newest.forEach((item, ind) => {
             temp.push(
                 <li className="newest-item" key={ ind }>
-                    <Link to={`/detail/${item.articleId}`}>{ item.name }</Link>
+                    <Link to={`/detail/${item.articleId}`}>{ item.title }</Link>
                 </li>
             );
         });

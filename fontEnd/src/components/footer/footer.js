@@ -11,9 +11,9 @@ export default class Footer extends React.Component {
             <div className="footer">
                 <div className="container">
                     <p>
-                        © 2019 <a href="http://www.zhuyuntao.cn/">zyt</a>. Powered by <a href="http://www.zhuyuntao.cn" target="_blank" rel="noopener noreferrer">blog</a><a href="http://www.zhuyuntao.cn" target="_blank" rel="noopener noreferrer">ALL RIGHTS RESERVED</a>.
+                        © 2019 <a href={ this.props.website.siteUrl }>{ this.props.website.siteName }</a>. Powered by <a href={ this.props.siteUrl } target="_blank" rel="noopener noreferrer">blog. </a>ALL RIGHTS RESERVED.
                     </p>
-                    <p><a href="http://www.miitbeian.gov.cn" className="icpnum" target="_blank" rel="noopener noreferrer">苏</a></p>
+                    <p><a href="http://www.miitbeian.gov.cn" className="icpnum" target="_blank" rel="noopener noreferrer">{ this.props.website.webRecord }</a></p>
                 </div>
             </div>
         );

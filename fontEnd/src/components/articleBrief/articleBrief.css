@@ -1,6 +1,6 @@
 .brief-card {
     margin-top: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     /* box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5; */
 }
 .brief-header {
@@ -11,6 +11,9 @@
     margin: 5px 0;
     color: rgba(0,0,0,.85);
 }
+.brief-header > h2 {
+    font-size: 2.4rem;
+}
 
 .brief-meta {
     font-size: 14px;
@@ -19,4 +22,14 @@
 .brief-description {
     margin-top: 8px;
     color: rgba(0,0,0,.68);
+}
+.brief-extra {
+    text-align: center;
+}
+.brief-date,
+.brief-comments,
+.brief-read {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 14px;
 }
