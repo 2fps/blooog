@@ -40,9 +40,9 @@ class Index extends React.Component {
                 <div className="content-container">
                     <div className="col-sm-8 col-xs-12 content-brief">
                         <Switch>
-                            <Route path="/" exact component={ AllArticles }/>
-                            <Route path="/detail/:articleId" exact component={ ArticleDetail }/>
-                            <Route path="/filter" exact component={ Filter }/>
+                            <Route path="/" component={ AllArticles }/>
+                            <Route path="/detail/:articleId" component={ ArticleDetail }/>
+                            <Route path="/filter" component={ Filter }/>
                         </Switch>
                     </div>
                     <div className="col-sm-4 col-xs-0 article-info">

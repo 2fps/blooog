@@ -1,0 +1,16 @@
+.default-navbar {
+    height: 60px;
+    line-height: 60px;
+    padding: 0 10px;
+    background-color: #e1e1e1;
+}
+.default-menu {
+    width: 200px;
+    position: absolute;
+    top: 60px;
+    bottom: 0px;
+}
+.default-content {
+    margin-left: 200px;
+    padding: 20px;
+}
