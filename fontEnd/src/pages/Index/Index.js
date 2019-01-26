@@ -32,8 +32,9 @@ class Index extends React.Component {
     }
     componentDidMount() {
         this.props.getTags();
-        this.props.getNewestArticleName();
+        this.props.getNewestArticle();
         this.props.getWebsiteConifg();
+        this.props.getArticles();
     }
     render() {
         return (
@@ -68,8 +69,7 @@ const mapStateToProps = (state) => {
     return {
         // tags: state.tags,
         newestArticles: state.filter.newestArticles,
-        website: state.website,                         // 站点配置信息
-        articles: state.filter.articles
+        website: state.website                          // 站点配置信息
     }
 };
 
@@ -77,9 +77,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         // 获取标签数据
         getTags: (...args) => dispatch(tagsAction.getTags(...args)),
-        getNewestArticleName: (...args) => dispatch(filterAction.getNewestArticleName(...args)),
+        getNewestArticle: (...args) => dispatch(filterAction.getNewestArticle(...args)),
         // 获取站点信息
-        getWebsiteConifg: (...args) => dispatch(websiteAction.getConfig())
+        getWebsiteConifg: (...args) => dispatch(websiteAction.getConfig()),
+        // 获取文章信息
+        getArticles: (...args) => dispatch(filterAction.getArticles())
     }
 };
 

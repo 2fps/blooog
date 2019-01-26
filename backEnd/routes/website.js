@@ -1,15 +1,32 @@
 const router = require('koa-router')();
+const websiteModel = require('../models/websiteModel');
 
 router.prefix('/api/website');
 
 // 获取站点的一些配置信息
-router.get('/', function (ctx, next) {
-    ctx.body = {
-        siteName: "前端驿站",
-        subTitle: "Just For Fun",
-        siteUrl: "http://127.0.0.1:3000",
-        webRecord: "苏1234567890"
-    };
+router.get('/', async (ctx, next) => {
+    let res = {};
+    
+    try {
+        let website = await websiteModel.findOne({}).exec();
+
+        res = {
+            result: true,
+            data: {
+                siteName: website.siteName,
+                subTitle: website.subTitle,
+                siteUrl: website.siteUrl,
+                webRecord: website.webRecord
+            }
+        };
+    } catch (err) {
+        res = {
+            result: false,
+            msg: '异常'
+        };
+    }
+
+    ctx.body = res;
 });
 
 module.exports = router;

@@ -13,6 +13,7 @@ class ArticleDetail extends React.Component {
             // 有id号则去查询
             this.props.getArticleDetail();
         }
+        debugger;
     }
     render() {
         return (

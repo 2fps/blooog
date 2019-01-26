@@ -1,7 +1,30 @@
 import axios from 'axios';
 
-export  function getWebsiteConfig() {
+export function getWebsiteConfig() {
     return axios.get('/api/website').then(function(response) {
         return response;
     });;
+}
+// 获取文章
+export function getArticle() {
+    return axios.get('/api/articles').then(function(response) {
+        return response;
+    });;
+}
+// 获取最新的文章
+export function getNewestArticle() {
+    return axios.get('/api/articles/newest').then(function(response) {
+        return response;
+    });;
+}
+
+// 登录
+export function loginIn(username, password) {
+    return axios.post('/api/loginIn', {
+        username,
+        password
+    })
+    .then(function (response) {
+        return response;
+    });
 }

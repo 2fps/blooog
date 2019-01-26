@@ -16,14 +16,13 @@ export default function counter(state = filter, action) {
     switch (action.type) {
         case filterActionType.GETARTICLES:
 
-            state = [...action.data];
-
-            return state;
-        case filterActionType.GETNEWESTARTICLENAME:
+            return Object.assign({}, state, {
+                articles: [...action.data]
+            });
+        case filterActionType.GETNEWESTARTICLE:
 
             return Object.assign({}, state, {
-                newestArticles: [...action.data],
-                articles: [...action.data]
+                newestArticles: [...action.data]
             });
         case filterActionType.GETARTICLEDETAIL:
 

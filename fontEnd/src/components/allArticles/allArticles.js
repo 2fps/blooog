@@ -2,10 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ArticleBrief from '../articleBrief/articleBrief';
+import filterAction from '../../store/filter/filterAction';
 
 import './allArticles.css';
 
 class AllArticles extends React.Component {
+    componentDidMount() {
+        this.props.getArticles();
+    }
     renderArticle = () => {
         let temp = [];
 
@@ -33,12 +37,14 @@ class AllArticles extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        articles: state.filter.newestArticles
+        articles: state.filter.articles
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
+        // 获取文章信息
+        getArticles: (...args) => dispatch(filterAction.getArticles())
     }
 };
 

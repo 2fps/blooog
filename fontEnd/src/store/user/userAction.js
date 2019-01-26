@@ -1,11 +1,11 @@
-import websiteActionType from './websiteActionType';
+import userActionType from './userActionType';
 
 import * as Http from '../../api/http';
 
 export default {
-    getConfig: () => {
+    loginIn: (username, password) => {
         return dispatch => {
-            Http.getWebsiteConfig().then(function(data) {
+            Http.loginIn(username, password).then(function(data) {
                 let da = data.data,
                     info = null;
 
@@ -13,8 +13,10 @@ export default {
                     info = da.data;
                 }
                 dispatch({
-                    type: websiteActionType.GETCONFIG,
-                    data: info
+                    type: userActionType.LOGININ,
+                    data: {
+                        username: username
+                    }
                 });
             });
         }
