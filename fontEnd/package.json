@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "element-react": "^1.4.26",
     "element-theme-default": "^1.4.13",
     "react": "^16.7.0",
@@ -31,5 +32,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "proxy": "http://localhost:8000/"
 }

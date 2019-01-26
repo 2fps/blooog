@@ -1,14 +1,16 @@
 import websiteActionType from './websiteActionType';
 
+import * as Http from '../../api/http';
+
 export default {
     getConfig: () => {
-        let info = {
-            
-        };
-        
-        return {
-            type: websiteActionType.GETCONFIG,
-            data: info
+        return dispatch => {
+            Http.getWebsiteConfig().then(function(result) {
+                dispatch({
+                    type: websiteActionType.GETCONFIG,
+                    data: result.data
+                });
+            });
         }
     }
 }

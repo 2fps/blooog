@@ -15,6 +15,7 @@ import ArticleDetail from '../../components/articleDetail/articleDetail';
 
 import tagsAction from '../../store/tags/tagsAction';
 import filterAction from '../../store/filter/filterAction';
+import websiteAction from '../../store/website/websiteAction';
 
 import Filter from '../Filter/Filter';
 
@@ -26,17 +27,20 @@ class Index extends React.Component {
         super(props);
 
         this.state = {
-            tags: []
+            // tags: []
         };
     }
     componentDidMount() {
         this.props.getTags();
         this.props.getNewestArticleName();
+        this.props.getWebsiteConifg();
     }
     render() {
         return (
             <div>
-                <Header/>
+                <Header
+                    website={ this.props.website }
+                    />
                 <div className="content-container">
                     <div className="col-sm-8 col-xs-12 content-brief">
                         <Switch>
@@ -62,7 +66,7 @@ class Index extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        tags: state.tags,
+        // tags: state.tags,
         newestArticles: state.filter.newestArticles,
         website: state.website,                         // 站点配置信息
         articles: state.filter.articles
@@ -73,7 +77,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         // 获取标签数据
         getTags: (...args) => dispatch(tagsAction.getTags(...args)),
-        getNewestArticleName: (...args) => dispatch(filterAction.getNewestArticleName(...args))
+        getNewestArticleName: (...args) => dispatch(filterAction.getNewestArticleName(...args)),
+        // 获取站点信息
+        getWebsiteConifg: (...args) => dispatch(websiteAction.getConfig())
     }
 };
 

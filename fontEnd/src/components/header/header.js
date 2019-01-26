@@ -34,7 +34,7 @@ export default class index extends React.Component {
                 <Navbar collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a href="#">zzz</a>
+                            <a href="#">{ this.props.website.siteName }</a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
