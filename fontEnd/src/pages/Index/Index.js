@@ -8,7 +8,7 @@ import {
 
 import AllArticles from '../../components/allArticles/allArticles';
 import Header from '../../components/header/header';
-import Tags from '../../components/tags/tags';
+// import Tags from '../../components/tags/tags';
 import Newest from '../../components/newest/newest';
 import Footer from '../../components/footer/footer';
 import ArticleDetail from '../../components/articleDetail/articleDetail';

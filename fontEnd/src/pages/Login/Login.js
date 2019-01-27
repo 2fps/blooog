@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createHashHistory } from 'history';
 
 import userAction from '../../store/user/userAction';
 
 import './Login.css';
+
+const history = createHashHistory();
 
 class Login extends React.Component {
     constructor(props) {
@@ -19,6 +22,8 @@ class Login extends React.Component {
             password = this.state.password.trim();
 
         this.props.loginIn(username, password);
+
+        history.push('/default/welcome');
     }
     modifyUser = (e) => {
         let username = e.target.value;

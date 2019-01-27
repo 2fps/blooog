@@ -29,4 +29,21 @@ router.get('/', async (ctx, next) => {
     ctx.body = res;
 });
 
+router.post('/', async (ctx, next) => {
+    let body = ctx.request.body,
+        data = {
+            siteName: body.siteName,
+            subTitle: body.subTitle,
+            siteUrl: body.siteUrl,
+            webRecord: body.webRecord
+        };
+        
+    let error = await websiteModel.update({}, data).exec();
+    
+    ctx.body = {
+        result: true,
+        msg: ''
+    };
+});
+
 module.exports = router;

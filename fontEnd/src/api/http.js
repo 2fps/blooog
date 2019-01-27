@@ -28,3 +28,11 @@ export function loginIn(username, password) {
         return response;
     });
 }
+
+// 保存修改的setting数据
+export function saveWebsiteConfig(condition) {
+    return axios.post('/api/website', condition)
+    .then(function (response) {
+        return response;
+    });
+}
