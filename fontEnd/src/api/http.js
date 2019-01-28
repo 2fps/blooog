@@ -36,3 +36,28 @@ export function saveWebsiteConfig(condition) {
         return response;
     });
 }
+
+export function saveArticle(condition) {
+    return axios.post('/api/article', condition)
+    .then(function (response) {
+        return response;
+    });
+}
+export function deleteArticle(articleId) {
+    return axios.delete('/api/article?articleId=' + articleId)
+    .then(function (response) {
+        return response;
+    });
+}
+export function getArticleById(articleId) {
+    return axios.get('/api/article?articleId=' + articleId)
+    .then(function (response) {
+        return response;
+    });
+}
+export function modifyArticleById(condition) {
+    return axios.put('/api/article', condition)
+    .then(function (response) {
+        return response;
+    });
+}

@@ -1,9 +1,12 @@
 import React from 'react';
 import { Table, Icon, Tag, Button } from 'element-react';
+import { connect } from 'react-redux';
+
+import filterAction from '../../store/filter/filterAction';
 
 import './showallarticle.css';
 
-export default class ShowAllArticle extends React.Component {
+class ShowAllArticle extends React.Component {
     constructor(props) {
         super(props);
       
@@ -13,89 +16,43 @@ export default class ShowAllArticle extends React.Component {
               type: 'index'
             },
             {
-              label: "日期",
+              label: "title",
               prop: "date",
-              width: 150,
               render: function(data){
                 return (
                 <span>
-                  <Icon name="time"/>
-                  <span style={{marginLeft: '10px'}}>{data.date}</span>
+                    <span style={{marginLeft: '10px'}}>{data.title}</span>
                 </span>)
               }
             },
             {
-              label: "姓名",
+              label: "date",
               prop: "name",
               width: 160,
               render: function(data){
-                return <Tag>{data.name}</Tag>
+                return <span>{data.publishTime}</span>
               }
             },
             {
               label: "操作",
               prop: "address",
+              width: 300,
               render: function(){
                 return (
-                  <span>
-                   <Button plain={true} type="info" size="small">编辑</Button>
-                   <Button type="danger" size="small">删除</Button>
-                  </span>
+                    <span>
+                        <Button plain={true} type="info" size="small">编辑</Button>
+                        <Button type="danger" size="small">删除</Button>
+                    </span>
                 )
               }
             }
           ],
-          data: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-           }, {
-            date: '2016-05-02',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-           }, {
-            date: '2016-05-02',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-           }, {
-            date: '2016-05-02',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-           }, {
-            date: '2016-05-02',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-           }, {
-            date: '2016-05-02',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-           }, {
-            date: '2016-05-02',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-           }]
+          data: []
         }
+    }
+
+    componentDidMount() {
+        this.props.getArticles();
     }
 
 
@@ -104,12 +61,28 @@ export default class ShowAllArticle extends React.Component {
             <Table
                 style={{width: '100%'}}
                 columns={this.state.columns}
-                data={this.state.data}
+                data={this.props.articles}
                 border={true}
-                height={250}
+                height={300}
                 highlightCurrentRow={true}
                 onCurrentChange={item=>{console.log(item)}}
             />
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        articles: state.filter.articles
+    }
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        // 获取文章信息
+        getArticles: (...args) => dispatch(filterAction.getArticles())
+    }
+};
+
+// 通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
+export default connect(mapStateToProps, mapDispatchToProps)(ShowAllArticle);

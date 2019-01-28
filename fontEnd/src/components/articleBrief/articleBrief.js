@@ -14,7 +14,7 @@ export default class ArticleBrief extends React.Component {
                             <Link to={`/detail/${this.props.article.articleId}`}>{ this.props.article.title }</Link>
                         </h2>
                     </div>
-                    <div className="brief-meta">
+{/*                     <div className="brief-meta">
                         <span className="brief-date">
                             <i className="glyphicon glyphicon-calendar"></i>&nbsp;
                             { this.props.article.publishTime }
@@ -27,7 +27,7 @@ export default class ArticleBrief extends React.Component {
                             <i className="glyphicon glyphicon-eye-open"></i>&nbsp;
                             { this.props.article.readNums }次阅读
                         </span>
-                    </div>
+                    </div> */}
                     <div className="brief-description">{ this.props.article.brief }</div>
                 </div>
                 <div className="brief-extra">

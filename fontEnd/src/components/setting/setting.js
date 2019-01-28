@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Form, Input, Select, DatePicker, Layout, Checkbox, Switch, TimePicker, Radio, Button} from 'element-react';
+import { Form, Input, Button} from 'element-react';
 
 
 import websiteAction from '../../store/website/websiteAction';
