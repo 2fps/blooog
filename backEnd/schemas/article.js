@@ -1,10 +1,10 @@
 let mongoose = require('mongoose');
 
 let articleSchema = new mongoose.Schema({
-    articleId: {            // 文章id号
+/*     articleId: {            // 文章id号
         type: Number,
         default: 0
-    },
+    }, */
     title: String,          // 文章标题
     mdContent: String,      // markdown文章内容
     htmlContent: String,    // html文章内容

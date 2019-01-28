@@ -49,5 +49,14 @@ export default {
                 likeNums: 123  // 点赞数量
             }
         }
+    },
+    changeState: (articleState, modifyId) => {
+        return {
+            type: filterActionType.CHANGESTATE,
+            data: {
+                articleState,
+                modifyId
+            }
+        }
     }
 }

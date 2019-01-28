@@ -9,7 +9,9 @@ let filter = {
     nowPage: 1,     // 当前第几页，从1开始
     filterTitle: '',// 检索的名称
     condition: {},  // 检索的条件
-    newestArticles: []
+    newestArticles: [],
+    articleState: '',// 当前状态，空表示新些文章，'modify' 表示编辑文章中
+    modifyId: ''     // 修改的文章的id号
 };
 
 export default function counter(state = filter, action) {
@@ -30,6 +32,12 @@ export default function counter(state = filter, action) {
             
             return Object.assign({}, state, {
                 article: action.data
+            });
+        case filterActionType.CHANGESTATE:
+            
+            return Object.assign({}, state, {
+                articleState: action.data.articleState,
+                modifyId: action.data.modifyId
             });
         default:
             return state;

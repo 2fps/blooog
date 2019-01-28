@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "element-react": "^1.4.26",
     "element-theme-default": "^1.4.13",
+    "for-editor": "0.0.11",
     "history": "^4.7.2",
     "react": "^16.7.0",
     "react-bootstrap": "^0.32.4",

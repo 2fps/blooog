@@ -1,6 +1,7 @@
 const router = require('koa-router')();
 const articleModel = require('../models/articleModel');
 const mongoose = require('mongoose');
+var ObjectID = require('mongodb').ObjectID;
 
 router.prefix('/api');
 
@@ -30,7 +31,7 @@ router.get('/articles', async (ctx, next) => {
         _id: 1
     }).skip(start).limit(end - start).exec();
 
-    changeID(articles);
+    // changeID(articles);
 
     ctx.body = {
         result: true,
@@ -40,7 +41,7 @@ router.get('/articles', async (ctx, next) => {
 });
 
 
-router.post('/article', function (ctx, next) {
+router.post('/article', async (ctx, next) => {
     let query = ctx.request.body,
         title = query.title,
         // author = query.author,
@@ -65,14 +66,14 @@ router.post('/article', function (ctx, next) {
     }
 });
 
-router.delete('/article', function(ctx, next) {
-    let id = ctx.request.body.articleId;
+router.delete('/article', async (ctx, next) => {
+    let id = ctx.query.articleId;
     
-    id = mongoose.Types.ObjectId(id);
+    // _id = mongoose.Types.ObjectId(id);
 
     articleModel.deleteOne({
-        _id: id
-    });
+        _id: ObjectID(id)
+    }).exec();
 
     ctx.body = {
         result: true
@@ -105,6 +106,31 @@ router.get('/article', async (ctx, next) => {
 
 });
 
+router.put('/article', async (ctx, next) => {
+    let body = ctx.request.body,
+        articleId = body.articleId,
+        id = body.articleId,
+        title = body.title,
+        mdContent = body.mdContent,
+        htmlContent = body.htmlContent;
+        
+        id = mongoose.Types.ObjectId(id);
+
+    articleModel.updateOne({
+        "_id": id
+    }, {
+        title,
+        mdContent,
+        htmlContent,
+        brief: mdContent.slice(0, 10)
+    }).exec()
+
+    ctx.body = {
+        result: true,
+        msg: '更新成功'
+    };
+});
+
 router.get('/newest', async (ctx, next) => {
     let newestArticles = await articleModel.find({}, {
         articleId: 1,
@@ -123,7 +149,7 @@ router.get('/newest', async (ctx, next) => {
 
 function changeID(arr) {
     arr.forEach(function(item, ind) {
-        item.id = item['_id'];
+        item.articleId = item.id;
     });
 }
 
