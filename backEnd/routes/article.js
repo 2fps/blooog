@@ -15,8 +15,10 @@ router.get('/articles', async (ctx, next) => {
     if (!start) {
         start = 0;
     }
+    let count = await articleModel.count({}).exec();
+
     if (!end) {
-        end = 10;
+        end = count;
     }
 
     let articles = await articleModel.find({}, {
@@ -36,7 +38,8 @@ router.get('/articles', async (ctx, next) => {
     ctx.body = {
         result: true,
         msg: '',
-        data: articles.slice(0, 10)
+        data: articles.slice(0, 10),
+        count
     };
 });
 

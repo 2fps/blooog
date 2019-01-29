@@ -72,7 +72,6 @@ class WriteArticle extends React.Component {
                         title: info.data.title
                     });
                 }
-                debugger;
             });
         }
     }

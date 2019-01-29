@@ -34,7 +34,10 @@ class Index extends React.Component {
         this.props.getTags();
         this.props.getNewestArticle();
         this.props.getWebsiteConifg();
-        this.props.getArticles();
+        // 计算，获取文章
+        let start = (this.props.nowPage - 1) * this.props.pageSize,
+            end = this.props.nowPage * this.props.pageSize;
+        this.props.getArticles('', start, end);
     }
     render() {
         return (
@@ -44,9 +47,9 @@ class Index extends React.Component {
                     />
                 <div className="content-container">
                     <div className="col-sm-8 col-xs-12 content-brief">
-                        <Route exat path="/index" component={ AllArticles }/>
-                        <Route exat path="/detail/:articleId" component={ ArticleDetail }/>
-                        <Route exat path="/filter" component={ Filter }/>
+                        <Route path="/index/main" component={ AllArticles }/>
+                        <Route exat path="/index/detail/:articleId" component={ ArticleDetail }/>
+                        {/* <Route exat path="/filter" component={ Filter }/> */}
                     </div>
                     <div className="col-sm-4 col-xs-0 article-info">
                         <Newest
@@ -67,7 +70,9 @@ const mapStateToProps = (state) => {
     return {
         // tags: state.tags,
         newestArticles: state.filter.newestArticles,
-        website: state.website                          // 站点配置信息
+        website: state.website,                         // 站点配置信息
+        pageSize: state.filter.pageSize,
+        nowPage: state.filter.nowPage
     }
 };
 
@@ -79,7 +84,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         // 获取站点信息
         getWebsiteConifg: (...args) => dispatch(websiteAction.getConfig()),
         // 获取文章信息
-        getArticles: (...args) => dispatch(filterAction.getArticles())
+        getArticles: (...args) => dispatch(filterAction.getArticles(...args))
     }
 };
 

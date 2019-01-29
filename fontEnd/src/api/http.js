@@ -2,7 +2,10 @@ import axios from 'axios';
 
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
-    config.headers.common['Authorization'] = 'Bearer ' + token;
+
+    if (token) {
+        config.headers.common['Authorization'] = 'Bearer ' + token;
+    }
 
     return config;
 });
@@ -13,8 +16,17 @@ export function getWebsiteConfig() {
     });;
 }
 // 获取文章
-export function getArticle() {
-    return axios.get('/api/articles').then(function(response) {
+export function getArticle(search, start, end) {
+    let url = '/api/articles';
+
+    url += '?start=' + start;
+    url += '&end=' + end;
+
+    if (!search) {
+        url += '&search=' + search;
+    }
+
+    return axios.get(url).then(function(response) {
         return response;
     });;
 }

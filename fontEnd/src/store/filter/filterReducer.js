@@ -19,7 +19,8 @@ export default function counter(state = filter, action) {
         case filterActionType.GETARTICLES:
 
             return Object.assign({}, state, {
-                articles: [...action.data]
+                articles: [...action.data.data],
+                nums: action.data.count
             });
         case filterActionType.GETNEWESTARTICLE:
 

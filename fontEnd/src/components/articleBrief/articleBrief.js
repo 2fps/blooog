@@ -11,7 +11,7 @@ export default class ArticleBrief extends React.Component {
                 <div className="brief-content">
                     <div className="brief-header">
                         <h2>
-                            <Link to={`/detail/${this.props.article['_id']}`}>{ this.props.article.title }</Link>
+                            <Link to={`/index/detail/${this.props.article['_id']}`}>{ this.props.article.title }</Link>
                         </h2>
                     </div>
 {/*                     <div className="brief-meta">

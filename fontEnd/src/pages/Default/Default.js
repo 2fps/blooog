@@ -1,6 +1,7 @@
 import React from 'react';
-import { Menu } from 'element-react';
+import { Menu , MessageBox} from 'element-react';
 import { Link } from "react-router-dom";
+import { createHashHistory } from 'history';
 import {
     Switch,
     Route
@@ -12,6 +13,7 @@ import Writearticle from '../../components/writearticle/writearticle';
 import Setting from '../../components/setting/setting';
 
 import './Default.css';
+const history = createHashHistory();
 
 export default class Default extends React.Component{
     onOpen() {
@@ -21,15 +23,23 @@ export default class Default extends React.Component{
     onClose() {
     
     }
+    loginOut = () => {
+        MessageBox.confirm('确定登出, 是否继续?', '提示', {
+            type: 'warning'
+        }).then(() => {
+            localStorage.setItem('token', '');
+            history.push('/login');
+        });
+    }
     render() {
         return (
             <div>
                 <div className="default-navbar">
-                    <div>
-                        blooog,欢迎使用
+                    <div className="login-out">
+                        <span onClick={ this.loginOut }>登出</span>
                     </div>
                     <div>
-                        登出
+                        blooog,欢迎使用
                     </div>
                 </div>
                 <div>

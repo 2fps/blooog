@@ -33,6 +33,7 @@ app.use(jwtKoa({secret}).unless({
     path: [/^\/api\/loginIn/,
       /^\/api\/newest/,
       /^\/api\/articles/,
+      /^\/api\/article/,
       /^\/api\/website/] //数组中的路径不需要通过jwt验证
 }))
 

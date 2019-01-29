@@ -25,7 +25,7 @@ class App extends Component {
             <Provider store={ store }>
                 <HashRouter>
                     <Switch>
-                        <Redirect exact from='/' to='/index' />
+                        <Redirect exact from='/' to='/index/main' />
                         <Route path="/index" component={index}></Route>
                         <Route exact path="/login" component={login}></Route>
                         <Route path="/default" component={Default}></Route>

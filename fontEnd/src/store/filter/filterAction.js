@@ -2,9 +2,9 @@ import filterActionType from './filterActionType';
 import * as Http from '../../api/http';
 
 export default {
-    getArticles: () => {
+    getArticles: (search, start, end) => {
         return dispatch => {
-            Http.getArticle().then(function(data) {
+            Http.getArticle(search, start, end).then(function(data) {
                 let da = data.data,
                     info = null;
 
@@ -13,7 +13,10 @@ export default {
                 }
                 dispatch({
                     type: filterActionType.GETARTICLES,
-                    data: info
+                    data: {
+                        data: da.data,
+                        count: da.count
+                    }
                 });
             });
         }
