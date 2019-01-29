@@ -7,6 +7,7 @@ import {
     BrowserRouter,
     HashRouter,
     Route,
+    Switch,
     Redirect
 } from 'react-router-dom';
 
@@ -23,11 +24,12 @@ class App extends Component {
         return (
             <Provider store={ store }>
                 <HashRouter>
-                    <div>
+                    <Switch>
+                        <Redirect exact from='/' to='/index' />
                         <Route path="/index" component={index}></Route>
-                        <Route path="/login" component={login}></Route>
+                        <Route exact path="/login" component={login}></Route>
                         <Route path="/default" component={Default}></Route>
-                    </div>
+                    </Switch>
                 </HashRouter>
             </Provider>
         );

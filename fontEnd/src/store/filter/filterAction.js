@@ -39,14 +39,6 @@ export default {
         return {
             type: filterActionType.GETARTICLEDETAIL,
             data: {
-                articleId: 123,  // 文章id
-                contents: "详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容详细的文章内容",
-                title: '11111111123',
-                author: "作者名",
-                publishTime: "2019-01-23", // 文章发布时间
-                commentNums: 123,  // 评论数量
-                readNums: 123,   // 阅读数量
-                likeNums: 123  // 点赞数量
             }
         }
     },

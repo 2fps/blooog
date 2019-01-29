@@ -5,6 +5,9 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const jwt = require('jsonwebtoken')
+const jwtKoa = require('koa-jwt')
+const secret = 'jwt demo'
 
 const index = require('./routes/index')
 const article = require('./routes/article')
@@ -24,6 +27,13 @@ app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
   extension: 'pug'
+}))
+
+app.use(jwtKoa({secret}).unless({
+    path: [/^\/api\/loginIn/,
+      /^\/api\/newest/,
+      /^\/api\/articles/,
+      /^\/api\/website/] //数组中的路径不需要通过jwt验证
 }))
 
 // logger

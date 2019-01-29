@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
 
 import userAction from '../../store/user/userAction';
+import * as Http from '../../api/http';
 
 import './Login.css';
 
@@ -21,9 +22,18 @@ class Login extends React.Component {
         let username = this.state.username.trim(),
             password = this.state.password.trim();
 
-        this.props.loginIn(username, password);
+        Http.loginIn(username, password).then((data) => {
+            let da = data.data;
 
-        history.push('/default/welcome');
+            if (da.result) {
+                // 成功
+                localStorage.setItem('token', da.token);
+                history.push('/default/welcome');
+            }
+        }, () => {
+
+        });
+
     }
     modifyUser = (e) => {
         let username = e.target.value;

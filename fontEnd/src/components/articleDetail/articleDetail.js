@@ -3,26 +3,44 @@ import { connect } from 'react-redux';
 
 import filterAction from '../../store/filter/filterAction';
 
+import * as Http from '../../api/http';
+
 import './articleDetail.css';
 
 class ArticleDetail extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: '',
+            htmlContent: ''
+        };
+    }
     componentDidMount() {
-        let path = this.props.location.pathname.match(/\/detail\/(\d)*/)[1];
+        let path = this.props.location.pathname.match(/\/detail\/(\w*)/)[1];
 
         if (path) {
             // 有id号则去查询
-            this.props.getArticleDetail();
+            // this.props.getArticleDetail(path);
+            Http.getArticleById(path).then((data) => {
+                let da = data.data;
+
+                if (da.result) {
+                    this.setState({
+                        title: da.data.title,
+                        htmlContent: da.data.htmlContent
+                    });
+                }
+            });
         }
-        debugger;
     }
     render() {
         return (
             <div className="article-detail">
                 <div className="article-head">
                     <div className="article-title">
-                        <h1>{ this.props.article.title }</h1>
+                        <h1>{ this.state.title }</h1>
                     </div>
-                    <div className="article-meta">
+{/*                     <div className="article-meta">
                         <span className="brief-date">
                             <i className="glyphicon glyphicon-calendar"></i>&nbsp;
                             { this.props.article.publishTime }
@@ -35,11 +53,9 @@ class ArticleDetail extends React.Component {
                             <i className="glyphicon glyphicon-eye-open"></i>&nbsp;
                             { this.props.article.readNums }次阅读
                         </span>
-                    </div>
+                    </div> */}
                 </div>
-                <div className="article-content">
-                    { this.props.article.contents }
-                </div>
+                <div className="article-content" dangerouslySetInnerHTML={{ __html: this.state.htmlContent }} />
                 <div className="article-foot">
 
                 </div>
@@ -56,7 +72,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        getArticleDetail: (...args) => dispatch(filterAction.getArticleDetail(...args))
+        // getArticleDetail: (...args) => dispatch(filterAction.getArticleDetail(...args))
     }
 };
 

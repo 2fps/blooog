@@ -94,8 +94,8 @@ class ShowAllArticle extends React.Component {
                         <span>是否删除？</span>
                         </Dialog.Body>
                         <Dialog.Footer className="dialog-footer">
-                        <Button onClick={ () => this.setState({ dialogVisible: false }) }>取消</Button>
-                        <Button type="danger" onClick={ this.deleteArticle }>确定</Button>
+                            <Button onClick={ () => this.setState({ dialogVisible: false }) }>取消</Button>
+                            <Button type="danger" onClick={ this.deleteArticle }>确定</Button>
                         </Dialog.Footer>
                     </Dialog>
             </div>

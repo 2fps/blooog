@@ -11,7 +11,7 @@ export default class ArticleBrief extends React.Component {
                 <div className="brief-content">
                     <div className="brief-header">
                         <h2>
-                            <Link to={`/detail/${this.props.article.articleId}`}>{ this.props.article.title }</Link>
+                            <Link to={`/detail/${this.props.article['_id']}`}>{ this.props.article.title }</Link>
                         </h2>
                     </div>
 {/*                     <div className="brief-meta">
@@ -32,7 +32,7 @@ export default class ArticleBrief extends React.Component {
                 </div>
                 <div className="brief-extra">
                     <span>
-                    <Link to={`/detail/${this.props.article.articleId}`}>阅读全文&nbsp;<i className="glyphicon glyphicon-chevron-down"></i></Link>
+                    <Link to={`/detail/${this.props.article['_id']}`}>阅读全文&nbsp;<i className="glyphicon glyphicon-chevron-down"></i></Link>
                     </span>
                 </div>
             </div>
