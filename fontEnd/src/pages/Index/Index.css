@@ -1,5 +1,6 @@
 .content-container {
     max-width: 1080px;
+    min-height: 450px;
     margin: 0 auto !important;
     margin-top: 90px !important;
     border: none !important;
@@ -7,6 +8,7 @@
     overflow: auto;
 }
 .content-brief {
+    padding: 20px 30px;
     border: none !important;
 }
 .content-brief,
@@ -18,7 +20,6 @@
     float: right;
 }
 .content-brief {
-    text-align: center;
     overflow: auto;
 }
 

@@ -2,7 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Editor from 'for-editor';
 
-import { Form, Input, Button, Message } from 'element-react';
+import { Message } from 'element-react';
+import {
+    Form, 
+    Input, 
+    Button } from 'semantic-ui-react'
 
 import * as Http from '../../api/http';
 import filterAction from '../../store/filter/filterAction';
@@ -26,9 +30,12 @@ class WriteArticle extends React.Component {
             value
         })
     }
-    onChange(key, val) {
+    onChange = (e, data) => {
+        let name = e.target.parentElement.getAttribute('data-name'),
+            value = data.value;
+
         this.setState({
-            [key]: val
+            title: value
         });
     }
     saveArticle = () => {
@@ -82,15 +89,19 @@ class WriteArticle extends React.Component {
         const { value } = this.state;
         return (
             <div className="welcome">
-                <Form model={this.state.form} labelWidth="100">
-                    <Form.Item label="文章名">
-                        <Input value={ this.state.title } onChange={this.onChange.bind(this, 'title')} placeholder="请输入文章名"></Input>
-                    </Form.Item>
-                    <Editor value={value} onChange={this.handleChange.bind(this)}/>
-                    <Form.Item>
-                        <Button type="primary" nativeType="button" onClick={ this.saveArticle }>保存</Button>
-                    </Form.Item>
+                <Form>
+                    <Form.Field inline>
+                        <label className="setting-field">文章名</label>
+                        <Input value={ this.state.title } data-name="siteName" onChange={ this.onChange } placeholder='请输入文章名' />
+                    </Form.Field>
+                    <Form.Field inline>
+                        <label className="setting-field"></label>
+                        <Button content='发布' secondary onClick={ this.saveArticle } />
+                    </Form.Field>
+                    <Form.Field inline>
+                    </Form.Field>
                 </Form>
+                <Editor value={value} onChange={this.handleChange.bind(this)}/>
             </div>
         );
     }

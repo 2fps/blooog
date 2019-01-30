@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Input, Menu } from 'semantic-ui-react'
+import { Input, Menu } from 'semantic-ui-react';
+import { createHashHistory } from 'history';
 
 import './header.css';
+
+const history = createHashHistory();
 
 let scrollFn = function() {};
 
@@ -31,21 +34,30 @@ export default class index extends React.Component {
     }
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
     goToLogin = () => {
+        const token = localStorage.getItem('token');
+        // 判断下用户是否已经登录了
+        if (token) {
+            history.push('/default/welcome');
+        } else {
+            history.push('/login');
+        }
     }
     render() {
         return (
             <header id="header" ref="header" className="top-header">
                 <Menu secondary pointing className="container">
                     <Menu.Menu position='left'>
-                        <span>123</span>
+                        <h2>
+                            <a href={ this.props.website.siteUrl }>{ this.props.website.siteName }</a>
+                        </h2>
                     </Menu.Menu>
                     <Menu.Menu position='right'>
-                        <Menu.Item name='home' active={ this.state.activeItem === 'home'} onClick={this.handleItemClick} />
+{/*                         <Menu.Item name='home' active={ this.state.activeItem === 'home'} onClick={this.handleItemClick} />
                         <Menu.Item
                             name='messages'
                             active={this.state.activeItem === 'messages'}
                             onClick={this.handleItemClick}
-                            />
+                            /> */}
                         <Menu.Item
                             name='登录'
                             active={this.state.activeItem === 'logout'}

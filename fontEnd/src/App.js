@@ -19,6 +19,8 @@ import index from './pages/Index/Index.js';
 import login from './pages/Login/Login.js';
 import Default from './pages/Default/Default.js';
 
+import './css/main.css';
+
 class App extends Component {
     render() {
         return (

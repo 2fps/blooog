@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menu , MessageBox} from 'element-react';
+// import { Input, Menu } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 import { createHashHistory } from 'history';
 import {
@@ -39,9 +40,10 @@ export default class Default extends React.Component{
                         <span onClick={ this.loginOut }>登出</span>
                     </div>
                     <div>
-                        blooog,欢迎使用
+                        <span>blooog,欢迎使用</span>
                     </div>
                 </div>
+                
                 <div>
                     <Menu defaultActive="2" className="el-menu-vertical-demo default-menu" onOpen={this.onOpen.bind(this)} onClose={this.onClose.bind(this)}>
                         <Menu.Item index="1">

@@ -3,6 +3,9 @@
     margin-bottom: 40px;
     /* box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5; */
 }
+.brief-card > .items > .item {
+    margin-bottom: 30px !important;
+}
 .brief-header {
     font-weight: 700;
     font-size: 20px;
