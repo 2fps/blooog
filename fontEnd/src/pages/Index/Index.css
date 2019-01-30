@@ -11,9 +11,15 @@
 }
 .content-brief,
 .article-info {
-    /* display: inline-block; */
-    float: left;
     border: none !important;
+}
+.article-info {
+    width: 300px;
+    float: right;
+}
+.content-brief {
+    text-align: center;
+    overflow: auto;
 }
 
 ul, li body, html {

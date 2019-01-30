@@ -5,6 +5,7 @@ import {
     Switch,
     Route
 } from 'react-router-dom';
+import { Responsive, Segment } from 'semantic-ui-react'
 
 import AllArticles from '../../components/allArticles/allArticles';
 import Header from '../../components/header/header';
@@ -17,10 +18,9 @@ import tagsAction from '../../store/tags/tagsAction';
 import filterAction from '../../store/filter/filterAction';
 import websiteAction from '../../store/website/websiteAction';
 
-import Filter from '../Filter/Filter';
 
 import './Index.css';
-import '../../static/css/bootstrap.min.css';
+// import '../../static/css/bootstrap.min.css';
 
 class Index extends React.Component {
     constructor(props) {
@@ -45,21 +45,21 @@ class Index extends React.Component {
                 <Header
                     website={ this.props.website }
                     />
-                <div className="content-container">
-                    <div className="col-sm-8 col-xs-12 content-brief">
-                        <Route path="/index/main" component={ AllArticles }/>
-                        <Route exat path="/index/detail/:articleId" component={ ArticleDetail }/>
-                        {/* <Route exat path="/filter" component={ Filter }/> */}
-                    </div>
-                    <div className="col-sm-4 col-xs-0 article-info">
+                <Segment.Group className="content-container">
+                    <Responsive className="article-info" minWidth={768}>
                         <Newest
                             newest={ this.props.newestArticles }
                             />
                         {/* <Tags
                             tags={ this.props.tags }
                             /> */}
-                    </div>
-                </div>
+                    </Responsive>
+                    <Responsive className="content-brief">
+                        <Route path="/index/main" component={ AllArticles }/>
+                        <Route exat path="/index/detail/:articleId" component={ ArticleDetail }/>
+                        {/* <Route exat path="/filter" component={ Filter }/> */}
+                    </Responsive>
+                </Segment.Group>
                 <Footer website={ this.props.website } />
             </div>
         );
@@ -82,7 +82,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getTags: (...args) => dispatch(tagsAction.getTags(...args)),
         getNewestArticle: (...args) => dispatch(filterAction.getNewestArticle(...args)),
         // 获取站点信息
-        getWebsiteConifg: (...args) => dispatch(websiteAction.getConfig()),
+        getWebsiteConifg: () => dispatch(websiteAction.getConfig()),
         // 获取文章信息
         getArticles: (...args) => dispatch(filterAction.getArticles(...args))
     }

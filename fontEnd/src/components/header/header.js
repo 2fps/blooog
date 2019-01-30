@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-
-import Navbar from 'react-bootstrap/lib/Navbar';
-import Nav from 'react-bootstrap/lib/Nav';
-import NavItem from 'react-bootstrap/lib/NavItem';
-import NavDropdown from 'react-bootstrap/lib/NavDropdown';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
+import { Input, Menu } from 'semantic-ui-react'
 
 import './header.css';
 
 let scrollFn = function() {};
 
 export default class index extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeItem: 'home'
+        };
+    }
     componentDidMount() {
         let me = this;
         // 绑定监听滚动条，处理navbar
@@ -28,31 +29,30 @@ export default class index extends React.Component {
         window.removeEventListener('scroll', scrollFn);
         scrollFn = function() {};
     }
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    goToLogin = () => {
+    }
     render() {
         return (
             <header id="header" ref="header" className="top-header">
-                <Navbar collapseOnSelect>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            <a href="#">{ this.props.website.siteName }</a>
-                        </Navbar.Brand>
-                        <Navbar.Toggle />
-                    </Navbar.Header>
-                    <Navbar.Collapse>
-                        <Nav pullRight>
-                            <NavItem eventKey={1} href="#login">
-                                {/* <Link to="/login">登录</Link> */}登录
-                            </NavItem>
-                            {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                                <MenuItem eventKey={3.1}>Action</MenuItem>
-                                <MenuItem eventKey={3.2}>Another action</MenuItem>
-                                <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                                <MenuItem divider />
-                                <MenuItem eventKey={3.3}>Separated link</MenuItem>
-                            </NavDropdown> */}
-                        </Nav>
-                    </Navbar.Collapse>
-                </Navbar>
+                <Menu secondary pointing className="container">
+                    <Menu.Menu position='left'>
+                        <span>123</span>
+                    </Menu.Menu>
+                    <Menu.Menu position='right'>
+                        <Menu.Item name='home' active={ this.state.activeItem === 'home'} onClick={this.handleItemClick} />
+                        <Menu.Item
+                            name='messages'
+                            active={this.state.activeItem === 'messages'}
+                            onClick={this.handleItemClick}
+                            />
+                        <Menu.Item
+                            name='登录'
+                            active={this.state.activeItem === 'logout'}
+                            onClick={ this.goToLogin }
+                        />
+                    </Menu.Menu>
+                </Menu>
             </header>
         );
     }

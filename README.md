@@ -2,7 +2,7 @@
 blooog
 基于React+koa2+mongodb的个人博客，开发中。
 
-目前UI库采用了bootstrap和element-react。后期将替换为semantic-ui。
+目前UI库采用了react-bootstrap和element-react。后期将替换为semantic-ui。
 
 ## fontEnd
 此文件夹下存放的是前端代码

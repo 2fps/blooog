@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Pagination } from 'element-react';
+import { Pagination } from 'semantic-ui-react';
 
 import ArticleBrief from '../articleBrief/articleBrief';
 import filterAction from '../../store/filter/filterAction';
@@ -26,11 +26,11 @@ class AllArticles extends React.Component {
             </div>
         );
     }
-    currentChange = (curPage) => {
-
-        
-        let start = (curPage - 1) * this.props.pageSize,
+    currentChange = (e, data) => {
+        let curPage = data.activePage,
+            start = (curPage - 1) * this.props.pageSize,
             end = curPage * this.props.pageSize;
+
         this.props.getArticles('', start, end);
     }
 
@@ -38,7 +38,17 @@ class AllArticles extends React.Component {
         return (
             <div className="brief-card">
                 { this.renderArticle() }
-                <Pagination layout="prev, pager, next" total={ this.props.nums } small={true} onCurrentChange={ this.currentChange } />
+                {/* <Pagination layout="prev, pager, next" total={ this.props.nums } small={true} onCurrentChange={ this.currentChange } /> */}
+                <Pagination
+                    boundaryRange={0}
+                    defaultActivePage={1}
+                    ellipsisItem={null}
+                    firstItem={null}
+                    lastItem={null}
+                    siblingRange={1}
+                    totalPages={ this.props.nums }
+                    onPageChange={ this.currentChange }
+                />
             </div>
         );
     }

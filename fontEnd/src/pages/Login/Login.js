@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
+import { Form, Input, Button } from 'semantic-ui-react';
 
 import userAction from '../../store/user/userAction';
 import * as Http from '../../api/http';
@@ -14,13 +15,20 @@ class Login extends React.Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            isLogining: false,
+            formError: false
         };
     }
     // 登录接口
     loginIn = () => {
         let username = this.state.username.trim(),
             password = this.state.password.trim();
+
+        this.setState({
+            isLogining: true,
+            formError: false
+        });
 
         Http.loginIn(username, password).then((data) => {
             let da = data.data;
@@ -30,8 +38,14 @@ class Login extends React.Component {
                 localStorage.setItem('token', da.token);
                 history.push('/default/welcome');
             }
-        }, () => {
+        }).catch(() => {
 
+        })
+        .then(() => {
+            this.setState({
+                isLogining: false,
+                formError: true
+            });
         });
 
     }
@@ -52,19 +66,17 @@ class Login extends React.Component {
     render() {
         return (
             <div className="login-container">
-                <form className="form-signin">
-                    <h2 className="form-signin-heading">Please sign in</h2>
-                    <label className="sr-only">Email address</label>
-                    <input type="email" id="inputEmail" className="form-control" placeholder="username" value={ this.state.username } onChange={ this.modifyUser } />
-                    <label className="sr-only">Password</label>
-                    <input type="password" id="inputPassword" className="form-control" placeholder="password" value={ this.state.password } onChange={ this.modifyPass } />
-                    <div className="checkbox">
-                        {/* <label>
-                            <input type="checkbox" value="remember-me" /> Remember me
-                        </label> */}
-                    </div>
-                    <button className="btn btn-lg btn-primary btn-block" type="button" onClick={ this.loginIn }>登录</button>
-                </form>
+                <Form loading={ this.state.isLogining }>
+                    <Form.Field required error={ this.state.formError }>
+                        <label>用户名：</label>
+                        <Input placeholder='用户名' value={ this.state.username } onChange={ this.modifyUser } />
+                    </Form.Field>
+                    <Form.Field required error={ this.state.formError }>
+                        <label>密码：</label>
+                        <Input placeholder='密码' value={ this.state.password } onChange={ this.modifyPass } />
+                    </Form.Field>
+                    <Button content='登录' secondary onClick={ this.loginIn } />
+                </Form>
             </div>
         );
     }

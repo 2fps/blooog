@@ -12,6 +12,7 @@
     max-width: 1080px;
     margin: 0 auto;
     padding: 0 10px;
+    border-bottom: none !important;
 }
 .site-name,
 .comment-form p {
