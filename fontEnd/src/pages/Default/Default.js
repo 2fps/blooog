@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu , MessageBox} from 'element-react';
-// import { Input, Menu } from 'semantic-ui-react'
+import { connect } from 'react-redux';
+import { Icon, Dropdown, Button, Confirm } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 import { createHashHistory } from 'history';
 import {
@@ -16,7 +17,11 @@ import Setting from '../../components/setting/setting';
 import './Default.css';
 const history = createHashHistory();
 
-export default class Default extends React.Component{
+class Default extends React.Component{
+    constructor() {
+        super();
+        this.state = { open: false }
+    }
     onOpen() {
 
     }
@@ -32,15 +37,29 @@ export default class Default extends React.Component{
             history.push('/login');
         });
     }
+    showModifyPass = () => this.setState({ open: true })
+    handleConfirm = () => this.setState({ open: false })
+    handleCancel = () => this.setState({ open: false })
+    modifyPass = () => {
+
+    }
     render() {
         return (
             <div>
                 <div className="default-navbar">
                     <div className="login-out">
-                        <span onClick={ this.loginOut }>登出</span>
+                        <Dropdown text='用户名'>
+                            <Dropdown.Menu>
+                                <Dropdown.Item text='登出' onClick={ this.loginOut } />
+                                <Dropdown.Item text='修改密码' onClick={ this.showModifyPass } />
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
                     <div>
-                        <span>blooog,欢迎使用</span>
+                        <a href={ this.props.website.siteUrl }>
+                            <Icon disabled name="reply" />
+                            返回主页
+                        </a>
                     </div>
                 </div>
                 
@@ -72,7 +91,31 @@ export default class Default extends React.Component{
                         </Switch>
                     </div>
                 </div>
+                <Confirm
+                    open={this.state.open}
+                    header='This is a custom header'
+                    onCancel={this.handleCancel}
+                    onConfirm={this.handleConfirm}
+                />
             </div>
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        // tags: state.tags,
+        newestArticles: state.filter.newestArticles,
+        website: state.website,                         // 站点配置信息
+        pageSize: state.filter.pageSize,
+        nowPage: state.filter.nowPage
+    }
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+    }
+};
+
+// 通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
+export default connect(mapStateToProps, mapDispatchToProps)(Default);

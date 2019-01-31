@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dialog } from 'element-react';
+import { Button, Dialog, Message } from 'element-react';
 import { Table, Pagination } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
@@ -44,7 +44,19 @@ class ShowAllArticle extends React.Component {
         this.setState({
             dialogVisible: false
         });
-        Http.deleteArticle(deleteRowId);
+        Http.deleteArticle(deleteRowId).then((data) => {
+            if (data.data.result) {
+                Message({
+                    message: '删除成功',
+                    type: 'success'
+                });
+                this.props.getArticles();
+            } else {
+                Message.error('删除失败');
+            }
+        }, () => {
+            Message.error('删除失败');
+        });
     }
     currentChange = (e, data) => {
         let curPage = data.activePage,

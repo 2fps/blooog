@@ -2,7 +2,13 @@
 blooog
 基于React+koa2+mongodb的个人博客，开发中。
 
-目前UI库采用了react-bootstrap和element-react。后期将替换为semantic-ui。
+主要目的：  
+1.练习无法在工作中使用的技术栈。  
+2.替换目前的wordpress博客。
+
+目前UI库采用了semantic-ui和element-react（少量）。后期将全部替换为semantic-ui。
+
+文档详细地址：构建中...
 
 ## fontEnd
 此文件夹下存放的是前端代码
@@ -15,19 +21,17 @@ npm install
 ### 启动开发环境
 ```
 npm run start
-
-http://127.0.0.1:3000/访问
 ```
+浏览器中访问 http://127.0.0.1:3000/
+### 修改代理服务器地址
+由于使用了create-react-app脚手架，所以只要在package.json中的proxy字段中输入代理的url路径即可（最新版只支持字符串了）。
 ### 编译生成静态资源
 ```
 npm run build
 ```
 
-### 修改代理服务器地址
-由于使用了create-react-app脚手架，所以只要在package.json中的proxy字段中输入代理的url路径即可。
-
 ## backEnd
-存放了后端代码
+存放了后端代码。
 ### 安装依赖
 ```
 cd backEnd

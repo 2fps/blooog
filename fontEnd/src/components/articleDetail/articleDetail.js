@@ -7,6 +7,8 @@ import * as Http from '../../api/http';
 
 import './articleDetail.css';
 
+let articleId = '';     // 当前articleId
+
 class ArticleDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -16,22 +18,31 @@ class ArticleDetail extends React.Component {
         };
     }
     componentDidMount() {
-        let path = this.props.location.pathname.match(/\/detail\/(\w*)/)[1];
+        articleId = this.props.match.params.articleId;
 
-        if (path) {
+        if (articleId) {
             // 有id号则去查询
-            // this.props.getArticleDetail(path);
-            Http.getArticleById(path).then((data) => {
-                let da = data.data;
-
-                if (da.result) {
-                    this.setState({
-                        title: da.data.title,
-                        htmlContent: da.data.htmlContent
-                    });
-                }
-            });
+            this.getArticleDetail(articleId);
         }
+    }
+    componentWillReceiveProps(nextProp) {
+        if (articleId !== nextProp.match.params.articleId &&
+            articleId != '') {
+            articleId = nextProp.match.params.articleId;
+            this.getArticleDetail(articleId);
+        }
+    }
+    getArticleDetail = (id) => {
+        Http.getArticleById(id).then((data) => {
+            let da = data.data;
+
+            if (da.result) {
+                this.setState({
+                    title: da.data.title,
+                    htmlContent: da.data.htmlContent
+                });
+            }
+        });
     }
     render() {
         return (

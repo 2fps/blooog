@@ -23,9 +23,12 @@
     overflow: auto;
 }
 
-ul, li body, html {
+ul, li, body, html {
     padding: 0;
     margin: 0;
+}
+body, html {
+    height: auto !important;
 }
 a {
     text-decoration: none !important;
@@ -33,4 +36,7 @@ a {
 }
 .hide {
     display: none;
+}
+.text-center {
+    text-align: center;
 }

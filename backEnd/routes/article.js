@@ -5,6 +5,7 @@ var ObjectID = require('mongodb').ObjectID;
 
 router.prefix('/api');
 
+// 批量获取文章标题，简略信息的接口
 router.get('/articles', async (ctx, next) => {
     // 参数处理
     let query = ctx.query,
@@ -12,6 +13,7 @@ router.get('/articles', async (ctx, next) => {
         end = query.end - 0,
         search = query.search;      // 搜索结果
 
+    // 强制赋值查询的范围
     if (!start) {
         start = 0;
     }
@@ -43,7 +45,7 @@ router.get('/articles', async (ctx, next) => {
     };
 });
 
-
+// 发布新文章的接口
 router.post('/article', async (ctx, next) => {
     let query = ctx.request.body,
         title = query.title,
@@ -62,27 +64,43 @@ router.post('/article', async (ctx, next) => {
         publishTime: +new Date
     });
 
-    art.save();
-
-    ctx.body = {
-        result: true
+    try {
+        let aa = await art.save();
+        // 其他操作，如发送注册邮件
+        ctx.body = {
+            result: true,
+            msg: '发布成功'
+        }
+    } catch(err) {
+        ctx.body = {
+            result: false,
+            msg: '发布失败'
+        }
     }
 });
 
+// 文章删除
 router.delete('/article', async (ctx, next) => {
     let id = ctx.query.articleId;
     
     // _id = mongoose.Types.ObjectId(id);
-
-    articleModel.deleteOne({
-        _id: ObjectID(id)
-    }).exec();
+    let result = false;
+    
+    try {
+        articleModel.deleteOne({
+            _id: ObjectID(id)
+        }).exec();
+        result = true;
+    } catch(err) {
+        result = false;
+    }
 
     ctx.body = {
-        result: true
+        result
     }
 });
 
+// 获取文章的具体内容
 router.get('/article', async (ctx, next) => {
     let id = ctx.query.articleId;
     
@@ -108,7 +126,7 @@ router.get('/article', async (ctx, next) => {
     };
 
 });
-
+// 修改文章内容
 router.put('/article', async (ctx, next) => {
     let body = ctx.request.body,
         articleId = body.articleId,
@@ -133,7 +151,7 @@ router.put('/article', async (ctx, next) => {
         msg: '更新成功'
     };
 });
-
+// 获取最新的文章信息
 router.get('/newest', async (ctx, next) => {
     let newestArticles = await articleModel.find({}, {
         articleId: 1,
