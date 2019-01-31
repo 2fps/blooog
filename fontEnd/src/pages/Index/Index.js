@@ -13,6 +13,7 @@ import Header from '../../components/header/header';
 import Newest from '../../components/newest/newest';
 import Footer from '../../components/footer/footer';
 import ArticleDetail from '../../components/articleDetail/articleDetail';
+import Tax from '../Tax/Tax';
 
 import tagsAction from '../../store/tags/tagsAction';
 import filterAction from '../../store/filter/filterAction';
@@ -57,7 +58,7 @@ class Index extends React.Component {
                     <Responsive className="content-brief">
                         <Route path="/index/main" component={ AllArticles }/>
                         <Route exat path="/index/detail/:articleId" component={ ArticleDetail }/>
-                        {/* <Route exat path="/filter" component={ Filter }/> */}
+                        <Route exat path="/index/tax" component={ Tax }/>
                     </Responsive>
                 </Segment.Group>
                 <Footer website={ this.props.website } />

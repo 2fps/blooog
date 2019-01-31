@@ -7,7 +7,10 @@ import './header.css';
 
 const history = createHashHistory();
 
-let scrollFn = function() {};
+let scrollFn = function() {},
+    menuMap = {
+        '计税': 'tax'
+    };
 
 export default class index extends React.Component {
     constructor(props) {
@@ -32,7 +35,12 @@ export default class index extends React.Component {
         window.removeEventListener('scroll', scrollFn);
         scrollFn = function() {};
     }
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    handleItemClick = (e, { name }) => {
+        this.setState({
+            activeItem: name
+        });
+        history.push('/index/' + menuMap[name]);
+    };
     goToLogin = () => {
         const token = sessionStorage.getItem('token');
         // 判断下用户是否已经登录了
@@ -52,8 +60,8 @@ export default class index extends React.Component {
                         </h2>
                     </Menu.Menu>
                     <Menu.Menu position='right'>
-{/*                         <Menu.Item name='home' active={ this.state.activeItem === 'home'} onClick={this.handleItemClick} />
-                        <Menu.Item
+                        <Menu.Item name='计税' active={ this.state.activeItem === '计税'} onClick={this.handleItemClick} />
+{/*                         <Menu.Item
                             name='messages'
                             active={this.state.activeItem === 'messages'}
                             onClick={this.handleItemClick}
