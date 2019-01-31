@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Input, Menu } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import { createHashHistory } from 'history';
 
 import './header.css';
@@ -34,7 +34,7 @@ export default class index extends React.Component {
     }
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
     goToLogin = () => {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         // 判断下用户是否已经登录了
         if (token) {
             history.push('/default/welcome');

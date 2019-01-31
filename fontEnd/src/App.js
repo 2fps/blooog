@@ -4,7 +4,6 @@ import { Provider} from 'react-redux';
 import store from './store/store';
 
 import {
-    BrowserRouter,
     HashRouter,
     Route,
     Switch,
@@ -18,6 +17,7 @@ import 'element-theme-default';
 import index from './pages/Index/Index.js';
 import login from './pages/Login/Login.js';
 import Default from './pages/Default/Default.js';
+import Authority from './routers/authority';
 
 import './css/main.css';
 
@@ -30,7 +30,8 @@ class App extends Component {
                         <Redirect exact from='/' to='/index/main' />
                         <Route path="/index" component={index}></Route>
                         <Route exact path="/login" component={login}></Route>
-                        <Route path="/default" component={Default}></Route>
+                        <Authority path="/default" component={Default} />
+                        {/* <Route path="/default" component={Default}></Route> */}
                     </Switch>
                 </HashRouter>
             </Provider>

@@ -35,7 +35,7 @@ class Login extends React.Component {
 
             if (da.result) {
                 // 成功
-                localStorage.setItem('token', da.token);
+                sessionStorage.setItem('token', da.token);
                 history.push('/default/welcome');
             }
         }).catch(() => {
@@ -47,7 +47,6 @@ class Login extends React.Component {
                 formError: true
             });
         });
-
     }
     modifyUser = (e) => {
         let username = e.target.value;
@@ -69,13 +68,13 @@ class Login extends React.Component {
                 <Form loading={ this.state.isLogining }>
                     <Form.Field required error={ this.state.formError }>
                         <label>用户名：</label>
-                        <Input placeholder='用户名' value={ this.state.username } onChange={ this.modifyUser } />
+                        <Input placeholder="用户名" value={ this.state.username } onChange={ this.modifyUser } />
                     </Form.Field>
                     <Form.Field required error={ this.state.formError }>
                         <label>密码：</label>
-                        <Input placeholder='密码' value={ this.state.password } onChange={ this.modifyPass } />
+                        <Input placeholder="密码" value={ this.state.password } onChange={ this.modifyPass } />
                     </Form.Field>
-                    <Button content='登录' secondary onClick={ this.loginIn } />
+                    <Button content="登录" secondary onClick={ this.loginIn } />
                 </Form>
             </div>
         );

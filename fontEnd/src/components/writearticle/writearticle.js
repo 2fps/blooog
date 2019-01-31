@@ -49,22 +49,13 @@ class WriteArticle extends React.Component {
             // 标记id
             condition.articleId = this.props.modifyId
 
-            Http.modifyArticleById(condition).then(() => {
-                
-            });
+            Http.modifyArticleById(condition).then(handleSuccess, handleError);
 
             return;
         }
 
 
-        Http.saveArticle(condition).then(() => {
-            Message({
-                message: '发布成功',
-                type: 'success'
-            });
-        }, () => {
-            Message.error('发布失败');
-        });
+        Http.saveArticle(condition).then(handleSuccess, handleError);
     }
     componentDidMount() {
         // 编辑的话，需要重新获取文章信息
@@ -87,6 +78,7 @@ class WriteArticle extends React.Component {
     }
     render() {
         const { value } = this.state;
+
         return (
             <div className="welcome">
                 <Form>
@@ -105,6 +97,26 @@ class WriteArticle extends React.Component {
             </div>
         );
     }
+}
+
+function handleSuccess(data) {
+    let da = data.data;
+
+    if (da.result) {
+        Message({
+            message: '发布成功',
+            type: 'success'
+        });
+    } else {
+        handleError();
+    }
+}
+
+function handleError() {
+    Message({
+        message: '发布失败',
+        type: 'error'
+    });
 }
 
 const mapStateToProps = (state) => {
