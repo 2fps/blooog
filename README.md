@@ -43,8 +43,11 @@ npm run start
 ```
 ### 数据库
 数据库是mongodb，所以先提前安装好数据库。  
-mongodb各个版本的下载的路径如下：http://dl.mongodb.org/dl/win32/x86_64。  
+window下的mongodb下载路径如下：http://dl.mongodb.org/dl/win32/x86_64  
 我使用的是3.4.19版本的。
+
+#### 数据库安装
+
 
 ## 生产环境搭建
 

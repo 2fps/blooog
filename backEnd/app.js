@@ -5,7 +5,6 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-const jwt = require('jsonwebtoken')
 const jwtKoa = require('koa-jwt')
 const secret = 'jwt demo'
 
@@ -78,5 +77,6 @@ mongoose.connection.on('disconnected', function () {
     console.log('Mongoose connection disconnected');
 });
 
+require('./config/init.js');
 
 module.exports = app

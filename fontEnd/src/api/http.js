@@ -48,6 +48,17 @@ export function loginIn(username, password) {
     });
 }
 
+export function modifyPass(username, oldpass, newpass) {
+    return axios.put('/api/user', {
+        username,
+        oldpass,
+        newpass
+    })
+    .then(function (response) {
+        return response;
+    });
+}
+
 // 保存修改的setting数据
 export function saveWebsiteConfig(condition) {
     return axios.post('/api/website', condition)

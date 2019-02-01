@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
 import { Form, Input, Button } from 'semantic-ui-react';
+import { Message } from 'element-react';
 
 import userAction from '../../store/user/userAction';
 import * as Http from '../../api/http';
@@ -36,7 +37,13 @@ class Login extends React.Component {
             if (da.result) {
                 // 成功
                 sessionStorage.setItem('token', da.token);
+                sessionStorage.setItem('username', username);
+
                 history.push('/default/welcome');
+                Message({
+                    message: '修改成功，请重新登录',
+                    type: 'success'
+                });
             }
         }).catch(() => {
 
@@ -72,7 +79,7 @@ class Login extends React.Component {
                     </Form.Field>
                     <Form.Field required error={ this.state.formError }>
                         <label>密码：</label>
-                        <Input placeholder="密码" value={ this.state.password } onChange={ this.modifyPass } />
+                        <Input placeholder="密码" value={ this.state.password } onChange={ this.modifyPass } type="password" />
                     </Form.Field>
                     <Button content="登录" secondary onClick={ this.loginIn } />
                 </Form>

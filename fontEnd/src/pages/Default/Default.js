@@ -1,13 +1,15 @@
 import React from 'react';
 import { Menu , MessageBox} from 'element-react';
 import { connect } from 'react-redux';
-import { Icon, Dropdown, Button, Confirm } from 'semantic-ui-react'
+import { Icon, Dropdown, Button, Confirm, Modal, Header, Form } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 import { createHashHistory } from 'history';
 import {
     Switch,
     Route
 } from 'react-router-dom';
+
+import * as Http from '../../api/http';
 
 import Welcome from '../../components/welcome/welcome';
 import Showallarticle from '../../components/showallarticle/showallarticle';
@@ -20,7 +22,17 @@ const history = createHashHistory();
 class Default extends React.Component{
     constructor() {
         super();
-        this.state = { open: false }
+        this.state = {
+            showModiyPass: false,
+            open: false,
+            form: {
+                oldPass: '',
+                newPass1: '',
+                newPass2: '',
+                oldPassError: false,
+                newPassError: false
+            }
+        }
     }
     onOpen() {
 
@@ -33,16 +45,65 @@ class Default extends React.Component{
         MessageBox.confirm('确定登出, 是否继续?', '提示', {
             type: 'warning'
         }).then(() => {
-            localStorage.setItem('token', '');
+            sessionStorage.setItem('token', '');
             history.push('/login');
         });
     }
-    showModifyPass = () => this.setState({ open: true })
-    handleConfirm = () => this.setState({ open: false })
-    handleCancel = () => this.setState({ open: false })
-    modifyPass = () => {
+    showModifyPass = () => {
+        this.setState({
+            open: true
+        });
 
     }
+    modifyInfo = (e) => {
+        let name = e.target.parentElement.getAttribute('data-name'),
+            form = this.state.form;
+
+        form[name] = e.target.value;
+        form.newPassError = false;
+        form.oldPassError = false;
+
+        this.setState({
+            form
+        });
+    }
+    confirmModifyPass = () => {
+        let form = this.state.form;
+
+        if ('' === form.oldPass.trim()) {
+            form.newPassError = true;
+            this.setState({form});
+
+            return;
+        }
+        // 校验
+        if (form.newPass1 !== form.newPass2 || 
+            '' == form.newPass1 || '' == form.newPass2) {
+            form.oldPassError = true;
+            this.setState({form});
+
+            return;
+        }
+        let username = sessionStorage.getItem('username');
+        // send
+        Http.modifyPass(username, form.oldPass, form.newPass1).then((data) => {
+            if (data.data.result) {
+                // 修改成功
+                sessionStorage.setItem('token', '');
+                sessionStorage.setItem('username', '');
+
+                history.push('/login');
+            }
+        });
+
+        this.handleClose();
+
+    }
+    handleConfirm = () => this.setState({ open: false })
+    handleCancel = () => this.setState({ open: false })
+    handleOpen = () => this.setState({ showModiyPass: true })
+
+    handleClose = () => this.setState({ showModiyPass: false })
     render() {
         return (
             <div>
@@ -51,7 +112,32 @@ class Default extends React.Component{
                         <Dropdown text='用户名'>
                             <Dropdown.Menu>
                                 <Dropdown.Item text='登出' onClick={ this.loginOut } />
-                                <Dropdown.Item text='修改密码' onClick={ this.showModifyPass } />
+                                <Modal
+                                    trigger={ <Dropdown.Item onClick={this.handleOpen} text='修改密码'/>}
+                                        open={ this.state.showModiyPass }
+                                        onClose={ this.handleClose }
+                                    >
+                                    <Modal.Header>密码修改</Modal.Header>
+                                    <Modal.Content>
+                                        <Modal.Description>
+                                            <Form>
+                                                <Form.Field >
+                                                    <Form.Input fluid label='旧密码：' type="password" value={ this.state.form.oldPass } data-name="oldPass" onChange={ this.modifyInfo } placeholder='旧密码' error={ this.state.form.newPassError } />
+                                                </Form.Field>
+                                                <Form.Field>
+                                                    <Form.Input fluid label='新密码：' type="password" value={ this.state.form.newPass1 } data-name="newPass1" onChange={ this.modifyInfo } placeholder='新密码' error={ this.state.form.oldPassError } />
+                                                </Form.Field>
+                                                <Form.Field>
+                                                    <Form.Input fluid label='再一次输入新密码：' type="password" value={ this.state.form.newPass2 } data-name="newPass2" onChange={ this.modifyInfo } placeholder='新密码' error={ this.state.form.oldPassError } />
+                                                </Form.Field>
+                                                <Form.Field className="text-center">
+                                                    <Button secondary onClick={ this.handleClose }>取消</Button>
+                                                    <Button color='red' onClick={ this.confirmModifyPass }>确定</Button>
+                                                </Form.Field>
+                                            </Form>
+                                        </Modal.Description>
+                                    </Modal.Content>
+                                </Modal>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
@@ -94,6 +180,7 @@ class Default extends React.Component{
                 <Confirm
                     open={this.state.open}
                     header='This is a custom header'
+                    content='<span a="a">123</span>'
                     onCancel={this.handleCancel}
                     onConfirm={this.handleConfirm}
                 />
