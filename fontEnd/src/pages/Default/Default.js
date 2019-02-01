@@ -1,8 +1,9 @@
 import React from 'react';
 import { Menu , MessageBox} from 'element-react';
 import { connect } from 'react-redux';
-import { Icon, Dropdown, Button, Confirm, Modal, Header, Form } from 'semantic-ui-react'
+import { Icon, Dropdown, Button, Confirm, Modal, Accordion, Form, Item } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
+import { Message } from 'element-react';
 import { createHashHistory } from 'history';
 import {
     Switch,
@@ -31,13 +32,20 @@ class Default extends React.Component{
                 newPass2: '',
                 oldPassError: false,
                 newPassError: false
-            }
+            },
+            activeIndex: 0
         }
     }
     onOpen() {
 
     }
+    handleClick = (e, titleProps) => {
+        const { index } = titleProps
+        const { activeIndex } = this.state
+        const newIndex = activeIndex === index ? -1 : index
     
+        this.setState({ activeIndex: newIndex })
+    }
     onClose() {
     
     }
@@ -93,6 +101,10 @@ class Default extends React.Component{
                 sessionStorage.setItem('username', '');
 
                 history.push('/login');
+                Message({
+                    message: '修改成功，请重新登录',
+                    type: 'success'
+                });
             }
         });
 
@@ -105,6 +117,7 @@ class Default extends React.Component{
 
     handleClose = () => this.setState({ showModiyPass: false })
     render() {
+        const { activeIndex } = this.state
         return (
             <div>
                 <div className="default-navbar">
@@ -150,24 +163,38 @@ class Default extends React.Component{
                 </div>
                 
                 <div>
-                    <Menu defaultActive="2" className="el-menu-vertical-demo default-menu" onOpen={this.onOpen.bind(this)} onClose={this.onClose.bind(this)}>
-                        <Menu.Item index="1">
-                            <i className="el-icon-menu"></i>
+                    <Accordion className="default-menu">
+                        <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+                            <Icon name="list layout" />
+                            {/* <Icon name='dropdown' /> */}
                             <a href="#default/welcome">首页</a>
-                        </Menu.Item>
-                        <Menu.SubMenu index="2" title={<span><i className="el-icon-message"></i>文章</span>}>
-                            <Menu.Item index="2-1">
-                                <a href="#default/showallarticle">所有文章</a>
-                            </Menu.Item>
-                            <Menu.Item index="2-2">
-                                <a href="#default/writearticle">写文章</a>
-                            </Menu.Item>
-                        </Menu.SubMenu>
-                        <Menu.Item index="3">
-                            <i className="el-icon-menu"></i>
+                        </Accordion.Title>
+
+                        <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
+                            <Icon name="signup" />
+                            文章
+                            <Icon name='dropdown' />
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === 1}>
+                            <Item.Group>
+                                <Item>
+                                    <Item.Content verticalAlign='middle'>
+                                        <a href="#default/showallarticle">所有文章</a>
+                                    </Item.Content>
+                                </Item>
+                                <Item>
+                                    <Item.Content verticalAlign='middle'>
+                                        <a href="#default/writearticle">写文章</a>
+                                    </Item.Content>
+                                </Item>
+                            </Item.Group>
+                        </Accordion.Content>
+                        <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}>
+                            <Icon name="settings" />
                             <a href="#default/setting">设置</a>
-                        </Menu.Item>
-                    </Menu>
+                            {/* <Icon name='dropdown' /> */}
+                        </Accordion.Title>
+                    </Accordion>
                     <div className="default-content">
                         <Switch>
                             <Route path="/default/welcome" component={ Welcome }/>

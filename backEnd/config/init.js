@@ -1,17 +1,17 @@
 // 注册 admin/admin 的用户
 const userModel = require('../models/userModel');
 const crypto = require('crypto');
+let initConfig = require('./config.js');
+let MD5 = require('../util/MD5').MD5;
 
 userModel.findOne({}).exec().then((doc) => {
     if (!doc) {
-        let hash = crypto.createHash('md5'),
-            password = hash.update('admin').digest('base64');
         // 没有用户则新建
         let user = new userModel({
-            username: 'admin',
+            username: initConfig.username,
             email: 'admin@admin.com',
             registerTime: '2019-12-12',
-            password
+            password: MD5(initConfig.password)
         });
     
         user.save();

@@ -1,14 +1,40 @@
 .default-navbar {
     height: 60px;
     line-height: 60px;
-    padding: 0 20px;
-    background-color: rgba(255,255,255,.95);
+    padding: 0 40px;
+    background-color: #303133;
+}
+.default-navbar > div > a {
+    color: #fff !important;
 }
 .default-menu {
     width: 200px;
     position: absolute;
     top: 60px;
     bottom: 0px;
+    background-color: #545C64;
+}
+.default-menu > .title {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    height: 40px;
+    line-height: 26px;
+    /* background-color: #606266 !important; */
+    color: #fff !important;
+}
+.default-menu > .content {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+.default-menu > .title:hover {
+    background-color: #909399;
+}
+.default-menu > .title > a {
+    color: #fff !important;
+}
+.default-menu > .title > i:nth-child(1) {
+    margin-right: 20px;
+    margin-left: 20px;
 }
 .default-content {
     margin-left: 200px;
@@ -22,4 +48,22 @@
 }
 .login-out > span:hover {
     color: #20A0FF;
+}
+.content > .items > .item > div > a {
+    color: #fff !important;
+    height: 40px;
+    line-height: 40px;
+}
+.content > .items > .item {
+    padding-left: 90px;
+    /* padding-bottom: 14px; */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+.content > .items > .item:hover {
+    background-color: #909399;
+}
+.dropdown > div,
+.dropdown > .icon {
+    color: #fff !important;
 }

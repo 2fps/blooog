@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
 import { Form, Input, Button } from 'semantic-ui-react';
-import { Message } from 'element-react';
 
 import userAction from '../../store/user/userAction';
 import * as Http from '../../api/http';
@@ -40,10 +39,6 @@ class Login extends React.Component {
                 sessionStorage.setItem('username', username);
 
                 history.push('/default/welcome');
-                Message({
-                    message: '修改成功，请重新登录',
-                    type: 'success'
-                });
             }
         }).catch(() => {
 
