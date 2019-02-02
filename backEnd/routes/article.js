@@ -33,7 +33,7 @@ router.get('/articles', async (ctx, next) => {
         // commentNums: 1,
         brief: 1,
         _id: 1
-    }).skip(start).limit(end - start).exec();
+    }).sort({'_id':-1}).skip(start).limit(end - start).exec();
 
     // changeID(articles);
 
@@ -157,7 +157,7 @@ router.get('/newest', async (ctx, next) => {
         articleId: 1,
         title: 1,
         _id: 1
-    }).limit(6).exec();
+    }).sort({'_id':-1}).limit(6).exec();
 
     changeID(newestArticles);
 

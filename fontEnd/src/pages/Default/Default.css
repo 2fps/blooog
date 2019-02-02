@@ -12,7 +12,7 @@
     position: absolute;
     top: 60px;
     bottom: 0px;
-    background-color: #545C64;
+    background-color: #20222A;
 }
 .default-menu > .title {
     padding-left: 20px !important;
@@ -59,6 +59,7 @@
     /* padding-bottom: 14px; */
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+    background-color: #16181D;
 }
 .content > .items > .item:hover {
     background-color: #909399;

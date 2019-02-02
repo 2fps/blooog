@@ -9,8 +9,8 @@ userModel.findOne({}).exec().then((doc) => {
         // 没有用户则新建
         let user = new userModel({
             username: initConfig.username,
-            email: 'admin@admin.com',
-            registerTime: '2019-12-12',
+            email: '',
+            registerTime: '',
             password: MD5(initConfig.password)
         });
     

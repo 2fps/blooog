@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu , MessageBox} from 'element-react';
+import { MessageBox} from 'element-react';
 import { connect } from 'react-redux';
 import { Icon, Dropdown, Button, Confirm, Modal, Accordion, Form, Item } from 'semantic-ui-react'
 import { Link } from "react-router-dom";

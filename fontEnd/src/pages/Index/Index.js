@@ -70,7 +70,7 @@ const mapStateToProps = (state) => {
     return {
         // tags: state.tags,
         newestArticles: state.filter.newestArticles,
-        website: state.website,                         // 站点配置信息
+        website: state.website,                 // 站点配置信息
         pageSize: state.filter.pageSize,
         nowPage: state.filter.nowPage
     }

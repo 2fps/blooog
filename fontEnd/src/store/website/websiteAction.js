@@ -1,4 +1,5 @@
 import websiteActionType from './websiteActionType';
+import { Message } from 'element-react';
 
 import * as Http from '../../api/http';
 
@@ -36,16 +37,28 @@ export default {
             Http.saveWebsiteConfig(condition).then(function(data) {
                 let da = data.data;
 
-/*                 if (da.result) {
-                    
+                if (da.result) {
+                    Message({
+                        message: '保存成功',
+                        type: 'success'
+                    });
                 } else {
-
-                } */
+                    handleError();
+                }
                 dispatch({
                     type: websiteActionType.GETCONFIG,
                     data: condition
                 });
+            },  () => {
+                handleError();
             });
         }
     }
+}
+
+function handleError() {
+    Message({
+        message: '保存失败',
+        type: 'error'
+    });
 }

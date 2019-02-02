@@ -48,7 +48,7 @@ export default class index extends React.Component {
                 <Menu secondary pointing className="container">
                     <Menu.Menu position='left'>
                         <h2>
-                            <a href={ this.props.website.siteUrl }>{ this.props.website.siteName }</a>
+                            <a className="color-fff" href={ this.props.website.modifyConfig.siteUrl }>{ this.props.website.modifyConfig.siteName }</a>
                         </h2>
                     </Menu.Menu>
                     <Menu.Menu position='right'>
@@ -58,7 +58,7 @@ export default class index extends React.Component {
                             active={this.state.activeItem === 'messages'}
                             onClick={this.handleItemClick}
                             /> */}
-                        <Menu.Item
+                        <Menu.Item className="color-fff"
                             name='登录'
                             active={this.state.activeItem === 'logout'}
                             onClick={ this.goToLogin }

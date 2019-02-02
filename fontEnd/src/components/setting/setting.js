@@ -65,7 +65,6 @@ class Setting extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    console.log(state.website.modifyConfig.siteName);
     return {
         website: state.website.modifyConfig     // 站点配置信息
     }

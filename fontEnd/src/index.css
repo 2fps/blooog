@@ -15,3 +15,10 @@ code {
 body, html {
   /* background-color: #F7F7F7; */
 }
+.color-fff {
+  color: #fff !important;
+}
+/* 覆盖某些全局样式 */
+a {
+  color: #fff !important;
+}

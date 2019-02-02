@@ -17,9 +17,10 @@ export default function counter(state = config, action) {
     switch (action.type) {
         case websiteActionType.GETCONFIG:
             // 复制一份数据到修改的数据中
-            let modifyCon = JSON.parse(JSON.stringify(action.data));
-
-            action.data.modifyConfig = modifyCon;
+            if (action.data) {
+                let modifyCon = JSON.parse(JSON.stringify(action.data));
+                action.data.modifyConfig = modifyCon;
+            }
             
             return Object.assign({}, state, action.data);
         case websiteActionType.MODIFYCONFIG:

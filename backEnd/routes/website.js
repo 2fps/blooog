@@ -37,9 +37,17 @@ router.post('/', async (ctx, next) => {
             siteUrl: body.siteUrl,
             webRecord: body.webRecord
         };
+    let count = await websiteModel.count({}).exec();
+
+    if (count > 0) {
+        // 更新
+        websiteModel.update({}, data).exec();
+    } else {
+        let website = new websiteModel(data);
+
+        website.save();
+    }
         
-    let error = await websiteModel.update({}, data).exec();
-    
     ctx.body = {
         result: true,
         msg: ''
