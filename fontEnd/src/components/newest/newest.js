@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import './newest.css';
+import './newest.scss';
 
 export default class Newest extends React.Component {
     renderItem = () => {

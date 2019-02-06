@@ -11,7 +11,7 @@ import {
 import * as Http from '../../api/http';
 import filterAction from '../../store/filter/filterAction';
 
-import './writearticle.css';
+import './writearticle.scss';
 
 class WriteArticle extends React.Component {
     constructor() {

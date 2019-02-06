@@ -5,7 +5,7 @@ import { Pagination, Image, Item, Placeholder } from 'semantic-ui-react';
 import ArticleBrief from '../articleBrief/articleBrief';
 import filterAction from '../../store/filter/filterAction';
 
-import './allArticles.css';
+import './allArticles.scss';
 
 class AllArticles extends React.Component {
     componentDidMount() {

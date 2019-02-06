@@ -5,7 +5,7 @@ import filterAction from '../../store/filter/filterAction';
 
 import * as Http from '../../api/http';
 
-import './articleDetail.css';
+import './articleDetail.scss';
 
 let articleId = '';     // 当前articleId
 

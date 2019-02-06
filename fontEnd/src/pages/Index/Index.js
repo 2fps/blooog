@@ -19,7 +19,7 @@ import filterAction from '../../store/filter/filterAction';
 import websiteAction from '../../store/website/websiteAction';
 
 
-import './Index.css';
+import './Index.scss';
 // import '../../static/css/bootstrap.min.css';
 
 class Index extends React.Component {

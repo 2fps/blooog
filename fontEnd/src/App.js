@@ -19,8 +19,6 @@ import login from './pages/Login/Login.js';
 import Default from './pages/Default/Default.js';
 import Authority from './routers/authority';
 
-import './css/main.css';
-
 class App extends Component {
     render() {
         return (

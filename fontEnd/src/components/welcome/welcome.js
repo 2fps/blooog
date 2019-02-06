@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon, Header, Statistic, Card, Transition } from 'semantic-ui-react';
 
-import './welcome.css';
+import './welcome.scss';
 
 export default class Welcome extends React.Component {
 

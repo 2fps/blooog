@@ -8,7 +8,7 @@ import {
 
 import websiteAction from '../../store/website/websiteAction';
 
-import './setting.css';
+import './setting.scss';
 
 class Setting extends React.Component {
     constructor(props) {

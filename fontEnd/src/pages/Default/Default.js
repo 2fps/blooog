@@ -17,7 +17,7 @@ import Showallarticle from '../../components/showallarticle/showallarticle';
 import Writearticle from '../../components/writearticle/writearticle';
 import Setting from '../../components/setting/setting';
 
-import './Default.css';
+import './Default.scss';
 const history = createHashHistory();
 
 class Default extends React.Component{

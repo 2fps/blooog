@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Image, Item } from 'semantic-ui-react';
 
-import './articleBrief.css';
+import './articleBrief.scss';
 
 export default class ArticleBrief extends React.Component {
 

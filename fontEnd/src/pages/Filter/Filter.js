@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Filter.css';
+import './Filter.scss';
 
 export default class Filter extends React.Component {
 

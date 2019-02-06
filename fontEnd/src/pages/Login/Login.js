@@ -6,7 +6,7 @@ import { Form, Input, Button } from 'semantic-ui-react';
 import userAction from '../../store/user/userAction';
 import * as Http from '../../api/http';
 
-import './Login.css';
+import './Login.scss';
 
 const history = createHashHistory();
 

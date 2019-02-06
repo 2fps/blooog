@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu } from 'semantic-ui-react';
 import { createHashHistory } from 'history';
 
-import './header.css';
+import './header.scss';
 
 const history = createHashHistory();
 

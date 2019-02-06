@@ -8,7 +8,7 @@ import * as Http from '../../api/http';
 
 import filterAction from '../../store/filter/filterAction';
 
-import './showallarticle.css';
+import './showallarticle.scss';
 
 const history = createHashHistory();
 

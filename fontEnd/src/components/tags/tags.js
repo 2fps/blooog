@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './tags.css';
+import './tags.scss';
 
 export default class Tags extends React.Component {
     constructor(props) {
