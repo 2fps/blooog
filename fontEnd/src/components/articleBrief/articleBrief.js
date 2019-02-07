@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Image, Item } from 'semantic-ui-react';
+import { Image, Item, Icon } from 'semantic-ui-react';
 
 import './articleBrief.scss';
 
@@ -19,7 +19,10 @@ export default class ArticleBrief extends React.Component {
                         </h2>
                     </Item.Header>
                     <Item.Meta>
-                        { timeFormat(this.props.article.publishTime) }
+                        <span className="article-subInfo">
+                            <Icon name="calendar alternate"></Icon>
+                            { timeFormat(this.props.article.publishTime) }
+                        </span>
                     </Item.Meta>
                     <Item.Description>
                         { this.props.article.brief }

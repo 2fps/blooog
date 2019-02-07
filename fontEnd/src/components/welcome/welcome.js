@@ -1,8 +1,13 @@
 import React from 'react';
-import { Icon, Header, Statistic, Card, Transition } from 'semantic-ui-react';
+import { Icon, Header, Statistic, Card, Transition, Message } from 'semantic-ui-react';
 
 import './welcome.scss';
 import * as Http from '../../api/http';
+
+const items = [
+    'You can now have cover images on blog pages',
+    'Drafts will now auto-save while writing',
+  ]
 
 export default class Welcome extends React.Component {
 
@@ -27,7 +32,11 @@ export default class Welcome extends React.Component {
     render() {
         return (
             <div className="welcome">
-                <Header as='h3'>欢迎使用blooog</Header>
+                <Header as='h2'>欢迎使用blooog。</Header>
+                {/* <Message>
+                    <Message.Header >New Site Features</Message.Header>
+                    <Message.List items={ sysTips} />
+                </Message> */}
                 <Card.Group>
                     <Card>
                         <Card.Content>

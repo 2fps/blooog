@@ -3,18 +3,18 @@ blooog
 基于semantic-ui-react + react + koa2 + mongodb的个人博客，目前仍在开发中，只有很简单的功能。
 
 技术栈：
-UI: semantic-ui、element-react（仅message组件，后期删除）。
-JS：React、react-router、redux、redux-thunk。
-服务端: koa2。
-数据库: mongodb（mongoose）。
+UI: semantic-ui、element-react（仅message组件，后期删除）。  
+JS：React、react-router、redux、redux-thunk。  
+服务端: koa2。  
+数据库: mongodb（mongoose）。  
 
 主要目的：  
 1.练习无法在工作中使用的技术栈。  
 2.一直都想有个自己写的博客，可以随时替换一些功能，顺便替换现在的博客。
 
-文档详细地址：构建中......
-API详细地址：构建中......
-修改记录地址：构建中......
+文档详细地址：https://www.kancloud.cn/fps_2fps/test1/937003  
+API详细地址：构建中......  
+修改记录地址：https://github.com/2fps/blooog/wiki/ModifyRecord  
 
 ## fontEnd
 此文件夹下存放的是前端代码。
