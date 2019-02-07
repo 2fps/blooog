@@ -91,3 +91,10 @@ export function modifyArticleById(condition) {
         return response;
     });
 }
+
+export function getArticlesNumber() {
+    return axios.get('/api/articlesNum')
+    .then(function (response) {
+        return response;
+    });
+}

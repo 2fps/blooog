@@ -2,9 +2,28 @@ import React from 'react';
 import { Icon, Header, Statistic, Card, Transition } from 'semantic-ui-react';
 
 import './welcome.scss';
+import * as Http from '../../api/http';
 
 export default class Welcome extends React.Component {
 
+    constructor() {
+        super();
+        this.state = {
+            allArticlesNum: 0
+        }
+    }
+    renderData = () => {
+        Http.getArticlesNumber().then((data) => {
+            let da = data.data.data;
+
+            this.setState({
+                allArticlesNum: da.num
+            });
+        });
+    }
+    componentWillMount = () => {
+        this.renderData();
+    }
     render() {
         return (
             <div className="welcome">
@@ -17,7 +36,7 @@ export default class Welcome extends React.Component {
                         <Card.Content>
                             <Statistic.Group>
                                 <Statistic>
-                                    <Statistic.Value>22</Statistic.Value>
+                                    <Statistic.Value>{ this.state.allArticlesNum }</Statistic.Value>
                                     <Statistic.Label>篇</Statistic.Label>
                                 </Statistic>
                             </Statistic.Group>
@@ -30,7 +49,7 @@ export default class Welcome extends React.Component {
                         <Card.Content>
                             <Statistic.Group>
                                 <Statistic>
-                                    <Statistic.Value>22</Statistic.Value>
+                                    <Statistic.Value>0</Statistic.Value>
                                     <Statistic.Label>个</Statistic.Label>
                                 </Statistic>
                             </Statistic.Group>

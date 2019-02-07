@@ -1,7 +1,5 @@
 const router = require('koa-router')();
 const articleModel = require('../models/articleModel');
-const mongoose = require('mongoose');
-var ObjectID = require('mongodb').ObjectID;
 
 router.prefix('/api');
 
@@ -31,8 +29,9 @@ router.get('/articles', async (ctx, next) => {
         // likeNums: 1,
         // content: 1,
         // commentNums: 1,
+        _id: 0,
         brief: 1,
-        _id: 1
+        articleId: 1
     }).sort({'_id':-1}).skip(start).limit(end - start).exec();
 
     // changeID(articles);
@@ -60,12 +59,11 @@ router.post('/article', async (ctx, next) => {
         title,
         mdContent,
         htmlContent,
-        brief: mdContent.slice(0, 10),
-        publishTime: +new Date
+        brief: mdContent.slice(0, 110)
     });
 
     try {
-        let aa = await art.save();
+        await art.save();
         // 其他操作，如发送注册邮件
         ctx.body = {
             result: true,
@@ -81,14 +79,12 @@ router.post('/article', async (ctx, next) => {
 
 // 文章删除
 router.delete('/article', async (ctx, next) => {
-    let id = ctx.query.articleId;
-    
-    // _id = mongoose.Types.ObjectId(id);
+    let articleId = ctx.query.articleId;
     let result = false;
     
     try {
         articleModel.deleteOne({
-            _id: ObjectID(id)
+            articleId
         }).exec();
         result = true;
     } catch(err) {
@@ -102,22 +98,21 @@ router.delete('/article', async (ctx, next) => {
 
 // 获取文章的具体内容
 router.get('/article', async (ctx, next) => {
-    let id = ctx.query.articleId;
-    
-    id = mongoose.Types.ObjectId(id);
+    let articleId = ctx.query.articleId;
 
     let article = await articleModel.findOne({
-        _id: id
+        articleId
     }, {
         title: 1,
         publishTime: 1,
+        articleId: 1,
         // readNums: 1,
         // likeNums: 1,
         mdContent: 1,
         htmlContent: 1,
         // commentNums: 1,
         // brief: 1,
-        _id: 1
+        _id: 0
     }).exec();
 
     ctx.body = {
@@ -130,20 +125,17 @@ router.get('/article', async (ctx, next) => {
 router.put('/article', async (ctx, next) => {
     let body = ctx.request.body,
         articleId = body.articleId,
-        id = body.articleId,
         title = body.title,
         mdContent = body.mdContent,
         htmlContent = body.htmlContent;
-        
-        id = mongoose.Types.ObjectId(id);
 
     articleModel.updateOne({
-        "_id": id
+        articleId
     }, {
         title,
         mdContent,
         htmlContent,
-        brief: mdContent.slice(0, 10)
+        brief: mdContent.slice(0, 110)
     }).exec()
 
     ctx.body = {
@@ -156,10 +148,9 @@ router.get('/newest', async (ctx, next) => {
     let newestArticles = await articleModel.find({}, {
         articleId: 1,
         title: 1,
-        _id: 1
+        articleId: 1,
+        _id: 0
     }).sort({'_id':-1}).limit(6).exec();
-
-    changeID(newestArticles);
 
     ctx.body = {
         result: true,
@@ -167,11 +158,16 @@ router.get('/newest', async (ctx, next) => {
     }
 });
 
+// 获取当前文章的数量
+router.get('/articlesNum', async (ctx, next) => {
+    let num = await articleModel.getArticlesNumber();
 
-function changeID(arr) {
-    arr.forEach(function(item, ind) {
-        item.articleId = item.id;
-    });
-}
+    ctx.body = {
+        result: true,
+        data: {
+            num
+        }
+    };
+});
 
 module.exports = router;

@@ -47,7 +47,7 @@ class WriteArticle extends React.Component {
 
         if ('modify' === this.props.articleState) {
             // 标记id
-            condition.articleId = this.props.modifyId
+            condition.articleId = this.props.modifyId;
 
             Http.modifyArticleById(condition).then(handleSuccess, handleError);
 

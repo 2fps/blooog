@@ -28,16 +28,16 @@ class ShowAllArticle extends React.Component {
         this.props.getArticles();
     }
     modifyRow = (e) => {
-        let _id = e.target.parentElement.parentElement.getAttribute('data-id');
+        let articleId = e.target.parentElement.parentElement.getAttribute('data-id');
 
         history.push('/default/writearticle');
-        this.props.changeState('modify', _id);
+        this.props.changeState('modify', articleId);
     }
     deleteRow = (e) => {
-        let _id = e.target.parentElement.parentElement.getAttribute('data-id');
+        let articleId = e.target.parentElement.parentElement.getAttribute('data-id');
 
         this.setState({ dialogVisible: true });
-        deleteRowId = _id;
+        deleteRowId = articleId;
     }
 
     deleteArticle = () => {
@@ -74,7 +74,7 @@ class ShowAllArticle extends React.Component {
                 <Table.Row key={ ind }>
                     <Table.Cell>{ ind + 1 }</Table.Cell>
                     <Table.Cell>{ item.title }</Table.Cell>
-                    <Table.Cell data-id={ item['_id'] }>
+                    <Table.Cell data-id={ item.articleId }>
                         <Button plain={true} type="info" onClick={ this.modifyRow } size="small">编辑</Button>
                         <Button type="danger" onClick={ this.deleteRow } size="small">删除</Button>
                     </Table.Cell>

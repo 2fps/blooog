@@ -12,7 +12,7 @@ export default class ArticleBrief extends React.Component {
                 {/* <Item.Image size='tiny' src='https://react.semantic-ui.com/images/wireframe/image.png' /> */}
                 <Item.Content>
                     <Item.Header>
-                        <Link to={`/index/detail/${this.props.article['_id']}`}>{ this.props.article.title }</Link>
+                        <Link to={`/index/detail/${this.props.article.articleId}`}>{ this.props.article.title }</Link>
                     </Item.Header>
                     {/* <Item.Meta>Description</Item.Meta> */}
                     <Item.Description>
