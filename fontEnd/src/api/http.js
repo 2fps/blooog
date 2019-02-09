@@ -98,3 +98,10 @@ export function getArticlesNumber() {
         return response;
     });
 }
+
+export function likeArticle(articleId) {
+    return axios.get('/api/likeArticle?articleId=' + articleId)
+    .then(function(response) {
+        return response;
+    });
+}

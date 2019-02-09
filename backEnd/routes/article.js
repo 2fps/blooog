@@ -25,8 +25,8 @@ router.get('/articles', async (ctx, next) => {
         // articleId: 1,
         title: 1,
         publishTime: 1,
-        // readNums: 1,
-        // likeNums: 1,
+        viewNums: 1,
+        likeNums: 1,
         // content: 1,
         // commentNums: 1,
         _id: 0,
@@ -50,8 +50,6 @@ router.post('/article', async (ctx, next) => {
         title = query.title,
         // author = query.author,
         // commentNums = 0,
-        // readNums = 0,
-        // likeNums = 0,
         mdContent = query.mdContent,
         htmlContent = query.htmlContent;
     // 检测
@@ -106,8 +104,8 @@ router.get('/article', async (ctx, next) => {
         title: 1,
         publishTime: 1,
         articleId: 1,
-        // readNums: 1,
-        // likeNums: 1,
+        viewNums: 1,
+        likeNums: 1,
         mdContent: 1,
         htmlContent: 1,
         // commentNums: 1,
@@ -115,11 +113,22 @@ router.get('/article', async (ctx, next) => {
         _id: 0
     }).exec();
 
+    // 查看记录次数加一
+    try {
+        // 自增 viewNums
+        articleModel.updateOne({
+            articleId
+        }, {
+            viewNums: ++article.viewNums || 0
+        }).exec();
+    } catch(e) {
+
+    }
+
     ctx.body = {
         result: true,
         data: article
     };
-
 });
 // 修改文章内容
 router.put('/article', async (ctx, next) => {
@@ -136,7 +145,7 @@ router.put('/article', async (ctx, next) => {
         mdContent,
         htmlContent,
         brief: mdContent.slice(0, 110)
-    }).exec()
+    }).exec();
 
     ctx.body = {
         result: true,
@@ -156,6 +165,31 @@ router.get('/newest', async (ctx, next) => {
         result: true,
         data: newestArticles
     }
+});
+
+// 点赞+1
+router.get('/likeArticle', async (ctx, next) => {
+    let query = ctx.query,
+        articleId = query.articleId,
+        art = null;
+
+    try {
+        // 查找到对应的数据
+        art = await articleModel.findOne({
+            articleId
+        }).exec();
+        // 自增 likeview
+        articleModel.updateOne({
+            articleId
+        }, {
+            likeNums: ++art.likeNums || 0
+        }).exec();
+    } catch(e) {
+
+    }
+    ctx.body = {
+        result: true
+    };
 });
 
 // 获取当前文章的数量

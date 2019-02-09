@@ -8,7 +8,6 @@ const logger = require('koa-logger')
 const jwtKoa = require('koa-jwt')
 const secret = 'jwt demo'
 
-const index = require('./routes/index')
 const article = require('./routes/article')
 const website = require('./routes/website')
 const login = require('./routes/login')
@@ -32,6 +31,7 @@ app.use(jwtKoa({secret}).unless({
     path: [/^\/api\/loginIn/,
       /^\/api\/newest/,
       /^\/api\/articles/,
+      /^\/api\/likeArticle/,
       /^\/api\/article/,
       /^\/api\/website/] //数组中的路径不需要通过jwt验证
 }))
@@ -45,7 +45,6 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
 app.use(article.routes(), article.allowedMethods())
 app.use(website.routes(), website.allowedMethods())
 app.use(login.routes(), login.allowedMethods())

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Icon, Button } from 'semantic-ui-react';
 
 import filterAction from '../../store/filter/filterAction';
 
@@ -41,10 +42,15 @@ class ArticleDetail extends React.Component {
                 this.setState({
                     title: da.data.title,
                     htmlContent: da.data.htmlContent,
-                    publishTime: da.data.publishTime
+                    publishTime: da.data.publishTime,
+                    likeNums: da.data.likeNums,
+                    viewNums: da.data.viewNums
                 });
             }
         });
+    }
+    likeIt = () => {
+        Http.likeArticle(articleId);
     }
     render() {
         return (
@@ -54,9 +60,17 @@ class ArticleDetail extends React.Component {
                         <h1>{ this.state.title }</h1>
                     </div>
                     <div className="article-meta">
-                        <span className="brief-date">
-                            <i className="glyphicon glyphicon-calendar"></i>&nbsp;
+                        <span className="article-subInfo">
+                            <Icon name="calendar alternate"></Icon>&nbsp;
                             { timeFormat(this.state.publishTime) }
+                        </span>
+                        <span className="article-subInfo">
+                            <Icon name="eye"></Icon>&nbsp;
+                            { this.state.viewNums }次阅读
+                        </span>
+                        <span className="article-subInfo">
+                            <Icon name="thumbs up outline"></Icon>&nbsp;
+                            { this.state.likeNums }次点赞
                         </span>
 {/*                         <span className="brief-comments">
                             <i className="glyphicon glyphicon-comment"></i>&nbsp;
@@ -70,7 +84,10 @@ class ArticleDetail extends React.Component {
                 </div>
                 <div className="article-content" dangerouslySetInnerHTML={{ __html: this.state.htmlContent }} />
                 <div className="article-foot">
-
+                    <Button inverted color='red' onClick={ this.likeIt }>
+                        <Icon name="thumbs up outline"></Icon>&nbsp;
+                        点赞
+                    </Button>
                 </div>
             </div>
         );

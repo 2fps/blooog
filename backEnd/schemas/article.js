@@ -13,15 +13,15 @@ let articleSchema = new mongoose.Schema({
         default: +new Date
     },
     // commentNums: String,     // 评论数量
-    brief: String               // 简略内容
-/*     readNums: {              // 查看数
+    brief: String,              // 简略内容
+    viewNums: {                 // 查看数
         type: Number,
         default: 0
     },
-    likeNums: {              // 赞数
+    likeNums: {                 // 赞数
         type: Number,
         default: 0
-    } */
+    }
 }, {
     versionKey: false
 });

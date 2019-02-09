@@ -20,8 +20,16 @@ export default class ArticleBrief extends React.Component {
                     </Item.Header>
                     <Item.Meta>
                         <span className="article-subInfo">
-                            <Icon name="calendar alternate"></Icon>
+                            <Icon name="calendar alternate"></Icon>&nbsp;
                             { timeFormat(this.props.article.publishTime) }
+                        </span>
+                        <span className="article-subInfo">
+                            <Icon name="eye"></Icon>&nbsp;
+                            { this.props.article.viewNums }次阅读
+                        </span>
+                        <span className="article-subInfo">
+                            <Icon name="thumbs up outline"></Icon>&nbsp;
+                            { this.props.article.likeNums }次点赞
                         </span>
                     </Item.Meta>
                     <Item.Description>
