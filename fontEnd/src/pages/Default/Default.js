@@ -1,9 +1,8 @@
 import React from 'react';
-import { MessageBox} from 'element-react';
 import { connect } from 'react-redux';
 import { Icon, Dropdown, Button, Confirm, Modal, Accordion, Form, Item } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
-import { Message } from 'element-react';
+import Toastr from 'toastr';
 import { createHashHistory } from 'history';
 import {
     Switch,
@@ -24,7 +23,8 @@ class Default extends React.Component{
     constructor() {
         super();
         this.state = {
-            showModiyPass: false,
+            showModiyPass: false,       // 是否显示修改密码的输入框
+            showLoginout: false,        // 是否显示退出的提示
             open: false,
             form: {
                 oldPass: '',
@@ -46,22 +46,16 @@ class Default extends React.Component{
     
         this.setState({ activeIndex: newIndex })
     }
-    onClose() {
-    
-    }
+    // 退出弹出框点击确定，触发退出事件
     loginOut = () => {
-        MessageBox.confirm('确定登出, 是否继续?', '提示', {
-            type: 'warning'
-        }).then(() => {
-            sessionStorage.setItem('token', '');
-            history.push('/login');
-        });
+        // 清除token
+        sessionStorage.setItem('token', '');
+        history.push('/login');
     }
     showModifyPass = () => {
         this.setState({
             open: true
         });
-
     }
     modifyInfo = (e) => {
         let name = e.target.parentElement.getAttribute('data-name'),
@@ -101,10 +95,7 @@ class Default extends React.Component{
                 sessionStorage.setItem('username', '');
 
                 history.push('/login');
-                Message({
-                    message: '修改成功，请重新登录',
-                    type: 'success'
-                });
+                Toastr.success('修改成功，请重新登录!', '提示');
             }
         });
 
@@ -114,8 +105,12 @@ class Default extends React.Component{
     handleConfirm = () => this.setState({ open: false })
     handleCancel = () => this.setState({ open: false })
     handleOpen = () => this.setState({ showModiyPass: true })
+    showLoginout = () => this.setState({ showLoginout: true })
 
-    handleClose = () => this.setState({ showModiyPass: false })
+    handleClose = () => this.setState({
+        showModiyPass: false,
+        showLoginout: false
+    })
     render() {
         const { activeIndex } = this.state
         return (
@@ -124,11 +119,10 @@ class Default extends React.Component{
                     <div className="login-out">
                         <Dropdown text='用户名'>
                             <Dropdown.Menu>
-                                <Dropdown.Item text='登出' onClick={ this.loginOut } />
                                 <Modal
                                     trigger={ <Dropdown.Item onClick={this.handleOpen} text='修改密码'/>}
-                                        open={ this.state.showModiyPass }
-                                        onClose={ this.handleClose }
+                                    open={ this.state.showModiyPass }
+                                    onClose={ this.handleClose }
                                     >
                                     <Modal.Header>密码修改</Modal.Header>
                                     <Modal.Content>
@@ -151,6 +145,20 @@ class Default extends React.Component{
                                         </Modal.Description>
                                     </Modal.Content>
                                 </Modal>
+                                <Modal
+                                    trigger={ <Dropdown.Item text='登出' onClick={ this.showLoginout } />}
+                                    open={ this.state.showLoginout }
+                                    onClose={ this.handleClose }
+                                    size="tiny">
+                                    <Modal.Header>登出</Modal.Header>
+                                    <Modal.Content>
+                                        <p>确定登出吗？</p>
+                                    </Modal.Content>
+                                    <Modal.Actions>
+                                        <Button negative onClick={ this.handleClose }>取消</Button>
+                                        <Button positive onClick={ this.loginOut }>确定</Button>
+                                    </Modal.Actions>
+                                </Modal>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
@@ -164,10 +172,10 @@ class Default extends React.Component{
                 
                 <div>
                     <Accordion className="default-menu">
-                        <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+                        <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick} as="a" href="#default/welcome">
                             <Icon name="list layout" />
                             {/* <Icon name='dropdown' /> */}
-                            <a href="#default/welcome">首页</a>
+                            <span>首页</span>
                         </Accordion.Title>
 
                         <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
@@ -178,20 +186,20 @@ class Default extends React.Component{
                         <Accordion.Content active={activeIndex === 1}>
                             <Item.Group>
                                 <Item>
-                                    <Item.Content verticalAlign='middle'>
-                                        <a href="#default/showallarticle">所有文章</a>
+                                    <Item.Content verticalAlign='middle' as="a" href="#default/showallarticle">
+                                        <span>所有文章</span>
                                     </Item.Content>
                                 </Item>
                                 <Item>
-                                    <Item.Content verticalAlign='middle'>
-                                        <a href="#default/writearticle">写文章</a>
+                                    <Item.Content verticalAlign='middle' as="a" href="#default/writearticle">
+                                        <span>写文章</span>
                                     </Item.Content>
                                 </Item>
                             </Item.Group>
                         </Accordion.Content>
-                        <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}>
+                        <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}  as="a" href="#default/setting">
                             <Icon name="settings" />
-                            <a href="#default/setting">设置</a>
+                            <span>设置</span>
                             {/* <Icon name='dropdown' /> */}
                         </Accordion.Title>
                     </Accordion>

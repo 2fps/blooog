@@ -15,6 +15,7 @@
     background-color: #20222A;
 }
 .default-menu > .title {
+    display: block;
     padding-left: 20px !important;
     padding-right: 20px !important;
     height: 40px;
@@ -49,14 +50,13 @@
 .login-out > span:hover {
     color: #20A0FF;
 }
-.content > .items > .item > div > a {
+.content > .items > .item > a {
+    padding-left: 90px !important;
     color: #fff !important;
     height: 40px;
     line-height: 40px;
 }
 .content > .items > .item {
-    padding-left: 90px;
-    /* padding-bottom: 14px; */
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     background-color: #16181D;

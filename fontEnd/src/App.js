@@ -12,7 +12,7 @@ import {
 
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
-import 'element-theme-default';
+import 'toastr/build/toastr.min.css';
 
 import index from './pages/Index/Index.js';
 import login from './pages/Login/Login.js';

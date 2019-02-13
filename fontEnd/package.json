@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "element-react": "^1.4.26",
-    "element-theme-default": "^1.4.13",
     "for-editor": "0.0.11",
     "history": "^4.7.2",
     "react": "^16.7.0",
@@ -17,7 +15,8 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.84.0"
+    "semantic-ui-react": "^0.84.0",
+    "toastr": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

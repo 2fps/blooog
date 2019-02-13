@@ -66,7 +66,7 @@ export default class Welcome extends React.Component {
                     </Card>
                     <Card>
                         <Card.Content>
-                            <Card.Header className="text-center">总预览数数</Card.Header>
+                            <Card.Header className="text-center">总预览数</Card.Header>
                         </Card.Content>
                         <Card.Content>
                             <Statistic.Group>

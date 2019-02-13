@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Editor from 'for-editor';
+import Toastr from 'toastr';
 
-import { Message } from 'element-react';
 import {
     Form, 
     Input, 
@@ -103,20 +103,14 @@ function handleSuccess(data) {
     let da = data.data;
 
     if (da.result) {
-        Message({
-            message: '发布成功',
-            type: 'success'
-        });
+        Toastr.success('发布成功!', '提示');
     } else {
         handleError();
     }
 }
 
 function handleError() {
-    Message({
-        message: '发布失败',
-        type: 'error'
-    });
+    Toastr.error('发布失败!', '提示');
 }
 
 const mapStateToProps = (state) => {

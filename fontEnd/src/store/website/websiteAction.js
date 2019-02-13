@@ -1,5 +1,5 @@
 import websiteActionType from './websiteActionType';
-import { Message } from 'element-react';
+import Toastr from 'toastr';
 
 import * as Http from '../../api/http';
 
@@ -38,10 +38,7 @@ export default {
                 let da = data.data;
 
                 if (da.result) {
-                    Message({
-                        message: '保存成功',
-                        type: 'success'
-                    });
+                    Toastr.success('保存成功!', '提示');
                 } else {
                     handleError();
                 }
@@ -57,8 +54,5 @@ export default {
 }
 
 function handleError() {
-    Message({
-        message: '保存失败',
-        type: 'error'
-    });
+    Toastr.error('保存失败!', '提示');
 }

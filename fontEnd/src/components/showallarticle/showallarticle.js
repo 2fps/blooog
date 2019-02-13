@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, Dialog, Message } from 'element-react';
-import { Table, Pagination } from 'semantic-ui-react'
+import { Table, Pagination, Modal, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
+import Toastr from 'toastr';
 
 import * as Http from '../../api/http';
+import { timeFormat } from '../../util/tool';
 
 import filterAction from '../../store/filter/filterAction';
 
@@ -28,13 +29,13 @@ class ShowAllArticle extends React.Component {
         this.props.getArticles();
     }
     modifyRow = (e) => {
-        let articleId = e.target.parentElement.parentElement.getAttribute('data-id');
+        let articleId = e.target.parentElement.getAttribute('data-id');
 
         history.push('/default/writearticle');
         this.props.changeState('modify', articleId);
     }
     deleteRow = (e) => {
-        let articleId = e.target.parentElement.parentElement.getAttribute('data-id');
+        let articleId = e.target.parentElement.getAttribute('data-id');
 
         this.setState({ dialogVisible: true });
         deleteRowId = articleId;
@@ -46,16 +47,13 @@ class ShowAllArticle extends React.Component {
         });
         Http.deleteArticle(deleteRowId).then((data) => {
             if (data.data.result) {
-                Message({
-                    message: '删除成功',
-                    type: 'success'
-                });
+                Toastr.success('删除成功!', '提示');
                 this.props.getArticles();
             } else {
-                Message.error('删除失败');
+                Toastr.error('删除失败!', '提示');
             }
         }, () => {
-            Message.error('删除失败');
+            Toastr.error('删除失败!', '提示');
         });
     }
     currentChange = (e, data) => {
@@ -74,9 +72,12 @@ class ShowAllArticle extends React.Component {
                 <Table.Row key={ ind }>
                     <Table.Cell>{ ind + 1 }</Table.Cell>
                     <Table.Cell>{ item.title }</Table.Cell>
+                    <Table.Cell>{ timeFormat(item.publishTime) }</Table.Cell>
+                    <Table.Cell>{ item.viewNums }</Table.Cell>
+                    <Table.Cell>{ item.likeNums }</Table.Cell>
                     <Table.Cell data-id={ item.articleId }>
-                        <Button plain={true} type="info" onClick={ this.modifyRow } size="small">编辑</Button>
-                        <Button type="danger" onClick={ this.deleteRow } size="small">删除</Button>
+                        <Button onClick={ this.modifyRow } size="small">编辑</Button>
+                        <Button color="red" onClick={ this.deleteRow } size="small">删除</Button>
                     </Table.Cell>
                 </Table.Row>
             );
@@ -96,6 +97,9 @@ class ShowAllArticle extends React.Component {
                         <Table.Row>
                             <Table.HeaderCell>序号</Table.HeaderCell>
                             <Table.HeaderCell>文章名称</Table.HeaderCell>
+                            <Table.HeaderCell>时间</Table.HeaderCell>
+                            <Table.HeaderCell>阅读数</Table.HeaderCell>
+                            <Table.HeaderCell>点赞数</Table.HeaderCell>
                             <Table.HeaderCell>操作</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
@@ -115,21 +119,19 @@ class ShowAllArticle extends React.Component {
                     />
                 </div>
 
-                <Dialog
-                    title="提示"
-                    size="tiny"
-                    visible={ this.state.dialogVisible }
-                    onCancel={ () => this.setState({ dialogVisible: false }) }
-                    lockScroll={ false }
-                >
-                    <Dialog.Body>
-                    <span>是否删除？</span>
-                    </Dialog.Body>
-                    <Dialog.Footer className="dialog-footer">
-                        <Button onClick={ () => this.setState({ dialogVisible: false }) }>取消</Button>
-                        <Button type="danger" onClick={ this.deleteArticle }>确定</Button>
-                    </Dialog.Footer>
-                </Dialog>
+                <Modal
+                    open={ this.state.dialogVisible }
+                    onClose={ () => this.setState({ dialogVisible: false }) }
+                    size="tiny">
+                    <Modal.Header>提示</Modal.Header>
+                    <Modal.Content>
+                        <p>确定删除吗？</p>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button negative onClick={ () => this.setState({ dialogVisible: false }) }>取消</Button>
+                        <Button positive onClick={ this.deleteArticle }>确定</Button>
+                    </Modal.Actions>
+                </Modal>
             </div>
         );
     }

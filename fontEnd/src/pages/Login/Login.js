@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
-import { Form, Input, Button } from 'semantic-ui-react';
+import { Form, Input, Button, Message} from 'semantic-ui-react';
 
 import userAction from '../../store/user/userAction';
 import * as Http from '../../api/http';
@@ -54,14 +54,16 @@ class Login extends React.Component {
         let username = e.target.value;
 
         this.setState({
-            username
+            username,
+            formError: false
         });
     }
     modifyPass = (e) => {
         let password = e.target.value;
 
         this.setState({
-            password
+            password,
+            formError: false
         });
     }
     render() {
@@ -75,6 +77,14 @@ class Login extends React.Component {
                     <Form.Field required error={ this.state.formError }>
                         <label>密码：</label>
                         <Input placeholder="密码" value={ this.state.password } onChange={ this.modifyPass } type="password" />
+                    </Form.Field>
+                    <Form.Field>
+                        <Message
+                            className={`${this.state.formError ? 'block' : 'hiden'}`}
+                            error
+                            header='登录失败'
+                            content='用户名或密码错误！'
+                        />
                     </Form.Field>
                     <Button content="登录" secondary onClick={ this.loginIn } />
                 </Form>
