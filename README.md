@@ -3,7 +3,7 @@ blooog
 基于semantic-ui-react + react + koa2 + mongodb的个人博客，目前仍在开发中，只有很简单的功能。
 
 技术栈：
-UI: semantic-ui、element-react（仅message组件，后期删除）。  
+UI: semantic-ui、toastr(全局提示组件)。  
 JS：React、react-router、redux、redux-thunk。  
 服务端: koa2。  
 数据库: mongodb（mongoose）。  
@@ -42,7 +42,7 @@ npm run build
 此文件夹下存放的是服务端代码。
 
 ### 默认基础配置
-在/config文件夹下的config.js中，可以设置默认用户的账户名和密码（服务器启动后会写入数据库），请启动前修改，或启动后修改密码。  
+在config文件夹下的config.js中，可以设置默认用户的账户名和密码（服务器启动后会写入数据库），请启动前修改，或启动后修改密码。  
 更多配置修改和设置在后期提供。
 
 ### 安装依赖
