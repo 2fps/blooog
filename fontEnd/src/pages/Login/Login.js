@@ -5,6 +5,8 @@ import { Form, Input, Button, Message} from 'semantic-ui-react';
 
 import userAction from '../../store/user/userAction';
 import * as Http from '../../api/http';
+// import { JSEncrypt } from  '../../static/js/jsencrypt.min.js';
+import { JSEncrypt } from 'jsencrypt';
 
 import './Login.scss';
 
@@ -30,25 +32,45 @@ class Login extends React.Component {
             formError: false
         });
 
-        Http.loginIn(username, password).then((data) => {
-            let da = data.data;
+        // 获取公钥
+        Http.getPublicKey().then((da) => {
+            let publicKey = da.data.secret,
+                encrypt = new JSEncrypt();
 
-            if (da.result) {
-                // 成功
-                sessionStorage.setItem('token', da.token);
-                sessionStorage.setItem('username', username);
+            encrypt.setPublicKey(publicKey);
+            // 加密密码
+            password = encrypt.encrypt(password);
 
-                history.push('/default/welcome');
-            }
-        }).catch(() => {
-
-        })
-        .then(() => {
-            this.setState({
-                isLogining: false,
-                formError: true
+            Http.loginIn(username, password).then((data) => {
+                let da = data.data;
+            
+                if (da.result) {
+                    // 成功
+                    sessionStorage.setItem('token', da.token);
+                    sessionStorage.setItem('username', username);
+            
+                    history.push('/default/welcome');
+                }
+            }).catch(() => {
+            
+            })
+            .then(() => {
+                this.setState({
+                    isLogining: false,
+                    formError: true
+                });
             });
         });
+/*         // 发送私钥去解密
+        fetch('/decryption', {
+            method: 'POST',
+            body: JSON.stringify({value:encrypted})
+        }).then(function(data) {
+            return data.text();
+        }).then(function(value) {
+            console.log(value);
+        }); */
+
     }
     modifyUser = (e) => {
         let username = e.target.value;

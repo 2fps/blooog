@@ -105,3 +105,12 @@ export function likeArticle(articleId) {
         return response;
     });
 }
+/**
+ * 获取登录密钥的公钥
+ */
+export function getPublicKey() {
+    return axios.get('/api/publicKey')
+    .then(function(response) {
+        return response;
+    });
+}

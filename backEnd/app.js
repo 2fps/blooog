@@ -11,6 +11,7 @@ const secret = 'jwt demo'
 const article = require('./routes/article')
 const website = require('./routes/website')
 const login = require('./routes/login')
+const security = require('./routes/security')
 
 // error handler
 onerror(app)
@@ -33,6 +34,7 @@ app.use(jwtKoa({secret}).unless({
       /^\/api\/articles/,
       /^\/api\/likeArticle/,
       /^\/api\/article/,
+      /^\/api\/publicKey/,
       /^\/api\/website/] //数组中的路径不需要通过jwt验证
 }))
 
@@ -48,6 +50,7 @@ app.use(async (ctx, next) => {
 app.use(article.routes(), article.allowedMethods())
 app.use(website.routes(), website.allowedMethods())
 app.use(login.routes(), login.allowedMethods())
+app.use(security.routes(), security.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

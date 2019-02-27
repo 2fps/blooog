@@ -1,17 +1,21 @@
 const router = require('koa-router')();
 const userModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
+const RSA = require('../util/RSA.js');
 
 router.prefix('/api');
 
 router.post('/loginIn', async (ctx, next) => {
-    const crypto = require('crypto');
-    let hash = crypto.createHash('md5'),
+    let crypto = require('crypto'),
+        hash = crypto.createHash('md5'),
         query = ctx.request.body,
         username = query.username,
-        password = hash.update(query.password).digest('base64'),
-        res = null;
+        password = query.password,
+        // RSA解密
+        decrypted = RSA.key.decrypt(password, 'utf8');
+
+    // console.log('decrypted: ', decrypted);
+    password = hash.update(decrypted).digest('base64');
 
     let info = await userModel.findOne({username}).exec();
 
