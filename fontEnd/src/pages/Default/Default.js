@@ -15,6 +15,7 @@ import Welcome from '../../components/welcome/welcome';
 import Showallarticle from '../../components/showallarticle/showallarticle';
 import Writearticle from '../../components/writearticle/writearticle';
 import Setting from '../../components/setting/setting';
+import TagSetting from '../../pages/back/tagSetting/tagSetting.js';
 
 import './Default.scss';
 const history = createHashHistory();
@@ -195,6 +196,11 @@ class Default extends React.Component{
                                         <span>写文章</span>
                                     </Item.Content>
                                 </Item>
+                                <Item>
+                                    <Item.Content verticalAlign='middle' as="a" href="#default/tagsetting">
+                                        <span>标签</span>
+                                    </Item.Content>
+                                </Item>
                             </Item.Group>
                         </Accordion.Content>
                         <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}  as="a" href="#default/setting">
@@ -209,6 +215,7 @@ class Default extends React.Component{
                             <Route path="/default/showallarticle" component={ Showallarticle }/>
                             <Route path="/default/writearticle" component={ Writearticle }/>
                             <Route path="/default/setting" component={ Setting }/>
+                            <Route path="/default/tagsetting" component={ TagSetting }/>
                         </Switch>
                     </div>
                 </div>

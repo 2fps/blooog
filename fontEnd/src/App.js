@@ -11,7 +11,8 @@ import {
 } from 'react-router-dom';
 
 import 'semantic-ui-css/semantic.min.css';
-import './App.css';
+// import './App.css';
+import './scss/main.scss';
 import 'toastr/build/toastr.min.css';
 
 import index from './pages/Index/Index.js';

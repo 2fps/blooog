@@ -5,8 +5,11 @@ blooog
 技术栈：
 UI: semantic-ui、toastr(全局提示组件)。  
 JS：React、react-router、redux、redux-thunk。  
-服务端: koa2。  
+服务端: koa2 + typescript(逐步替换js)。  
 数据库: mongodb（mongoose）。  
+
+demo地址：http://132.232.131.250:3000    admin / admin  
+上域名太麻烦了，请轻测。  
 
 主要目的：  
 1.练习无法在工作中使用的技术栈。  

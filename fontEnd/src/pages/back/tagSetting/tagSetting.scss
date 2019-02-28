@@ -1,0 +1,12 @@
+.side-con {
+    display: flex;
+    & > .left-side {
+        width: 300px;
+        & > .side-title {
+            font-size: 24px;
+        }
+    }
+    & > .left-right {
+        flex: 1;
+    }
+}
