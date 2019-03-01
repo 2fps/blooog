@@ -1,5 +1,6 @@
 .side-con {
     display: flex;
+    justify-content: space-between;
     & > .left-side {
         width: 300px;
         & > .side-title {
@@ -7,6 +8,7 @@
         }
     }
     & > .left-right {
+        margin-left: 20px;
         flex: 1;
     }
 }

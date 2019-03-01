@@ -31,7 +31,7 @@ class Index extends React.Component {
         };
     }
     componentDidMount() {
-        this.props.getTags();
+        // this.props.getTags();
         this.props.getNewestArticle();
         this.props.getWebsiteConifg();
         // 计算，获取文章

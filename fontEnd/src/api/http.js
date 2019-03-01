@@ -48,6 +48,7 @@ export function loginIn(username, password) {
     });
 }
 
+// 修改密码
 export function modifyPass(username, oldpass, newpass) {
     return axios.put('/api/user', {
         username,
@@ -111,6 +112,38 @@ export function likeArticle(articleId) {
 export function getPublicKey() {
     return axios.get('/api/publicKey')
     .then(function(response) {
+        return response;
+    });
+}
+
+export function getTags(start, end) {
+    return axios.get('/api/tag?start=' + start + '&end=' + end)
+        .then(function(response) {
+            return response;
+        });
+}
+
+export function addTag(tagName, tagNum) {
+    return axios.post('/api/tag', {
+        tagName,
+        tagNum
+    }).then(function(response) {
+        return response;
+    });
+}
+
+
+export function removeTag(tagName) {
+    return axios.delete('/api/tag?tagName=' + tagName)
+        .then(function(response) {
+            return response;
+        });
+}
+export function updateTag(tagName, newName) {
+    return axios.put('/api/tag', {
+        tagName,
+        newName
+    }).then(function(response) {
         return response;
     });
 }

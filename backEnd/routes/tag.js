@@ -71,8 +71,8 @@ router.put('/tag', async (ctx, next) => {
 });
 // 删除
 router.delete('/tag', async (ctx, next) => {
-    let body = ctx.request.body,
-        tagName = body.tagName,
+    let query = ctx.query,
+        tagName = query.tagName,
         res = {
             result: true
         };
