@@ -7,11 +7,13 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const jwtKoa = require('koa-jwt')
 const secret = 'jwt demo'
+const log4js = require('./util/log4js')
 
 const article = require('./routes/article')
 const website = require('./routes/website')
 const login = require('./routes/login')
 const security = require('./routes/security')
+const tag = require('./routes/tag')
 
 // error handler
 onerror(app)
@@ -34,6 +36,7 @@ app.use(jwtKoa({secret}).unless({
       /^\/api\/articles/,
       /^\/api\/likeArticle/,
       /^\/api\/article/,
+      /^\/api\/tag/,
       /^\/api\/publicKey/,
       /^\/api\/website/] //数组中的路径不需要通过jwt验证
 }))
@@ -44,6 +47,7 @@ app.use(async (ctx, next) => {
   await next()
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+  log4js.resLogger(ctx, ms)
 })
 
 // routes
@@ -51,10 +55,12 @@ app.use(article.routes(), article.allowedMethods())
 app.use(website.routes(), website.allowedMethods())
 app.use(login.routes(), login.allowedMethods())
 app.use(security.routes(), security.allowedMethods())
+app.use(tag.routes(), tag.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
+  log4js.errLogger(ctx, err)
 });
 
 // 数据库连接

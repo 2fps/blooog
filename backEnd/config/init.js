@@ -1,13 +1,14 @@
 // 注册 admin/admin 的用户
-const userModel = require('../models/userModel');
-const crypto = require('crypto');
+const UserModel = require('../models/userModel');
+const TagModel = require('../models/tagModel');
+
 let initConfig = require('./config.js');
 let MD5 = require('../util/MD5').MD5;
-
-userModel.findOne({}).exec().then((doc) => {
+// 检测用户
+UserModel.findOne({}).exec().then((doc) => {
     if (!doc) {
         // 没有用户则新建
-        let user = new userModel({
+        let user = new UserModel({
             username: initConfig.username,
             email: '',
             registerTime: '',
@@ -16,5 +17,9 @@ userModel.findOne({}).exec().then((doc) => {
     
         user.save();
     }
+});
+
+// 
+TagModel.findOne({}).exec().then((doc) => {
 
 });
