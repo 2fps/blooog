@@ -51,12 +51,15 @@ router.post('/article', async (ctx, next) => {
         // author = query.author,
         // commentNums = 0,
         mdContent = query.mdContent,
-        htmlContent = query.htmlContent;
+        htmlContent = query.htmlContent,
+        timeStamp = +new Date();
     // 检测
     let art = new articleModel({
         title,
         mdContent,
         htmlContent,
+        articleId: timeStamp,
+        publishTime: timeStamp,
         brief: mdContent.slice(0, 110)
     });
 

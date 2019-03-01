@@ -16,7 +16,7 @@ demo地址：http://132.232.131.250:3000    admin / admin
 2.一直都想有个自己写的博客，可以随时替换一些功能，顺便替换现在的博客。
 
 文档详细地址：https://www.kancloud.cn/fps_2fps/test1/937003  
-API详细地址：构建中......  
+API详细地址：https://www.showdoc.cc/234860389352945?page_id=1338365306594574  
 修改记录地址：https://github.com/2fps/blooog/wiki/ModifyRecord  
 
 ## fontEnd
