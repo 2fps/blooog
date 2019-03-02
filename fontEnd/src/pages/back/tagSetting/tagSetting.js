@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Modal, Button, Form, Table } from 'semantic-ui-react';
+import { Input, Modal, Button, Form, Table, Pagination } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as Http from '../../../api/http';
 import TagAction from '../../../store/tags/tagsAction';
@@ -42,6 +42,13 @@ class TagSetting extends React.Component {
         );
     }
     addNewTag = () => {
+        let newTag = this.state.tagName.trim();
+
+        if (!newTag) {
+            Toastr.warning('请输入标签名称', '提示');
+
+            return;
+        }
         // this.props.addTag(this.state.tagName);
         Http.addTag(this.state.tagName).then((data) => {
             let da = data.data;
@@ -121,6 +128,13 @@ class TagSetting extends React.Component {
             this.props.getTags();
         });
     }
+    currentChange = (e, data) => {
+        let curPage = data.activePage,
+            start = (curPage - 1) * this.props.pageSize,
+            end = curPage * this.props.pageSize;
+
+        this.props.getTags(start, end);
+    }
     render() {
         return (
             <div className="side-con">
@@ -150,6 +164,19 @@ class TagSetting extends React.Component {
                         </Table.Header>
                         { this.renderTableBody() }
                     </Table>
+                    {/* 分页 */}
+                    <div className="text-center">
+                        <Pagination
+                            boundaryRange={0}
+                            defaultActivePage={1}
+                            ellipsisItem={null}
+                            firstItem={null}
+                            lastItem={null}
+                            siblingRange={1}
+                            totalPages={ Math.ceil(this.props.nums / 10) }
+                            onPageChange={ this.currentChange }
+                        />
+                    </div>
                 </div>
                 {/* 编辑提示框 */}
                 <Modal
@@ -199,7 +226,9 @@ class TagSetting extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        tags: state.tags
+        tags: state.tags.data,
+        pageSize: state.tags.pageSize,
+        nums: state.tags.nums
     }
 };
 

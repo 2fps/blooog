@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'semantic-ui-react';
 
 import './tags.scss';
 
@@ -11,9 +12,7 @@ export default class Tags extends React.Component {
 
         this.props.tags.forEach((item, ind) => {
             temp.push(
-                <span className="tags-item" key={ ind }>
-                    <a title={ item.alias }>{ item.name }</a>
-                </span>
+                <Button className="tag-item" size='tiny' content={ item.tagName } basic key={ ind } />
             );
         });
 

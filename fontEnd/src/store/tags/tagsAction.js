@@ -11,7 +11,7 @@ export default {
                     info = [];
 
                 if (da.result) {
-                    info = da.data.tags;
+                    info = da.data;
                 }
                 dispatch({
                     type: tagsActionType.GETTAGS,

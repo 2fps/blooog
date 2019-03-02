@@ -9,7 +9,7 @@ import { Responsive, Segment } from 'semantic-ui-react'
 
 import AllArticles from '../../components/allArticles/allArticles';
 import Header from '../../components/header/header';
-// import Tags from '../../components/tags/tags';
+import Tags from '../../components/tags/tags';
 import Newest from '../../components/newest/newest';
 import Footer from '../../components/footer/footer';
 import ArticleDetail from '../../components/articleDetail/articleDetail';
@@ -31,7 +31,7 @@ class Index extends React.Component {
         };
     }
     componentDidMount() {
-        // this.props.getTags();
+        this.props.getTags();
         this.props.getNewestArticle();
         this.props.getWebsiteConifg();
         // 计算，获取文章
@@ -50,9 +50,9 @@ class Index extends React.Component {
                         <Newest
                             newest={ this.props.newestArticles }
                             />
-                        {/* <Tags
+                        <Tags
                             tags={ this.props.tags }
-                            /> */}
+                            />
                     </Responsive>
                     <Responsive className="content-brief">
                         <Route path="/index/main" component={ AllArticles }/>
@@ -68,7 +68,7 @@ class Index extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        // tags: state.tags,
+        tags: state.tags.data,
         newestArticles: state.filter.newestArticles,
         website: state.website,                 // 站点配置信息
         pageSize: state.filter.pageSize,

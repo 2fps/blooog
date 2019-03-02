@@ -1,24 +1,23 @@
 .article-tags {
-    margin: 15px 0;
+    margin: 20px 0;
 }
 .tags-head {
-    font-size: 2rem;
+    font-size: 20px;
     font-weight: 700;
     margin: 20px 0 12px;
 }
 .tags-list {
     list-style: none;
 }
-.tags-item {
-    color: #666;
-    margin: 5px 0;
+.tag-item {
+    margin-bottom: 10px !important;
 }
-.tags-item > a {
+.tag-item > a {
     color: #666 !important;
     cursor: pointer;
     font-size: 1.4rem;
 }
-.tags-item:hover > a {
+.tag-item:hover > a {
     color: #333 !important;
 }
 .tags-content > span > a {

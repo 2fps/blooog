@@ -1,14 +1,19 @@
 import tagsActionType from './tagsActionType';
 
-let tags = [];
+let tags = {
+    data: [],               // 总的数据
+    nums: 0,                 // 数据量
+    pageSize: 10            // 表格分页
+};
 
 export default function counter(state = tags, action) {
     switch (action.type) {
         case tagsActionType.GETTAGS:
 
-            state = [...action.data];
-
-            return state;
+            return Object.assign({}, state, {
+                data: [...action.data.tags],
+                nums: action.data.nums
+            })
         default:
             return state;
     }
