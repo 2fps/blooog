@@ -1,5 +1,6 @@
 const router = require('koa-router')();
 const RSA = require('../util/RSA.js');
+const errorCode = require('../util/errorCode');
 
 router.prefix('/api');
 
@@ -9,6 +10,7 @@ router.prefix('/api');
 router.get('/publicKey', async (ctx, next) => {
     ctx.body = {
         result: true,
+        code: 10000,
         secret: RSA.publicKey
     }
 });

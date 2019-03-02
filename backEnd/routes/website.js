@@ -1,5 +1,6 @@
 const router = require('koa-router')();
 const websiteModel = require('../models/websiteModel');
+const errorCode = require('../util/errorCode');
 
 router.prefix('/api/website');
 
@@ -12,6 +13,8 @@ router.get('/', async (ctx, next) => {
 
         res = {
             result: true,
+            code: 10000,
+            msg: errorCode.codeMessage[10000],
             data: {
                 siteName: website.siteName,
                 subTitle: website.subTitle,
@@ -20,10 +23,7 @@ router.get('/', async (ctx, next) => {
             }
         };
     } catch (err) {
-        res = {
-            result: false,
-            msg: '异常'
-        };
+        res = errorCode.errorMsg(20006);
     }
 
     ctx.body = res;
@@ -36,22 +36,28 @@ router.post('/', async (ctx, next) => {
             subTitle: body.subTitle,
             siteUrl: body.siteUrl,
             webRecord: body.webRecord
+        },
+        res = {
+            result: true,
+            code: 10000
         };
-    let count = await websiteModel.count({}).exec();
 
-    if (count > 0) {
-        // 更新
-        websiteModel.update({}, data).exec();
-    } else {
-        let website = new websiteModel(data);
-
-        website.save();
+    try {
+        let count = await websiteModel.count({}).exec();
+    
+        if (count > 0) {
+            // 更新
+            websiteModel.update({}, data).exec();
+        } else {
+            let website = new websiteModel(data);
+    
+            website.save();
+        }
+    } catch(e) {
+        res = errorCode.errorMsg(20000);
     }
         
-    ctx.body = {
-        result: true,
-        msg: ''
-    };
+    ctx.body = res;
 });
 
 module.exports = router;

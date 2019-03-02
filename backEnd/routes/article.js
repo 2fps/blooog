@@ -1,5 +1,7 @@
 const router = require('koa-router')();
 const articleModel = require('../models/articleModel');
+const errorCode = require('../util/errorCode');
+
 
 router.prefix('/api');
 
@@ -9,6 +11,10 @@ router.get('/articles', async (ctx, next) => {
     let query = ctx.query,
         start = query.start - 0,
         end = query.end - 0,
+        res = {
+            result: true,
+            code: 10000
+        }
         search = query.search;      // 搜索结果
 
     // 强制赋值查询的范围
@@ -37,6 +43,7 @@ router.get('/articles', async (ctx, next) => {
     // changeID(articles);
 
     ctx.body = {
+        code: 10000,
         result: true,
         msg: '',
         data: articles.slice(0, 10),
@@ -68,6 +75,7 @@ router.post('/article', async (ctx, next) => {
         // 其他操作，如发送注册邮件
         ctx.body = {
             result: true,
+            code: 10000,
             msg: '发布成功'
         }
     } catch(err) {
@@ -80,21 +88,21 @@ router.post('/article', async (ctx, next) => {
 
 // 文章删除
 router.delete('/article', async (ctx, next) => {
-    let articleId = ctx.query.articleId;
-    let result = false;
+    let articleId = ctx.query.articleId,
+        res = {
+            result: true,
+            code: 10000
+        };
     
     try {
         articleModel.deleteOne({
             articleId
         }).exec();
-        result = true;
     } catch(err) {
-        result = false;
+        res = errorCode.errorMsg(20004);
     }
 
-    ctx.body = {
-        result
-    }
+    ctx.body = res;
 });
 
 // 获取文章的具体内容
@@ -114,7 +122,12 @@ router.get('/article', async (ctx, next) => {
         // commentNums: 1,
         // brief: 1,
         _id: 0
-    }).exec();
+    }).exec(),
+        res = {
+            result: true,
+            code: 10000,
+            data: article
+        };
 
     // 查看记录次数加一
     try {
@@ -125,13 +138,10 @@ router.get('/article', async (ctx, next) => {
             viewNums: ++article.viewNums || 0
         }).exec();
     } catch(e) {
-
+        res = errorCode.errorMsg(20000);
     }
 
-    ctx.body = {
-        result: true,
-        data: article
-    };
+    ctx.body = res;
 });
 // 修改文章内容
 router.put('/article', async (ctx, next) => {
@@ -139,42 +149,56 @@ router.put('/article', async (ctx, next) => {
         articleId = body.articleId,
         title = body.title,
         mdContent = body.mdContent,
-        htmlContent = body.htmlContent;
+        htmlContent = body.htmlContent,
+        res = {
+            result: true,
+            code: 10000
+        };
+    try {
+        articleModel.updateOne({
+            articleId
+        }, {
+            title,
+            mdContent,
+            htmlContent,
+            brief: mdContent.slice(0, 110)
+        }).exec();
+    } catch (e) {
+        res = errorCode.errorMsg(20005);
+    }
 
-    articleModel.updateOne({
-        articleId
-    }, {
-        title,
-        mdContent,
-        htmlContent,
-        brief: mdContent.slice(0, 110)
-    }).exec();
-
-    ctx.body = {
-        result: true,
-        msg: '更新成功'
-    };
+    ctx.body = res;
 });
 // 获取最新的文章信息
 router.get('/newest', async (ctx, next) => {
-    let newestArticles = await articleModel.find({}, {
-        articleId: 1,
-        title: 1,
-        articleId: 1,
-        _id: 0
-    }).sort({'_id':-1}).limit(6).exec();
-
-    ctx.body = {
+    let res = {
         result: true,
-        data: newestArticles
+        code: 10000
+    };
+    try {
+        let newestArticles = await articleModel.find({}, {
+            articleId: 1,
+            title: 1,
+            articleId: 1,
+            _id: 0
+        }).sort({'_id':-1}).limit(6).exec();
+        res.data = newestArticles;
+    } catch (e) {
+        res = errorCode.errorMsg(20000);
     }
+
+    ctx.body = res;
 });
 
 // 点赞+1
 router.get('/likeArticle', async (ctx, next) => {
     let query = ctx.query,
         articleId = query.articleId,
-        art = null;
+        art = null,
+        res = {
+            result: true,
+            code: 10000
+        }
 
     try {
         // 查找到对应的数据
@@ -188,23 +212,29 @@ router.get('/likeArticle', async (ctx, next) => {
             likeNums: ++art.likeNums || 0
         }).exec();
     } catch(e) {
-
+        res = errorCode.errorMsg(20000);
     }
-    ctx.body = {
-        result: true
-    };
+    ctx.body = res;
 });
 
 // 获取当前文章的数量
 router.get('/articlesNum', async (ctx, next) => {
-    let num = await articleModel.getArticlesNumber();
-
-    ctx.body = {
+    let res = {
         result: true,
-        data: {
+        code: 10000
+    },
+        num;
+
+    try {
+        num = await articleModel.getArticlesNumber();
+        res.data = {
             num
-        }
-    };
+        };
+    } catch (e) {
+        res = errorCode.errorMsg(20000);
+    }
+
+    ctx.body = res;
 });
 
 module.exports = router;

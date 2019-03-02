@@ -2,6 +2,7 @@ const router = require('koa-router')();
 const userModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const RSA = require('../util/RSA.js');
+const errorCode = require('../util/errorCode');
 
 router.prefix('/api');
 
@@ -26,14 +27,12 @@ router.post('/loginIn', async (ctx, next) => {
         const token = jwt.sign(userToken, 'jwt demo', {expiresIn: '1h'})  //token签名 有效期为1小时
         res = {
             result: true,
+            code: 10000,
             msg: '登录成功',
             token
         };
     } else {
-        res = {
-            result: false,
-            msg: '用户名或密码错误'
-        };
+        res = errorCode.errorMsg(20007);
     }
 
     ctx.body = res;
@@ -57,9 +56,9 @@ router.put('/user', async (ctx, next) => {
         userModel.updateOne({username}, {
             password: newpass
         }).exec();
-        res = {result: true};
+        res = {result: true, code: 10000};
     } else {
-        res = {result: false};
+        res = errorCode.errorMsg(20008);
         // 老密码错误
     }
     ctx.body = res;

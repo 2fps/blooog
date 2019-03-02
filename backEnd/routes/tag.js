@@ -1,5 +1,6 @@
 const router = require('koa-router')();
 const TagModel = require('../models/tagModel');
+const errorCode = require('../util/errorCode');
 
 router.prefix('/api');
 
@@ -13,6 +14,7 @@ router.get('/tag', async (ctx, next) => {
         end = query.end - 0 || 0,
         res = {
             result: true,
+            code: 10000,
             data: {}
         }
     
@@ -20,7 +22,7 @@ router.get('/tag', async (ctx, next) => {
         res.data.tags = await TagModel.getTags(start, end);
         res.data.nums = await TagModel.getTagsNum();
     } catch(e) {
-        res.result = false;
+        res.result = errorCode.errorMsg(20006);
     }
 
     ctx.body = res;
@@ -37,14 +39,14 @@ router.post('/tag', async (ctx, next) => {
         }),
         res = {
             result: true,
-            msg: 'save success'
+            code: 10001,
+            msg: errorCode.codeMessage[10001]
         };
     
     try {
         tag.save();
     } catch(e) {
-        res.result = false;
-        res.msg = 'save error!';
+        res = errorCode.errorMsg[20000];
     }
     
     ctx.body = res;
@@ -56,15 +58,16 @@ router.put('/tag', async (ctx, next) => {
         tagName = body.tagName,
         newName = body.newName,
         res = {
-            result: true
+            result: true,
+            code: 10004,
+            msg: errorCode.codeMessage[10004]
         };
 
     try {
         // 更新tag标签名
         await TagModel.updateTagName(tagName, newName);
     } catch(e) {
-        res.result = false;
-        res.msg = 'update error'
+        res = errorCode.errorMsg[20005];
     }
 
     ctx.body = res;
@@ -74,13 +77,15 @@ router.delete('/tag', async (ctx, next) => {
     let query = ctx.query,
         tagName = query.tagName,
         res = {
-            result: true
+            result: true,
+            code: 10003,
+            msg: errorCode.codeMessage[10003]
         };
 
     try {
         await TagModel.removeTag(tagName);
     } catch(e) {
-        res.result = false;
+        res = errorCode.errorMsg[20004];
     }
 
     ctx.body = res;
