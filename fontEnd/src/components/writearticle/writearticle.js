@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Editor from 'for-editor';
 import Toastr from 'toastr';
+import tagsAction from '../../store/tags/tagsAction';
 
 import {
     Form, 
     Input, 
+    Grid,
+    Dropdown,
     Button } from 'semantic-ui-react'
 
 import * as Http from '../../api/http';
@@ -15,24 +18,24 @@ import './writearticle.scss';
 
 class WriteArticle extends React.Component {
     constructor() {
-        super()
+        super();
         this.state = {
             value: '',
             form: {},
             title: '',
             art: {
                 title: ''
-            }
-        }
+            },
+            tags: []
+        };
     }
     handleChange(value) {
         this.setState({
             value
-        })
+        });
     }
-    onChange = (e, data) => {
-        let name = e.target.parentElement.getAttribute('data-name'),
-            value = data.value;
+    onChange = (e) => {
+        let value = e.target.value;
 
         this.setState({
             title: value
@@ -44,6 +47,8 @@ class WriteArticle extends React.Component {
         condition.mdContent = this.state.value;
         condition.title = this.state.title;
         condition.htmlContent = document.getElementsByClassName('for-preview for-markdown-preview')[0].innerHTML;
+        // 增加文章的tags
+        condition.tagsId = this.state.tags;
 
         if ('modify' === this.props.articleState) {
             // 标记id
@@ -67,14 +72,23 @@ class WriteArticle extends React.Component {
                 if (info.result) {
                     this.setState({
                         value: info.data.mdContent,
-                        title: info.data.title
+                        title: info.data.title,
+                        tags: info.data.tagsId
                     });
                 }
             });
         }
+        this.props.getTags();
     }
     componentWillUnmount() {
         this.props.changeState('', '');
+    }
+    changeTag = (e, data) => {
+        let tags = data.value;
+
+        this.setState({
+            tags
+        });
     }
     render() {
         const { value } = this.state;
@@ -83,17 +97,38 @@ class WriteArticle extends React.Component {
             <div className="welcome">
                 <Form>
                     <Form.Field inline>
-                        <label className="setting-field">文章名</label>
-                        <Input value={ this.state.title } data-name="siteName" onChange={ this.onChange } placeholder='请输入文章名' />
+                        <Grid>
+                            <Grid.Row>
+                                <Grid.Column width={2}>
+                                    <label className="setting-field">文章名</label>
+                                </Grid.Column>
+                                <Grid.Column width={10}>
+                                    <input value={ this.state.title } onChange={ this.onChange } placeholder='请输入文章名' />
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
                     </Form.Field>
-                    <Form.Field inline>
-                        <label className="setting-field"></label>
-                        <Button content='发布' secondary onClick={ this.saveArticle } />
-                    </Form.Field>
-                    <Form.Field inline>
-                    </Form.Field>
+                    <Form.Field inline></Form.Field>
                 </Form>
-                <Editor value={value} onChange={this.handleChange.bind(this)}/>
+                <Grid>
+                    <Grid.Row>
+                        <Grid.Column width={12}>
+                            <Editor value={value} onChange={this.handleChange.bind(this)}/>
+                        </Grid.Column>
+                        <Grid.Column width={4}>
+                            <p>
+                                <Button content='发布' primary onClick={ this.saveArticle } />
+                            </p>
+                            <div>
+                                <h4>发布时间</h4>
+                            </div>
+                            <div>
+                                <h4>标签</h4>
+                                <Dropdown fluid multiple selection options={ this.props.tagFilter } value={ this.state.tags } onChange={ this.changeTag } />
+                            </div>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </div>
         );
     }
@@ -118,12 +153,14 @@ const mapStateToProps = (state) => {
         articles: state.filter.articles,
         articleState: state.filter.articleState,
         modifyId: state.filter.modifyId,
+        tagFilter: state.tags.tagFilter
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        changeState: (...args) => dispatch(filterAction.changeState(...args))
+        changeState: (...args) => dispatch(filterAction.changeState(...args)),
+        getTags: (...args) => dispatch(tagsAction.getTags(...args))
     }
 };
 

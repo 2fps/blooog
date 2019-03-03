@@ -6,6 +6,7 @@ let articleSchema = new mongoose.Schema({
     mdContent: String,          // markdown文章内容
     htmlContent: String,        // html文章内容
     publishTime: Number,        // 发布时间的时间戳
+    tagsId: Array,              // 标签的id号，可能存在多个
     // commentNums: String,     // 评论数量
     brief: String,              // 简略内容
     viewNums: {                 // 查看数

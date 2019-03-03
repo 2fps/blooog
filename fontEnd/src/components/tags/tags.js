@@ -11,9 +11,12 @@ export default class Tags extends React.Component {
         let temp = [];
 
         this.props.tags.forEach((item, ind) => {
-            temp.push(
-                <Button className="tag-item" size='tiny' content={ item.tagName } basic key={ ind } />
-            );
+            if (item.tagNum) {
+                // 只显示有文章的标签
+                temp.push(
+                    <Button key={ ind } className="tag-item" size='tiny' content={ item.tagName } basic />
+                );
+            }
         });
 
         return (

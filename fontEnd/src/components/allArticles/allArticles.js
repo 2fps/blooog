@@ -38,7 +38,7 @@ class AllArticles extends React.Component {
         return (
             <div className="brief-card">
                 { this.renderArticle() }
-                <div className="text-center">
+                <div className={`text-center ${ this.props.articles.length > 0 ? '' : 'hidden' }`}>
                     <Pagination
                         className="pagination"
                         boundaryRange={0}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Icon, Button } from 'semantic-ui-react';
+import { Icon, Button, Label } from 'semantic-ui-react';
 
 import filterAction from '../../store/filter/filterAction';
 
@@ -44,13 +44,42 @@ class ArticleDetail extends React.Component {
                     htmlContent: da.data.htmlContent,
                     publishTime: da.data.publishTime,
                     likeNums: da.data.likeNums,
-                    viewNums: da.data.viewNums
+                    viewNums: da.data.viewNums,
+                    tagsId: da.data.tagsId
                 });
             }
         });
     }
+    renderTags = () => {
+        let tagTemp = [],
+            tagIdToName = this.props.tagIdToName || {};
+
+        if (!this.state.tagsId) {
+            return;
+        }
+        this.state.tagsId.forEach((id, key) => {
+            tagTemp.push(
+                <Label tag key={ key }>{ tagIdToName[ id ] }</Label>
+            );
+        });
+
+        return (
+            <div>
+                { tagTemp }
+            </div>
+        );
+    }
     likeIt = () => {
-        Http.likeArticle(articleId);
+        Http.likeArticle(articleId).then((data) => {
+            if (data.data.result) {
+                let likeNums = this.state.likeNums + 1;
+
+                // 处理成功，+ 1
+                this.setState({
+                    likeNums
+                });
+            }
+        });
     }
     render() {
         return (
@@ -89,6 +118,8 @@ class ArticleDetail extends React.Component {
                         点赞
                     </Button>
                 </div>
+                {/* 渲染tags */}
+                { this.renderTags() }
             </div>
         );
     }
@@ -96,7 +127,8 @@ class ArticleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        article: state.filter.article
+        article: state.filter.article,
+        tagIdToName: state.tags.idToName
     }
 };
 

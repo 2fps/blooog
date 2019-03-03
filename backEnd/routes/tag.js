@@ -33,7 +33,9 @@ router.post('/tag', async (ctx, next) => {
     let query = ctx.request.body,
         tagName = query.tagName,
         tagNum = query.tagNum || 0,
+        tagId = + new Date,
         tag = new TagModel({
+            tagId,
             tagName,
             tagNum
         }),
@@ -42,7 +44,6 @@ router.post('/tag', async (ctx, next) => {
             code: 10001,
             msg: errorCode.codeMessage[10001]
         };
-    
     try {
         tag.save();
     } catch(e) {

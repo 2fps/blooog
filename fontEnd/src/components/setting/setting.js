@@ -56,7 +56,7 @@ class Setting extends React.Component {
                 </Form.Field>
                 <Form.Field inline>
                     <label className="setting-field"></label>
-                    <Button content='保存' secondary onClick={ this.save } />
+                    <Button content='保存' primary onClick={ this.save } />
                 </Form.Field>
             </Form>
         )

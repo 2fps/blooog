@@ -1,5 +1,6 @@
 const router = require('koa-router')();
 const articleModel = require('../models/articleModel');
+const TagModel = require('../models/tagModel');
 const errorCode = require('../util/errorCode');
 
 
@@ -53,26 +54,35 @@ router.get('/articles', async (ctx, next) => {
 
 // 发布新文章的接口
 router.post('/article', async (ctx, next) => {
-    let query = ctx.request.body,
-        title = query.title,
-        // author = query.author,
+    let body = ctx.request.body,
+        title = body.title,
+        // author = body.author,
         // commentNums = 0,
-        mdContent = query.mdContent,
-        htmlContent = query.htmlContent,
+        mdContent = body.mdContent,
+        htmlContent = body.htmlContent,
+        tagsId = body.tagsId,
         timeStamp = +new Date();
     // 检测
     let art = new articleModel({
         title,
         mdContent,
         htmlContent,
+        tagsId,
         articleId: timeStamp,
         publishTime: timeStamp,
         brief: mdContent.slice(0, 110)
     });
 
+    // 更新数据库
     try {
+        // 此处万一只有一个sql成功了呢？咋搞？是个问题？
+        // 保存文章
         await art.save();
-        // 其他操作，如发送注册邮件
+        // tags 计数
+        tagsId.forEach((id) => {
+            TagModel.addCounter(id);
+        });
+
         ctx.body = {
             result: true,
             code: 10000,
@@ -88,16 +98,24 @@ router.post('/article', async (ctx, next) => {
 
 // 文章删除
 router.delete('/article', async (ctx, next) => {
-    let articleId = ctx.query.articleId,
+    let articleId = ctx.query.articleId - 0,
         res = {
             result: true,
             code: 10000
-        };
+        },
+        article = null;    // 保存要删除文章的tags
     
     try {
-        articleModel.deleteOne({
+        article = await articleModel.findOne({
+            articleId
+        });
+        await articleModel.deleteOne({
             articleId
         }).exec();
+        // 根据被删除文章的tag id号，去tags 集合中减少对应的量
+        article.tagsId.forEach((id) => {
+            TagModel.addCounter(id, -1);
+        });
     } catch(err) {
         res = errorCode.errorMsg(20004);
     }
@@ -119,6 +137,7 @@ router.get('/article', async (ctx, next) => {
         likeNums: 1,
         mdContent: 1,
         htmlContent: 1,
+        tagsId: 1,
         // commentNums: 1,
         // brief: 1,
         _id: 0
@@ -150,11 +169,26 @@ router.put('/article', async (ctx, next) => {
         title = body.title,
         mdContent = body.mdContent,
         htmlContent = body.htmlContent,
+        newTags = body.tagsId,
         res = {
             result: true,
             code: 10000
-        };
+        },
+        oldTags = null;     // 记录老的 tags
     try {
+        let article = await articleModel.findOne({
+            articleId
+        });
+        oldTags = article.tagsId;
+
+        // 对比新老tag有啥变化，先减少后增加，后期要改
+        oldTags.forEach((id) => {
+            TagModel.addCounter(id, -1);
+        });
+        newTags.forEach((id) => {
+            TagModel.addCounter(id, 1);
+        });
+
         articleModel.updateOne({
             articleId
         }, {

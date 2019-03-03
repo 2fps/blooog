@@ -5,8 +5,8 @@ import { Form, Input, Button, Message} from 'semantic-ui-react';
 
 import userAction from '../../store/user/userAction';
 import * as Http from '../../api/http';
-// import { JSEncrypt } from  '../../static/js/jsencrypt.min.js';
 import { JSEncrypt } from 'jsencrypt';
+import Toastr from 'toastr';
 
 import './Login.scss';
 
@@ -50,6 +50,8 @@ class Login extends React.Component {
                     sessionStorage.setItem('username', username);
             
                     history.push('/default/welcome');
+                } else {
+                    Toastr.error('用户名或密码错误!', '错误');
                 }
             }).catch(() => {
             

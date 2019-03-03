@@ -1,6 +1,7 @@
 let mongoose = require('mongoose');
 
 let tagSchema = new mongoose.Schema({
+    tagId: Number,
     tagName: String,
     tagNum: {
         type: Number,
@@ -55,15 +56,15 @@ tagSchema.statics.removeTag = async function(tagName) {
 /** 
  * 数量累加
 */
-tagSchema.statics.addCounter = async function(tagName, num = 1) {
+tagSchema.statics.addCounter = async function(tagId, num = 1) {
     let data = await this.findOne({
-        tagName
+        tagId
     }).exec();
     num = data.tagNum + num;
 
     // 设置新的数量
     await this.updateOne({
-        tagName
+        tagId
     }, {
         tagNum: num
     }).exec();
