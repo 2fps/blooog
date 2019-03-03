@@ -8,6 +8,7 @@ const logger = require('koa-logger')
 const jwtKoa = require('koa-jwt')
 const secret = 'jwt demo'
 const log4js = require('./util/log4js')
+const xss = require('node-xss').clean
 
 const article = require('./routes/article')
 const website = require('./routes/website')
@@ -43,6 +44,7 @@ app.use(jwtKoa({secret}).unless({
 
 // logger
 app.use(async (ctx, next) => {
+  // filterXss(ctx);
   const start = new Date()
   await next()
   const ms = new Date() - start
@@ -86,5 +88,16 @@ mongoose.connection.on('disconnected', function () {
 });
 
 require('./config/init.js');
+
+
+function filterXss(ctx) {
+  if (ctx.query) {
+    xss(ctx.query);
+  }
+  if (ctx.request && ctx.request.body) {
+    xss(ctx.request.body);
+  }
+}
+
 
 module.exports = app

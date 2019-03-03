@@ -22,7 +22,7 @@ router.get('/articles', async (ctx, next) => {
     if (!start) {
         start = 0;
     }
-    let count = await articleModel.count({}).exec();
+    let count = await articleModel.countDocuments({}).exec();
 
     if (!end) {
         end = count;
@@ -125,37 +125,42 @@ router.delete('/article', async (ctx, next) => {
 
 // 获取文章的具体内容
 router.get('/article', async (ctx, next) => {
-    let articleId = ctx.query.articleId;
-
-    let article = await articleModel.findOne({
-        articleId
-    }, {
-        title: 1,
-        publishTime: 1,
-        articleId: 1,
-        viewNums: 1,
-        likeNums: 1,
-        mdContent: 1,
-        htmlContent: 1,
-        tagsId: 1,
-        // commentNums: 1,
-        // brief: 1,
-        _id: 0
-    }).exec(),
+    let articleId = ctx.query.articleId,
+        isRead = ctx.query.isRead,          // 是否是前端的阅读，而不是后端的编辑
         res = {
             result: true,
             code: 10000,
-            data: article
+            data: null
         };
-
+        
     // 查看记录次数加一
     try {
-        // 自增 viewNums
-        articleModel.updateOne({
+        let article = await articleModel.findOne({
             articleId
         }, {
-            viewNums: ++article.viewNums || 0
+            title: 1,
+            publishTime: 1,
+            articleId: 1,
+            viewNums: 1,
+            likeNums: 1,
+            mdContent: 1,
+            htmlContent: 1,
+            tagsId: 1,
+            // commentNums: 1,
+            // brief: 1,
+            _id: 0
         }).exec();
+
+        if (isRead) {
+            // 如果是阅读， 自增 viewNums
+            articleModel.updateOne({
+                articleId
+            }, {
+                viewNums: ++article.viewNums || 0
+            }).exec();
+        }
+
+        res.data = article;
     } catch(e) {
         res = errorCode.errorMsg(20000);
     }
@@ -181,11 +186,13 @@ router.put('/article', async (ctx, next) => {
         });
         oldTags = article.tagsId;
 
-        // 对比新老tag有啥变化，先减少后增加，后期要改
-        oldTags.forEach((id) => {
+        // 对比新老tag有啥变化，逐步变化
+        let changeArr = compareTagId(oldTags, newTags);
+
+        changeArr.del.forEach((id) => {
             TagModel.addCounter(id, -1);
         });
-        newTags.forEach((id) => {
+        changeArr.add.forEach((id) => {
             TagModel.addCounter(id, 1);
         });
 
@@ -195,6 +202,7 @@ router.put('/article', async (ctx, next) => {
             title,
             mdContent,
             htmlContent,
+            tagsId: newTags,
             brief: mdContent.slice(0, 110)
         }).exec();
     } catch (e) {
@@ -270,5 +278,30 @@ router.get('/articlesNum', async (ctx, next) => {
 
     ctx.body = res;
 });
+
+// 对比arr1到arr2，增加的有多少，减少的有多少
+// 返回一个对象，包含add数组记录增加的数据，remove数组记录减少的数据
+function compareTagId(arr1, arr2) {
+    let res = {
+        add: [],
+        del: []
+    };
+
+    arr1.forEach((item) => {
+        // arr1中存在，arr2不存在，即为减少的
+        if (!~arr2.indexOf(item)) {
+            res.del.push(item);
+        }
+    });
+
+    arr2.forEach((item) => {
+        // arr2中有，arr1中无则是新增的
+        if (!~arr1.indexOf(item)) {
+            res.add.push(item);
+        }
+    });
+
+    return res;
+}
 
 module.exports = router;

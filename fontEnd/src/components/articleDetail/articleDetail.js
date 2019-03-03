@@ -35,7 +35,7 @@ class ArticleDetail extends React.Component {
         }
     }
     getArticleDetail = (id) => {
-        Http.getArticleById(id).then((data) => {
+        Http.getArticleById(id, true).then((data) => {
             let da = data.data;
 
             if (da.result) {

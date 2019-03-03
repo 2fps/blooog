@@ -80,8 +80,13 @@ export function deleteArticle(articleId) {
         return response;
     });
 }
-export function getArticleById(articleId) {
-    return axios.get('/api/article?articleId=' + articleId)
+export function getArticleById(articleId, isRead) {
+    let url = '/api/article?articleId=' + articleId;
+
+    if (isRead) {
+        url += '&isRead=' + isRead;
+    }
+    return axios.get(url)
     .then(function (response) {
         return response;
     });

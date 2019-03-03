@@ -14,7 +14,7 @@ let tagSchema = new mongoose.Schema({
  * 获取tag标签的个数
 */
 tagSchema.statics.getTagsNum = async function() {
-    let count = await this.count({}).exec();
+    let count = await this.countDocuments({}).exec();
 
     return count;
 };
@@ -60,6 +60,10 @@ tagSchema.statics.addCounter = async function(tagId, num = 1) {
     let data = await this.findOne({
         tagId
     }).exec();
+    // 存在tag已经被删除的情况
+    if (!data) {
+        return;
+    }
     num = data.tagNum + num;
 
     // 设置新的数量
