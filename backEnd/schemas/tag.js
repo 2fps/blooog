@@ -74,5 +74,16 @@ tagSchema.statics.addCounter = async function(tagId, num = 1) {
     }).exec();
 }
 
+/** 
+ * 判断该标签数据中是否存在
+*/
+tagSchema.statics.tagExists = async function(tagName) {
+    let count = await this.model('tag').countDocuments({
+        tagName
+    }).exec();
+
+    return count > 0 ? true : false;
+}
+
 
 module.exports = tagSchema;

@@ -17,10 +17,12 @@ export function getWebsiteConfig() {
 }
 // 获取文章
 export function getArticle(search, start, end) {
-    let url = '/api/articles';
+    let url = '/api/articles?';
 
-    url += '?start=' + start;
-    url += '&end=' + end;
+    if (start) {
+        url += 'start=' + start;
+        url += '&end=' + end;
+    }
 
     if (!search) {
         url += '&search=' + search;

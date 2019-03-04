@@ -45,9 +45,16 @@ router.post('/tag', async (ctx, next) => {
             msg: errorCode.codeMessage[10001]
         };
     try {
-        tag.save();
+        let isExist = await TagModel.tagExists(tagName);
+
+        if (isExist) {
+            // 已有标签，则不添加
+            res = errorCode.errorMsg(20001);
+        } else {
+            tag.save();
+        }
     } catch(e) {
-        res = errorCode.errorMsg[20000];
+        res = errorCode.errorMsg(20000);
     }
     
     ctx.body = res;
@@ -65,10 +72,16 @@ router.put('/tag', async (ctx, next) => {
         };
 
     try {
-        // 更新tag标签名
-        await TagModel.updateTagName(tagName, newName);
+        let isExist = await TagModel.tagExists(newName);
+
+        if (isExist) {
+            res = errorCode.errorMsg(20001);
+        } else {
+            // 更新tag标签名
+            await TagModel.updateTagName(tagName, newName);
+        }
     } catch(e) {
-        res = errorCode.errorMsg[20005];
+        res = errorCode.errorMsg(20005);
     }
 
     ctx.body = res;
@@ -86,7 +99,7 @@ router.delete('/tag', async (ctx, next) => {
     try {
         await TagModel.removeTag(tagName);
     } catch(e) {
-        res = errorCode.errorMsg[20004];
+        res = errorCode.errorMsg(20004);
     }
 
     ctx.body = res;

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-    Switch,
     Route
 } from 'react-router-dom';
 import { Responsive, Segment } from 'semantic-ui-react'
@@ -37,7 +36,7 @@ class Index extends React.Component {
         // 计算，获取文章
         let start = (this.props.nowPage - 1) * this.props.pageSize,
             end = this.props.nowPage * this.props.pageSize;
-        this.props.getArticles('', start, end);
+        // this.props.getArticles('', start, end);
     }
     render() {
         return (

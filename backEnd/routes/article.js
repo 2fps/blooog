@@ -14,7 +14,8 @@ router.get('/articles', async (ctx, next) => {
         end = query.end - 0,
         res = {
             result: true,
-            code: 10000
+            code: 10000,
+            msg: errorCode.codeMessage[10000]
         }
         search = query.search;      // 搜索结果
 

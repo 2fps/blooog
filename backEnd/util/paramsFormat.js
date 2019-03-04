@@ -10,21 +10,21 @@ let paramsFormat = {
         website: {},
         // 获取标签
         tag: {
-            start: Joi.number().integer(),
-            end: Joi.number().integer()
+            start: Joi.string(),
+            end: Joi.string()
         },
         articles: {
-            start: Joi.string(),
-            end: Joi.string(),
+            start: Joi.number(),
+            end: Joi.number(),
             search: Joi.string()
         },
         article: {
-            articleId: Joi.number()
+            articleId: Joi.string()
         },
         publicKey: {},
         newest: {},
         likeArticle: {
-            articleId: Joi.number()
+            articleId: Joi.string()
         },
         articlesNum: {}
     },
@@ -38,7 +38,7 @@ let paramsFormat = {
         // 保存标签
         tag: {
             tagName: Joi.string(),
-            tagNum: Joi.number().integer()
+            tagNum: Joi.number()
         },
         loginIn: {
             username: Joi.string(),
@@ -49,7 +49,7 @@ let paramsFormat = {
             mdContent: Joi.string(),
             htmlContent: Joi.string(),
             tagsId: Joi.array().items(
-                Joi.number().integer()
+                Joi.number()
             )
         }
     },
@@ -64,12 +64,12 @@ let paramsFormat = {
             newpass: Joi.string()
         },
         article: {
-            articleId: Joi.number(),
+            articleId: Joi.string(),
             title: Joi.string(),
             mdContent: Joi.string(),
             htmlContent: Joi.string(),
             tagsId: Joi.array().items(
-                Joi.number().integer()
+                Joi.number()
             )
         }
     },
@@ -78,7 +78,7 @@ let paramsFormat = {
             tagName: Joi.string()
         },
         article: {
-            articleId: Joi.number()
+            articleId: Joi.string()
         }
     }
 };

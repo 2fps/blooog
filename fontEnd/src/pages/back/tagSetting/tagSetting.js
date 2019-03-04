@@ -55,13 +55,14 @@ class TagSetting extends React.Component {
 
             if (da.result) {
                 Toastr.success('增加成功!', '提示');
+                // 成功后再刷新并清除输入框的数据
+                this.props.getTags();
+                this.setState({
+                    tagName: ''
+                });
             } else {
                 Toastr.error('增加失败!', '提示');
             }
-            this.props.getTags();
-            this.setState({
-                tagName: ''
-            });
         }); 
     }
     modifyTagName = (e) => {
