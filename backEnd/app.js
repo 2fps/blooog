@@ -9,6 +9,7 @@ const jwtKoa = require('koa-jwt')
 const secret = 'jwt demo'
 const log4js = require('./util/log4js')
 const xss = require('node-xss').clean
+const checkFormat = require('./util/paramsFormat').checkFormat;
 
 const article = require('./routes/article')
 const website = require('./routes/website')
@@ -41,6 +42,27 @@ app.use(jwtKoa({secret}).unless({
       /^\/api\/publicKey/,
       /^\/api\/website/] //数组中的路径不需要通过jwt验证
 }))
+
+// 参数检测中间件
+app.use(async (ctx, next) => {
+  let result = {};
+
+  try {
+    result = checkFormat(ctx);
+  } catch(e) {
+    result.error = true;
+  }
+
+  if (result.error) {
+    ctx.body = {
+      result: false,
+      error: 123,
+    };
+
+    return;
+  }
+  await next(); 
+});
 
 // logger
 app.use(async (ctx, next) => {
