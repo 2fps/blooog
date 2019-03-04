@@ -13,22 +13,29 @@ let paramsFormat = {
             start: Joi.string(),
             end: Joi.string()
         },
+        // 获取总文章
         articles: {
             start: Joi.number(),
             end: Joi.number(),
             search: Joi.string()
         },
+        // 获取文章详细信息
         article: {
             articleId: Joi.string()
         },
+        // 获取公钥
         publicKey: {},
+        // 获取最新的几条信息
         newest: {},
+        // 文章的赞功能
         likeArticle: {
             articleId: Joi.string()
         },
+        // 获取总文章的数量
         articlesNum: {}
     },
     post: {
+        // 修改文章站点信息
         website: {
             siteName: Joi.string(),
             subTitle: Joi.string(),
@@ -40,10 +47,12 @@ let paramsFormat = {
             tagName: Joi.string(),
             tagNum: Joi.number()
         },
+        // 登录接口
         loginIn: {
             username: Joi.string(),
             password: Joi.string()
         },
+        // 写文章
         article: {
             title: Joi.string(),
             mdContent: Joi.string(),
@@ -54,15 +63,18 @@ let paramsFormat = {
         }
     },
     put: {
+        // 修改 tag 名称
         tag: {
             tagName: Joi.string(),
             newName: Joi.string()
         },
+        // 修改用户信息
         user: {
             username: Joi.string(),
             oldpass: Joi.string(),
             newpass: Joi.string()
         },
+        // 修改文章信息
         article: {
             articleId: Joi.string(),
             title: Joi.string(),
@@ -74,9 +86,11 @@ let paramsFormat = {
         }
     },
     delete: {
+        // 删除tag
         tag: {
             tagName: Joi.string()
         },
+        // 删除文章
         article: {
             articleId: Joi.string()
         }
@@ -93,12 +107,13 @@ let checkFormat = function(ctx) {
         lastIndexEnd = ctx.url.lastIndexOf('?') > -1 ? ctx.url.lastIndexOf('?') : ctx.url.length,
         path = ctx.url.substring(lastIndexStart + 1, lastIndexEnd),
         test = null;
-
+    // 没有path，则异常
     if (!path) {
         return {
             error: true
         };
     }
+    // 根据请求方式，判断不同的数据位置
     if (~query.indexOf(method)) {
         test = ctx.query;
     } else {

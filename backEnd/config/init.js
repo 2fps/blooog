@@ -1,6 +1,5 @@
 // 注册 admin/admin 的用户
 const UserModel = require('../models/userModel');
-const TagModel = require('../models/tagModel');
 
 let initConfig = require('./config.js');
 let MD5 = require('../util/MD5').MD5;
@@ -14,12 +13,15 @@ UserModel.findOne({}).exec().then((doc) => {
             registerTime: '',
             password: MD5(initConfig.password)
         });
-    
-        user.save();
+        try {
+            user.save();
+        } catch (e) {
+
+        }
     }
 });
 
 // 
-TagModel.findOne({}).exec().then((doc) => {
+// TagModel.findOne({}).exec().then((doc) => {
 
-});
+// });

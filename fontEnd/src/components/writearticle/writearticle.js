@@ -120,9 +120,6 @@ class WriteArticle extends React.Component {
                                 <Button content='发布' primary onClick={ this.saveArticle } />
                             </p>
                             <div>
-                                <h4>发布时间</h4>
-                            </div>
-                            <div>
                                 <h4>标签</h4>
                                 <Dropdown fluid multiple selection options={ this.props.tagFilter } value={ this.state.tags } onChange={ this.changeTag } />
                             </div>

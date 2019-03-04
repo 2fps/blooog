@@ -8,8 +8,8 @@ const logger = require('koa-logger')
 const jwtKoa = require('koa-jwt')
 const secret = 'jwt demo'
 const log4js = require('./util/log4js')
-const xss = require('node-xss').clean
-const checkFormat = require('./util/paramsFormat').checkFormat;
+// const xss = require('node-xss').clean
+const middleware = require('./util/middleware.js');
 
 const article = require('./routes/article')
 const website = require('./routes/website')
@@ -17,61 +17,46 @@ const login = require('./routes/login')
 const security = require('./routes/security')
 const tag = require('./routes/tag')
 
+// 数据库
+require('./config/db.js');
+
 // error handler
 onerror(app)
 
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+    enableTypes:['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
-  extension: 'pug'
+    extension: 'pug'
 }))
 
 app.use(jwtKoa({secret}).unless({
     path: [/^\/api\/loginIn/,
-      /^\/api\/newest/,
-      /^\/api\/articles/,
-      /^\/api\/likeArticle/,
-      /^\/api\/article/,
-      /^\/api\/tag/,
-      /^\/api\/publicKey/,
-      /^\/api\/website/] //数组中的路径不需要通过jwt验证
+        /^\/api\/newest/,
+        /^\/api\/articles/,
+        /^\/api\/likeArticle/,
+        /^\/api\/article/,
+        /^\/api\/tag/,
+        /^\/api\/publicKey/,
+        /^\/api\/website/] //数组中的路径不需要通过jwt验证
 }))
 
-// 参数检测中间件
-app.use(async (ctx, next) => {
-  let result = {};
-
-  try {
-    result = checkFormat(ctx);
-  } catch(e) {
-    result.error = true;
-  }
-
-  if (result.error) {
-    ctx.body = {
-      result: false,
-      error: 123,
-    };
-
-    return;
-  }
-  await next(); 
-});
+// 一些中间件
+middleware.use(app);
 
 // logger
 app.use(async (ctx, next) => {
-  // filterXss(ctx);
-  const start = new Date()
-  await next()
-  const ms = new Date() - start
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-  log4js.resLogger(ctx, ms)
+    // filterXss(ctx);
+    const start = new Date()
+    await next()
+    const ms = new Date() - start
+    console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+    log4js.resLogger(ctx, ms)
 })
 
 // routes
@@ -83,42 +68,19 @@ app.use(tag.routes(), tag.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
-  log4js.errLogger(ctx, err)
+    console.error('server error', err, ctx)
+    log4js.errLogger(ctx, err)
 });
 
-// 数据库连接
-let mongoose = require('mongoose'),
-    DBUrl = 'mongodb://127.0.0.1:27017/data';
-
-// 连接
-mongoose.connect(DBUrl);
-
-// 连接成功
-mongoose.connection.on('connected', function () {
-    console.log('Mongoose connection open to ' + DBUrl);
-});
-
-// 连接异常
-mongoose.connection.on('error',function (err) {
-    console.log('Mongoose connection error: ' + err);
-});
-
-// 连接断开
-mongoose.connection.on('disconnected', function () {
-    console.log('Mongoose connection disconnected');
-});
-
-require('./config/init.js');
 
 
 function filterXss(ctx) {
-  if (ctx.query) {
-    xss(ctx.query);
-  }
-  if (ctx.request && ctx.request.body) {
-    xss(ctx.request.body);
-  }
+    if (ctx.query) {
+        xss(ctx.query);
+    }
+    if (ctx.request && ctx.request.body) {
+        xss(ctx.request.body);
+    }
 }
 
 
