@@ -10,12 +10,7 @@ const secret = 'jwt demo'
 const log4js = require('./util/log4js')
 // const xss = require('node-xss').clean
 const middleware = require('./util/middleware.js');
-
-const article = require('./routes/article')
-const website = require('./routes/website')
-const login = require('./routes/login')
-const security = require('./routes/security')
-const tag = require('./routes/tag')
+const registerRouter = require('./routes');
 
 // 数据库
 require('./config/db.js');
@@ -60,11 +55,7 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(article.routes(), article.allowedMethods())
-app.use(website.routes(), website.allowedMethods())
-app.use(login.routes(), login.allowedMethods())
-app.use(security.routes(), security.allowedMethods())
-app.use(tag.routes(), tag.allowedMethods())
+app.use(registerRouter());
 
 // error-handling
 app.on('error', (err, ctx) => {

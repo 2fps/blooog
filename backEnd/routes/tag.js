@@ -44,6 +44,7 @@ router.post('/tag', async (ctx, next) => {
             code: 10001,
             msg: errorCode.codeMessage[10001]
         };
+
     try {
         let isExist = await TagModel.tagExists(tagName);
 

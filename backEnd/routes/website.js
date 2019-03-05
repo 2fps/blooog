@@ -29,6 +29,7 @@ router.get('/', async (ctx, next) => {
     ctx.body = res;
 });
 
+// 修改站点信息配置
 router.post('/', async (ctx, next) => {
     let body = ctx.request.body,
         data = {

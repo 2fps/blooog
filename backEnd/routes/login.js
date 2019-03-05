@@ -39,7 +39,11 @@ router.post('/loginIn', async (ctx, next) => {
 });
 
 router.post('/loginOut', async (ctx, next) => {
-    ctx.body = 'koa2 string'
+    ctx.body = {
+        result: true,
+        code: 10005,
+        msg: errorCode.codeMessage[10005]
+    };
 });
 
 router.put('/user', async (ctx, next) => {
