@@ -16,41 +16,42 @@ router.get('/articles', async (ctx, next) => {
             result: true,
             code: 10000,
             msg: errorCode.codeMessage[10000]
-        }
+        },
+        count = 0,
+        articles = null,
         search = query.search;      // 搜索结果
 
     // 强制赋值查询的范围
     if (!start) {
         start = 0;
     }
-    let count = await articleModel.countDocuments({}).exec();
+    
+    try {
+        count = await articleModel.countDocuments({}).exec();
+        
+        if (!end) {
+            end = count;
+        }
+        articles = await articleModel.find({}, {
+            // articleId: 1,
+            title: 1,
+            publishTime: 1,
+            viewNums: 1,
+            likeNums: 1,
+            // content: 1,
+            // commentNums: 1,
+            _id: 0,
+            brief: 1,
+            articleId: 1
+        }).sort({'_id':-1}).skip(start).limit(end - start).exec();
 
-    if (!end) {
-        end = count;
+        res.data = articles.slice(0, 10);
+        res.count = count;
+    } catch (e) {
+        res = errorCode.errorMsg(20000);
     }
 
-    let articles = await articleModel.find({}, {
-        // articleId: 1,
-        title: 1,
-        publishTime: 1,
-        viewNums: 1,
-        likeNums: 1,
-        // content: 1,
-        // commentNums: 1,
-        _id: 0,
-        brief: 1,
-        articleId: 1
-    }).sort({'_id':-1}).skip(start).limit(end - start).exec();
-
-    // changeID(articles);
-
-    ctx.body = {
-        code: 10000,
-        result: true,
-        msg: '',
-        data: articles.slice(0, 10),
-        count
-    };
+    ctx.body = res;
 });
 
 // 发布新文章的接口
@@ -62,7 +63,12 @@ router.post('/article', async (ctx, next) => {
         mdContent = body.mdContent,
         htmlContent = body.htmlContent,
         tagsId = body.tagsId,
-        timeStamp = +new Date();
+        timeStamp = +new Date(),
+        res = {
+            result: true,
+            code: 10000,
+            msg: errorCode.codeMessage[10000]
+        };
     // 检测
     let art = new articleModel({
         title,
@@ -84,17 +90,11 @@ router.post('/article', async (ctx, next) => {
             TagModel.addCounter(id);
         });
 
-        ctx.body = {
-            result: true,
-            code: 10000,
-            msg: '发布成功'
-        }
     } catch(err) {
-        ctx.body = {
-            result: false,
-            msg: '发布失败'
-        }
+        res = errorCode.errorMsg(20003);
     }
+
+    ctx.body = res;
 });
 
 // 文章删除
@@ -102,7 +102,8 @@ router.delete('/article', async (ctx, next) => {
     let articleId = ctx.query.articleId - 0,
         res = {
             result: true,
-            code: 10000
+            code: 10000,
+            msg: errorCode.codeMessage[10000]
         },
         article = null;    // 保存要删除文章的tags
     
@@ -241,7 +242,7 @@ router.get('/likeArticle', async (ctx, next) => {
         res = {
             result: true,
             code: 10000
-        }
+        };
 
     try {
         // 查找到对应的数据

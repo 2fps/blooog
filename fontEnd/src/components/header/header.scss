@@ -1,34 +1,21 @@
-.top-header {
+.navbar-title {
     position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: rgba(27, 28, 29, .9);
-    color: #fff;
-    z-index: 999;
-    line-height: 40px;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-    & > .container {
-        max-width: 1080px;
-        margin: 0 auto;
-        padding: 0 10px;
-        border-bottom: none !important;
-        & > .menu {
-            align-items: center;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 100;
+    & > header {
+        background-color: #212121 !important;
+        justify-content: center;
+        & > div {
+            // max-width: 1080px;
+            justify-content: space-between;
         }
     }
 }
-.site-name,
-.comment-form p {
-    float: left;
+.header-space {
+    flex-grow: 1;
 }
-.site-choice {
-    float: right;
-}
-
-/* 样式覆盖 */
-.navbar-default {
-    background-color: rgba(255,255,255,.95) !important;
-    border: none !important;
-    margin-bottom: 0px !important;
+.navbar-right {
+    margin-right: 0px;
 }

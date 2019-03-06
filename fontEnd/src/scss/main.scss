@@ -8,6 +8,7 @@
 }
 html, body {
     font-family: "webfont" !important;
+    font-size: 16px;
 }
 .wd-300 {
     width: 300px !important;
@@ -21,4 +22,16 @@ html, body {
 }
 .hidden {
     display: none;
+}
+.icon-brief {
+    font-size: 16px !important;
+    margin: 2px;
+    vertical-align: bottom !important;
+}
+.icon-detail {
+    font-size: 16px !important;
+    vertical-align: text-bottom !important;
+}
+.margin-bottom-12 {
+    margin-bottom: 0.75rem !important;
 }

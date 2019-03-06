@@ -1,7 +1,19 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Menu } from 'semantic-ui-react';
 import { createHashHistory } from 'history';
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Badge from '@material-ui/core/Badge';
+import { withStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+
+
 
 import './header.scss';
 
@@ -19,13 +31,13 @@ export default class index extends React.Component {
     componentDidMount() {
         let me = this;
         // 绑定监听滚动条，处理navbar
-        window.addEventListener('scroll', scrollFn = () => {
+/*         window.addEventListener('scroll', scrollFn = () => {
             let rate = Math.min(window.scrollY / 100, 1),
                 padding = (1 - rate) * 15;
 
             me.refs.header.style.paddingTop = padding + 'px';
             me.refs.header.style.paddingBottom = padding + 'px';
-        });
+        }); */
     }
     componentWillUnmount() {
         // 滚动事件解绑定
@@ -44,28 +56,37 @@ export default class index extends React.Component {
     }
     render() {
         return (
-            <header id="header" ref="header" className="top-header">
-                <Menu secondary pointing className="container">
-                    <Menu.Menu position='left'>
-                        <h2>
+            <div className="navbar-title">
+                <AppBar position="static">
+                    <Toolbar>
+                        {/* <IconButton color="inherit" aria-label="Open drawer">
+                            <MenuIcon />
+                        </IconButton> */}
+                        <Typography variant="h6" color="inherit" noWrap>
                             <a className="color-fff" href={ this.props.website.modifyConfig.siteUrl }>{ this.props.website.modifyConfig.siteName }</a>
-                        </h2>
-                    </Menu.Menu>
-                    <Menu.Menu position='right'>
-{/*                         <Menu.Item name='home' active={ this.state.activeItem === 'home'} onClick={this.handleItemClick} />
-                        <Menu.Item
-                            name='messages'
-                            active={this.state.activeItem === 'messages'}
-                            onClick={this.handleItemClick}
-                            /> */}
-                        <Menu.Item className="color-fff"
-                            name='登录'
-                            active={this.state.activeItem === 'logout'}
-                            onClick={ this.goToLogin }
-                        />
-                    </Menu.Menu>
-                </Menu>
-            </header>
+                        </Typography>
+                        <div className="navbar-right">
+                            {/* <IconButton color="inherit">
+                                <Badge badgeContent={4} color="secondary">
+                                    <MailIcon />
+                                </Badge>
+                            </IconButton>
+                            <IconButton color="inherit">
+                                <Badge badgeContent={17} color="secondary">
+                                    <NotificationsIcon />
+                                </Badge>
+                            </IconButton> */}
+                            <IconButton
+                                aria-haspopup="true"
+                                onClick={ this.goToLogin }
+                                color="inherit"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+            </div>
         );
     }
 }

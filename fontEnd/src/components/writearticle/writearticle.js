@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Editor from 'for-editor';
 import Toastr from 'toastr';
 import tagsAction from '../../store/tags/tagsAction';
+import marked from 'marked';
 
 import {
     Form, 
@@ -46,7 +47,7 @@ class WriteArticle extends React.Component {
         
         condition.mdContent = this.state.value;
         condition.title = this.state.title;
-        condition.htmlContent = document.getElementsByClassName('for-preview for-markdown-preview')[0].innerHTML;
+        condition.htmlContent = marked(this.state.value);
         // 增加文章的tags
         condition.tagsId = this.state.tags;
 

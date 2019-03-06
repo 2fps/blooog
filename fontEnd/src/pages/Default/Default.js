@@ -115,67 +115,11 @@ class Default extends React.Component{
     render() {
         const { activeIndex } = this.state
         return (
-            <div>
-                <div className="default-navbar">
-                    <div className="login-out">
-                        <Dropdown text='用户名'>
-                            <Dropdown.Menu>
-                                <Modal
-                                    trigger={ <Dropdown.Item onClick={this.handleOpen} text='修改密码'/>}
-                                    open={ this.state.showModiyPass }
-                                    onClose={ this.handleClose }
-                                    >
-                                    <Modal.Header>密码修改</Modal.Header>
-                                    <Modal.Content>
-                                        <Modal.Description>
-                                            <Form>
-                                                <Form.Field >
-                                                    <Form.Input fluid label='旧密码：' type="password" value={ this.state.form.oldPass } data-name="oldPass" onChange={ this.modifyInfo } placeholder='旧密码' error={ this.state.form.newPassError } />
-                                                </Form.Field>
-                                                <Form.Field>
-                                                    <Form.Input fluid label='新密码：' type="password" value={ this.state.form.newPass1 } data-name="newPass1" onChange={ this.modifyInfo } placeholder='新密码' error={ this.state.form.oldPassError } />
-                                                </Form.Field>
-                                                <Form.Field>
-                                                    <Form.Input fluid label='再一次输入新密码：' type="password" value={ this.state.form.newPass2 } data-name="newPass2" onChange={ this.modifyInfo } placeholder='新密码' error={ this.state.form.oldPassError } />
-                                                </Form.Field>
-                                                <Form.Field className="text-center">
-                                                    <Button secondary onClick={ this.handleClose }>取消</Button>
-                                                    <Button color='red' onClick={ this.confirmModifyPass }>确定</Button>
-                                                </Form.Field>
-                                            </Form>
-                                        </Modal.Description>
-                                    </Modal.Content>
-                                </Modal>
-                                <Modal
-                                    trigger={ <Dropdown.Item text='登出' onClick={ this.showLoginout } />}
-                                    open={ this.state.showLoginout }
-                                    onClose={ this.handleClose }
-                                    size="tiny">
-                                    <Modal.Header>登出</Modal.Header>
-                                    <Modal.Content>
-                                        <p>确定登出吗？</p>
-                                    </Modal.Content>
-                                    <Modal.Actions>
-                                        <Button negative onClick={ this.handleClose }>取消</Button>
-                                        <Button positive onClick={ this.loginOut }>确定</Button>
-                                    </Modal.Actions>
-                                </Modal>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-                    <div>
-                        <a href={ this.props.website.siteUrl }>
-                            <Icon disabled name="reply" />
-                            返回主页
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
+            <div className="default">
+                <div className="default-left">
                     <Accordion className="default-menu">
                         <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick} as="a" href="#default/welcome">
                             <Icon name="list layout" />
-                            {/* <Icon name='dropdown' /> */}
                             <span>首页</span>
                         </Accordion.Title>
 
@@ -206,9 +150,71 @@ class Default extends React.Component{
                         <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}  as="a" href="#default/setting">
                             <Icon name="settings" />
                             <span>设置</span>
-                            {/* <Icon name='dropdown' /> */}
                         </Accordion.Title>
                     </Accordion>
+                </div>
+                <div className="default-right">
+                    <div className="default-navbar">
+                        <div className="login-out">
+                            <Dropdown text='用户名'>
+                                <Dropdown.Menu>
+                                    <Modal
+                                        trigger={ <Dropdown.Item onClick={this.handleOpen} text='修改密码'/>}
+                                        open={ this.state.showModiyPass }
+                                        onClose={ this.handleClose }
+                                        >
+                                        <Modal.Header>密码修改</Modal.Header>
+                                        <Modal.Content>
+                                            <Modal.Description>
+                                                <Form>
+                                                    <Form.Field >
+                                                        <Form.Input fluid label='旧密码：' type="password" value={ this.state.form.oldPass } data-name="oldPass" onChange={ this.modifyInfo } placeholder='旧密码' error={ this.state.form.newPassError } />
+                                                    </Form.Field>
+                                                    <Form.Field>
+                                                        <Form.Input fluid label='新密码：' type="password" value={ this.state.form.newPass1 } data-name="newPass1" onChange={ this.modifyInfo } placeholder='新密码' error={ this.state.form.oldPassError } />
+                                                    </Form.Field>
+                                                    <Form.Field>
+                                                        <Form.Input fluid label='再一次输入新密码：' type="password" value={ this.state.form.newPass2 } data-name="newPass2" onChange={ this.modifyInfo } placeholder='新密码' error={ this.state.form.oldPassError } />
+                                                    </Form.Field>
+                                                    <Form.Field className="text-center">
+                                                        <Button secondary onClick={ this.handleClose }>取消</Button>
+                                                        <Button color='red' onClick={ this.confirmModifyPass }>确定</Button>
+                                                    </Form.Field>
+                                                </Form>
+                                            </Modal.Description>
+                                        </Modal.Content>
+                                    </Modal>
+                                    <Modal
+                                        trigger={ <Dropdown.Item text='登出' onClick={ this.showLoginout } />}
+                                        open={ this.state.showLoginout }
+                                        onClose={ this.handleClose }
+                                        size="tiny">
+                                        <Modal.Header>登出</Modal.Header>
+                                        <Modal.Content>
+                                            <p>确定登出吗？</p>
+                                        </Modal.Content>
+                                        <Modal.Actions>
+                                            <Button negative onClick={ this.handleClose }>取消</Button>
+                                            <Button positive onClick={ this.loginOut }>确定</Button>
+                                        </Modal.Actions>
+                                    </Modal>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
+                        <div className="defalut-brand">
+                            <a href={ this.props.website.siteUrl }>
+                                <Icon disabled name="reply" />
+                                返回主页
+                            </a>
+                        </div>
+                    </div>
+                    <Confirm
+                        open={this.state.open}
+                        header='This is a custom header'
+                        content='<span a="a">123</span>'
+                        onCancel={this.handleCancel}
+                        onConfirm={this.handleConfirm}
+                    />
                     <div className="default-content">
                         <Switch>
                             <Route path="/default/welcome" component={ Welcome }/>
@@ -219,13 +225,6 @@ class Default extends React.Component{
                         </Switch>
                     </div>
                 </div>
-                <Confirm
-                    open={this.state.open}
-                    header='This is a custom header'
-                    content='<span a="a">123</span>'
-                    onCancel={this.handleCancel}
-                    onConfirm={this.handleConfirm}
-                />
             </div>
         );
     }

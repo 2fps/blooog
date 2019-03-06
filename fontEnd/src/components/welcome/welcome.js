@@ -50,7 +50,7 @@ export default class Welcome extends React.Component {
                                 </Statistic>
                             </Statistic.Group>
                         </Card.Content>
-                    </Card>
+                    </Card>{/* 
                     <Card>
                         <Card.Content>
                             <Card.Header className="text-center">总评论数</Card.Header>
@@ -76,7 +76,7 @@ export default class Welcome extends React.Component {
                                 </Statistic>
                             </Statistic.Group>
                         </Card.Content>
-                    </Card>
+                    </Card> */}
                 </Card.Group>
             </div>
         );

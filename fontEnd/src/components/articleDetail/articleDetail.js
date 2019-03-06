@@ -1,13 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Icon, Button, Label } from 'semantic-ui-react';
-
+import { Icon, Label } from 'semantic-ui-react';
+import Button from '@material-ui/core/Button';
+import SvgIcon from '@material-ui/core/SvgIcon';
 import filterAction from '../../store/filter/filterAction';
+import Chip from '@material-ui/core/Chip';
+// svg图标
+import Today from '@material-ui/icons/Today';
+import ThumbUp from '@material-ui/icons/ThumbUp';
+import Visibility from '@material-ui/icons/Visibility';
 
 import * as Http from '../../api/http';
 import { timeFormat } from '../../util/tool';
 
 import './articleDetail.scss';
+import '../../css/md.css';
 
 let articleId = '';     // 当前articleId
 
@@ -59,7 +66,14 @@ class ArticleDetail extends React.Component {
         }
         this.state.tagsId.forEach((id, key) => {
             tagTemp.push(
-                <Label tag key={ key }>{ tagIdToName[ id ] }</Label>
+                <Chip
+                    key={ key }
+                    label={ tagIdToName[ id ] }
+                    className="tag-item"
+                    component="a"
+                    clickable
+                    variant="outlined"
+                    />
             );
         });
 
@@ -90,31 +104,28 @@ class ArticleDetail extends React.Component {
                     </div>
                     <div className="article-meta">
                         <span className="article-subInfo">
-                            <Icon name="calendar alternate"></Icon>&nbsp;
+                            <Today className="icon-detail" />&nbsp;
                             { timeFormat(this.state.publishTime) }
                         </span>
                         <span className="article-subInfo">
-                            <Icon name="eye"></Icon>&nbsp;
+                            <Visibility className="icon-detail" />&nbsp;
                             { this.state.viewNums }次阅读
                         </span>
                         <span className="article-subInfo">
-                            <Icon name="thumbs up outline"></Icon>&nbsp;
+                            <ThumbUp className="icon-detail" />&nbsp;
                             { this.state.likeNums }次点赞
                         </span>
 {/*                         <span className="brief-comments">
                             <i className="glyphicon glyphicon-comment"></i>&nbsp;
                             { this.props.article.commentNums }条评论
-                        </span>
-                        <span className="brief-read">
-                            <i className="glyphicon glyphicon-eye-open"></i>&nbsp;
-                            { this.props.article.readNums }次阅读
                         </span> */}
                     </div>
                 </div>
-                <div className="article-content" dangerouslySetInnerHTML={{ __html: this.state.htmlContent }} />
+                <div className="markdown-body">
+                    <div className="article-content" dangerouslySetInnerHTML={{ __html: this.state.htmlContent }} />
+                </div>
                 <div className="article-foot">
-                    <Button inverted color='red' onClick={ this.likeIt }>
-                        <Icon name="thumbs up outline"></Icon>&nbsp;
+                    <Button variant="outlined" color="secondary" onClick={ this.likeIt }>
                         点赞
                     </Button>
                 </div>

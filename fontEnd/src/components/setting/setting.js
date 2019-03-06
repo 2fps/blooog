@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 
 import {
     Form, 
-    Input, 
-    Button } from 'semantic-ui-react';
+    Input } from 'semantic-ui-react';
+import grey from '@material-ui/core/colors/grey';
+import blue from '@material-ui/core/colors/blue';
+import Button from '@material-ui/core/Button';
 
 import websiteAction from '../../store/website/websiteAction';
 
@@ -56,7 +58,7 @@ class Setting extends React.Component {
                 </Form.Field>
                 <Form.Field inline>
                     <label className="setting-field"></label>
-                    <Button content='保存' primary onClick={ this.save } />
+                    <Button variant="contained" color="default" onClick={ this.save }>保存</Button>
                 </Form.Field>
             </Form>
         )

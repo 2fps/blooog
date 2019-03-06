@@ -10,6 +10,7 @@
     list-style: none;
 }
 .tag-item {
+    margin-left: 10px !important;
     margin-bottom: 10px !important;
 }
 .tag-item > a {
@@ -28,4 +29,13 @@
 }
 .tags-content > span:hover > a {
     color: #333 !important;
+}
+
+
+
+
+
+
+.tags-title {
+    
 }

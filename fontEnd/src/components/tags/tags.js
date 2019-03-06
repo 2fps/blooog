@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
+import Chip from '@material-ui/core/Chip';
 
 import './tags.scss';
 
@@ -14,7 +14,14 @@ export default class Tags extends React.Component {
             if (item.tagNum) {
                 // 只显示有文章的标签
                 temp.push(
-                    <Button key={ ind } className="tag-item" size='tiny' content={ item.tagName } basic />
+                    <Chip
+                        key={ ind }
+                        label={ item.tagName }
+                        className="tag-item"
+                        component="a"
+                        clickable
+                        variant="outlined"
+                        />
                 );
             }
         });

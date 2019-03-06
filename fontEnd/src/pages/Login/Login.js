@@ -1,16 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
-import { Form, Input, Button, Message} from 'semantic-ui-react';
+// import { Form, Input, Button, Message} from 'semantic-ui-react';
 
 import userAction from '../../store/user/userAction';
 import * as Http from '../../api/http';
 import { JSEncrypt } from 'jsencrypt';
 import Toastr from 'toastr';
 
+import Paper from '@material-ui/core/Paper';
+import { withStyles, createStyles } from '@material-ui/styles';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 import './Login.scss';
 
 const history = createHashHistory();
+
+const styles = createStyles({
+    login: {
+        padding: '16px 24px 24px',
+        backgroundColor: 'blue'
+    },
+    spacing: {
+        marginTop: '20px'
+    },
+
+});
+
 
 class Login extends React.Component {
     constructor(props) {
@@ -19,7 +42,8 @@ class Login extends React.Component {
             username: '',
             password: '',
             isLogining: false,
-            formError: false
+            formError: false,
+            showPassword: false
         };
     }
     // 登录接口
@@ -63,16 +87,6 @@ class Login extends React.Component {
                 });
             });
         });
-/*         // 发送私钥去解密
-        fetch('/decryption', {
-            method: 'POST',
-            body: JSON.stringify({value:encrypted})
-        }).then(function(data) {
-            return data.text();
-        }).then(function(value) {
-            console.log(value);
-        }); */
-
     }
     modifyUser = (e) => {
         let username = e.target.value;
@@ -90,28 +104,45 @@ class Login extends React.Component {
             formError: false
         });
     }
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
+    handleChange = prop => event => {
+        this.setState({ [prop]: event.target.value });
+    };
     render() {
         return (
             <div className="login-container">
-                <Form loading={ this.state.isLogining }>
-                    <Form.Field required error={ this.state.formError }>
-                        <label>用户名：</label>
-                        <Input placeholder="用户名" value={ this.state.username } onChange={ this.modifyUser } />
-                    </Form.Field>
-                    <Form.Field required error={ this.state.formError }>
-                        <label>密码：</label>
-                        <Input placeholder="密码" value={ this.state.password } onChange={ this.modifyPass } type="password" />
-                    </Form.Field>
-                    <Form.Field>
-                        <Message
-                            className={`${this.state.formError ? 'block' : 'hiden'}`}
-                            error
-                            header='登录失败'
-                            content='用户名或密码错误！'
+                <Paper className="login-form">
+                    <FormControl fullWidth>
+                        <InputLabel htmlFor="component-simple">用户名</InputLabel>
+                        <Input id="component-simple" value={ this.state.username } onChange={ this.modifyUser } />
+                    </FormControl>
+                    <FormControl fullWidth className="button-spacing-input">
+                        <InputLabel htmlFor="adornment-password" autocomplete="false">密码</InputLabel>
+                        <Input
+                            id="adornment-password"
+                            type={ this.state.showPassword ? 'text' : 'password' }
+                            value={ this.state.password }
+                            onChange={ this.modifyPass }
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                aria-label="Toggle password visibility"
+                                onClick={ this.handleClickShowPassword }
+                                >
+                                { this.state.showPassword ? <Visibility /> : <VisibilityOff /> }
+                                </IconButton>
+                            </InputAdornment>
+                            }
                         />
-                    </Form.Field>
-                    <Button content="登录" secondary onClick={ this.loginIn } />
-                </Form>
+                    </FormControl>
+                    <FormControl fullWidth className="button-spacing-btn">
+                        <Button variant="contained" color="primary" onClick={ this.loginIn }>
+                            登录
+                        </Button>
+                    </FormControl>
+                </Paper>
             </div>
         );
     }
@@ -130,4 +161,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 // 通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
