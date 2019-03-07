@@ -1,39 +1,61 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
-// import { Form, Input, Button, Message} from 'semantic-ui-react';
 
 import userAction from '../../store/user/userAction';
 import * as Http from '../../api/http';
 import { JSEncrypt } from 'jsencrypt';
 import Toastr from 'toastr';
 
-import Paper from '@material-ui/core/Paper';
-import { withStyles, createStyles } from '@material-ui/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import PropTypes from 'prop-types';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import InputLabel from '@material-ui/core/InputLabel';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import './Login.scss';
 
 const history = createHashHistory();
 
-const styles = createStyles({
-    login: {
-        padding: '16px 24px 24px',
-        backgroundColor: 'blue'
+const styles = theme => ({
+    main: {
+        width: 'auto',
+        display: 'block', // Fix IE 11 issue.
+        marginLeft: theme.spacing.unit * 3,
+        marginRight: theme.spacing.unit * 3,
+        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+            width: 400,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
     },
-    spacing: {
-        marginTop: '20px'
+    paper: {
+        marginTop: theme.spacing.unit * 8,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     },
-
+    avatar: {
+        margin: theme.spacing.unit,
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing.unit,
+    },
+    submit: {
+        marginTop: theme.spacing.unit * 3,
+    },
 });
-
 
 class Login extends React.Component {
     constructor(props) {
@@ -106,47 +128,61 @@ class Login extends React.Component {
     }
     handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }));
-    };
+    }
     handleChange = prop => event => {
         this.setState({ [prop]: event.target.value });
-    };
+    }
+    inputKeyPress = (e) => {
+        if (13 === e.keyCode) {
+            // 回车键
+            this.loginIn();
+        }
+    }
     render() {
+        const { classes } = this.props;
         return (
-            <div className="login-container">
-                <Paper className="login-form">
-                    <FormControl fullWidth>
-                        <InputLabel htmlFor="component-simple">用户名</InputLabel>
-                        <Input id="component-simple" value={ this.state.username } onChange={ this.modifyUser } />
-                    </FormControl>
-                    <FormControl fullWidth className="button-spacing-input">
-                        <InputLabel htmlFor="adornment-password" autocomplete="false">密码</InputLabel>
-                        <Input
-                            id="adornment-password"
-                            type={ this.state.showPassword ? 'text' : 'password' }
-                            value={ this.state.password }
-                            onChange={ this.modifyPass }
-                            endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                aria-label="Toggle password visibility"
-                                onClick={ this.handleClickShowPassword }
-                                >
-                                { this.state.showPassword ? <Visibility /> : <VisibilityOff /> }
-                                </IconButton>
-                            </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                    <FormControl fullWidth className="button-spacing-btn">
-                        <Button variant="contained" color="primary" onClick={ this.loginIn }>
+            <main className={classes.main}>
+                <CssBaseline />
+                <Paper className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        欢迎使用Zircon！
+                    </Typography>
+                    <form className={classes.form}>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="username">用户名</InputLabel>
+                            <Input id="username" name="username"  value={ this.state.username } onChange={ this.modifyUser } autoComplete="false" autoFocus onKeyPress={ this.inputKeyPress} />
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="password">密码</InputLabel>
+                            <Input name="password" type="password" id="password" value={ this.state.password } onChange={ this.modifyPass } autoComplete="current-password" onKeyPress={ this.inputKeyPress} />
+                        </FormControl>
+                        {/* <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" />}
+                            label="Remember me"
+                        /> */}
+                        <Button
+                            type="button"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={ classes.submit }
+                            onClick={ this.loginIn }
+                        >
                             登录
                         </Button>
-                    </FormControl>
+                    </form>
                 </Paper>
-            </div>
+            </main>
         );
     }
 }
+
+Login.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
     return {
@@ -161,4 +197,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 // 通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withStyles(styles)(Login)));

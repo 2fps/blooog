@@ -1,12 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-    Form, 
-    Input } from 'semantic-ui-react';
-import grey from '@material-ui/core/colors/grey';
-import blue from '@material-ui/core/colors/blue';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import websiteAction from '../../store/website/websiteAction';
 
@@ -18,8 +14,8 @@ class Setting extends React.Component {
     }
       
     onChange = (e, data) => {
-        let name = e.target.parentElement.getAttribute('data-name'),
-            value = data.value;
+        let name = e.target.parentElement.parentElement.getAttribute('data-name'),
+            value = e.target.value;
 
         this.props.modifyWebsiteConfig(name, value);
     }
@@ -39,28 +35,76 @@ class Setting extends React.Component {
     }
     render() {
         return (
-            <Form>
-                <Form.Field inline>
-                    <label className="setting-field">站点名称</label>
-                    <Input className="wd-400" value={ this.props.website.siteName } data-name="siteName" onChange={ this.onChange } placeholder='请输入站点名称' />
-                </Form.Field>
-                <Form.Field inline>
-                    <label className="setting-field">站点副标题</label>
-                    <Input className="wd-400" value={ this.props.website.subTitle } data-name="subTitle" onChange={ this.onChange } placeholder='请输入站点副标题' />
-                </Form.Field>
-                <Form.Field inline>
-                    <label className="setting-field">站点url</label>
-                    <Input className="wd-400" value={ this.props.website.siteUrl } data-name="siteUrl" onChange={ this.onChange } placeholder='请输入站点url' />
-                </Form.Field>
-                <Form.Field inline>
-                    <label className="setting-field">网站备案号</label>
-                    <Input className="wd-400" value={ this.props.website.webRecord } data-name="webRecord" onChange={ this.onChange } placeholder='请输入网站备案号（可不输）' />
-                </Form.Field>
-                <Form.Field inline>
-                    <label className="setting-field"></label>
-                    <Button variant="contained" color="default" onClick={ this.save }>保存</Button>
-                </Form.Field>
-            </Form>
+            <div>
+                <TextField
+                    id="filled-full-width"
+                    label="站点名称"
+                    style={{ margin: 8 }}
+                    placeholder="请输入站点名称"
+                    fullWidth
+                    margin="normal"
+                    variant="filled"
+                    autoComplete="false"
+                    data-name="siteName"
+                    value={ this.props.website.siteName }
+                    onChange={ this.onChange }
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+                <TextField
+                    id="filled-full-width"
+                    label="站点副标题"
+                    style={{ margin: 8 }}
+                    placeholder="请输入站点副标题"
+                    fullWidth
+                    margin="normal"
+                    variant="filled"
+                    autoComplete="false"
+                    data-name="subTitle"
+                    value={ this.props.website.subTitle }
+                    onChange={ this.onChange }
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+                <TextField
+                    id="filled-full-width"
+                    label="站点url"
+                    style={{ margin: 8 }}
+                    placeholder="请输入站点url"
+                    fullWidth
+                    margin="normal"
+                    variant="filled"
+                    autoComplete="false"
+                    data-name="siteUrl"
+                    value={ this.props.website.siteUrl }
+                    onChange={ this.onChange }
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+                <TextField
+                    id="filled-full-width"
+                    label="网站备案号"
+                    style={{ margin: 8 }}
+                    placeholder="请输入网站备案号（可不输）"
+                    fullWidth
+                    margin="normal"
+                    variant="filled"
+                    autoComplete="false"
+                    data-name="webRecord"
+                    value={ this.props.website.webRecord }
+                    onChange={ this.onChange }
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+                <Button variant="contained" color="primary" className="setting-save" onClick={ this.save }>
+                    保存
+                </Button>
+            </div>
+
         )
     }
 }

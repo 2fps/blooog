@@ -1,8 +1,15 @@
 import React from 'react';
-import { Table, Pagination, Modal, Button } from 'semantic-ui-react'
+import { Pagination, Modal } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
 import Toastr from 'toastr';
+import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 import * as Http from '../../api/http';
 import { timeFormat } from '../../util/tool';
@@ -29,13 +36,13 @@ class ShowAllArticle extends React.Component {
         this.props.getArticles();
     }
     modifyRow = (e) => {
-        let articleId = e.target.parentElement.getAttribute('data-id');
+        let articleId = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
 
         history.push('/default/writearticle');
         this.props.changeState('modify', articleId);
     }
     deleteRow = (e) => {
-        let articleId = e.target.parentElement.getAttribute('data-id');
+        let articleId = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
 
         this.setState({ dialogVisible: true });
         deleteRowId = articleId;
@@ -63,36 +70,40 @@ class ShowAllArticle extends React.Component {
 
         this.props.getArticles('', start, end);
     }
-
-    renderBody = () => {
-        let temp = [];
-
-        this.props.articles.forEach((item, ind) => {
-            temp.push(
-                <Table.Row key={ ind }>
-                    <Table.Cell>{ ind + 1 }</Table.Cell>
-                    <Table.Cell>{ item.title }</Table.Cell>
-                    <Table.Cell>{ timeFormat(item.publishTime) }</Table.Cell>
-                    <Table.Cell>{ item.viewNums }</Table.Cell>
-                    <Table.Cell>{ item.likeNums }</Table.Cell>
-                    <Table.Cell data-id={ item.articleId }>
-                        <Button onClick={ this.modifyRow } size="small">编辑</Button>
-                        <Button color="red" onClick={ this.deleteRow } size="small">删除</Button>
-                    </Table.Cell>
-                </Table.Row>
-            );
-        });
-
-        return (
-            <Table.Body>
-                { temp }
-            </Table.Body>
-        );
-    }
     render() {
         return (
             <div>
-                <Table striped selectable>
+                <Paper className="all-article-container">
+                    <Table className="all-article-table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center">文章名称</TableCell>
+                                <TableCell align="center">发布日期</TableCell>
+                                <TableCell align="center">阅读数</TableCell>
+                                <TableCell align="center">点赞数</TableCell>
+                                <TableCell align="center">编辑</TableCell>
+                                <TableCell align="center">删除</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            { this.props.articles.map((item, ind) => (
+                                <TableRow key={ item.id } data-id={ item.articleId }>
+                                    <TableCell align="center">{ item.title }</TableCell>
+                                    <TableCell align="center">{ timeFormat(item.publishTime) }</TableCell>
+                                    <TableCell align="center">{ item.viewNums }</TableCell>
+                                    <TableCell align="center">{ item.likeNums }</TableCell>
+                                    <TableCell align="center">
+                                        <Button variant="contained"  onClick={ this.modifyRow }>编辑</Button>&nbsp;
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Button variant="contained" color="secondary" onClick={ this.deleteRow } size="small">删除</Button>
+                                    </TableCell>
+                                </TableRow>
+                            )) }
+                        </TableBody>
+                    </Table>
+                </Paper>
+{/*                 <Table striped selectable>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>序号</Table.HeaderCell>
@@ -104,7 +115,7 @@ class ShowAllArticle extends React.Component {
                         </Table.Row>
                     </Table.Header>
                     { this.renderBody() }
-                </Table>
+                </Table> */}
                 {/* 分页 */}
                 <div className="text-center">
                     <Pagination

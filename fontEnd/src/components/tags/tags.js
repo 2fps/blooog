@@ -1,14 +1,28 @@
 import React from 'react';
 import Chip from '@material-ui/core/Chip';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 import './tags.scss';
 
-export default class Tags extends React.Component {
+const styles = theme => ({
+    root: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+    },
+    chip: {
+        margin: theme.spacing.unit,
+    },
+});
+
+class Tags extends React.Component {
     constructor(props) {
         super(props);
     }
     showTags = () => {
-        let temp = [];
+        let temp = [],
+            { classes } = this.props;
 
         this.props.tags.forEach((item, ind) => {
             if (item.tagNum) {
@@ -17,11 +31,12 @@ export default class Tags extends React.Component {
                     <Chip
                         key={ ind }
                         label={ item.tagName }
-                        className="tag-item"
-                        component="a"
+                        className={ classes.chip }
+                        // component="a"
+                        // href="#chip"
                         clickable
                         variant="outlined"
-                        />
+                    />
                 );
             }
         });
@@ -43,3 +58,9 @@ export default class Tags extends React.Component {
         );
     }
 }
+
+Tags.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+  
+export default withStyles(styles)(Tags);

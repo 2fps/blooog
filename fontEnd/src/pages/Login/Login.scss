@@ -10,4 +10,7 @@
 }
 .button-spacing-btn {
     margin-top: 70px !important;
+    & > button {
+        background-color: #212121;
+    }
 }
