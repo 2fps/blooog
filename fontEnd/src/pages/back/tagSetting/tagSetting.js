@@ -1,6 +1,18 @@
 import React from 'react';
-import { Input, Modal, Button, Form, Table, Pagination } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import { Pagination } from 'semantic-ui-react';
+
 import * as Http from '../../../api/http';
 import TagAction from '../../../store/tags/tagsAction';
 import Toastr from 'toastr';
@@ -8,6 +20,26 @@ import Toastr from 'toastr';
 import './tagSetting.scss';
 
 let tagName = '';
+
+const styles = theme => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+    rootTable: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+        overflowX: 'auto',
+    },
+    table: {
+        minWidth: 700,
+    },
+});
+
 class TagSetting extends React.Component {
     constructor(props) {
         super(props);
@@ -18,28 +50,6 @@ class TagSetting extends React.Component {
             oldTagName: '',
             newTagName: '',
         };
-    }
-    renderTableBody() {
-        let temp = [];
-
-        this.props.tags.forEach((item, ind) => {
-            temp.push(
-                <Table.Row key={ ind }>
-                    <Table.Cell>{ item.tagName }</Table.Cell>
-                    <Table.Cell>{ item.tagNum }</Table.Cell>
-                    <Table.Cell data-id={ item.tagName }>
-                        <Button onClick={ this.modifyRow } size="small">编辑</Button>
-                        <Button color="red" onClick={ this.deleteRow } size="small">删除</Button>
-                    </Table.Cell>
-                </Table.Row>
-            );
-        });
-
-        return (
-            <Table.Body>
-                { temp }
-            </Table.Body>
-        );
     }
     addNewTag = () => {
         let newTag = this.state.tagName.trim();
@@ -137,86 +147,78 @@ class TagSetting extends React.Component {
         this.props.getTags(start, end);
     }
     render() {
-        return (
-            <div className="side-con">
-                <div className="left-side">
-                    <p className="side-title">标签</p>
-                    <h4>添加新标签</h4>
-                    <div>
-                        <Form>
-                            <Form.Field>
-                                <label>名称</label>
-                                <input placeholder='输入标签名称' value={ this.state.tagName } onChange={ this.modifyTagName } />
-                            </Form.Field>
-                            <Form.Field>
-                                <Button primary onClick={ this.addNewTag }>添加新标签</Button>
-                            </Form.Field>
-                        </Form>
-                    </div>
-                </div>
-                <div className="left-right">
-                    <Table striped selectable>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell>名称</Table.HeaderCell>
-                                <Table.HeaderCell>数量</Table.HeaderCell>
-                                <Table.HeaderCell>操作</Table.HeaderCell>
-                            </Table.Row>
-                        </Table.Header>
-                        { this.renderTableBody() }
-                    </Table>
-                    {/* 分页 */}
-                    <div className="text-center">
-                        <Pagination
-                            boundaryRange={0}
-                            defaultActivePage={1}
-                            ellipsisItem={null}
-                            firstItem={null}
-                            lastItem={null}
-                            siblingRange={1}
-                            totalPages={ Math.ceil(this.props.nums / 10) }
-                            onPageChange={ this.currentChange }
-                        />
-                    </div>
-                </div>
-                {/* 编辑提示框 */}
-                <Modal
-                    open={ this.state.updateVisible }
-                    onClose={ () => this.setState({ updateVisible: false }) }
-                    size="tiny">
-                    <Modal.Header>编辑提示</Modal.Header>
-                    <Modal.Content>
-                        <Form>
-                            <Form.Field>
-                                <label>First Name</label>
-                                <input disabled value={ this.state.oldTagName } />
-                            </Form.Field>
-                            <Form.Field>
-                                <label>Last Name</label>
-                                <input placeholder='新标签名' value={ this.state.newTagName } onChange={ this.modifyNewTagName } />
-                            </Form.Field>
-                        </Form>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button negative onClick={ () => this.setState({ updateVisible: false }) }>取消</Button>
-                        <Button positive onClick={ this.updateTag }>确定</Button>
-                    </Modal.Actions>
-                </Modal>
+        const { classes } = this.props;
 
-                {/* 删除提示框 */}
-                <Modal
-                    open={ this.state.dialogVisible }
-                    onClose={ () => this.setState({ dialogVisible: false }) }
-                    size="tiny">
-                    <Modal.Header>删除提示</Modal.Header>
-                    <Modal.Content>
-                        <p>确定删除吗？</p>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button negative onClick={ () => this.setState({ dialogVisible: false }) }>取消</Button>
-                        <Button positive onClick={ this.deleteTag }>确定</Button>
-                    </Modal.Actions>
-                </Modal>
+        return (
+            <div className={classes.root}>
+                <Grid container spacing={24}>
+                    <Grid item xs={12} sm={3}>
+                        <div className="left-side">
+                            <h4>标签</h4>
+                            <div>
+                                <TextField
+                                    label="标签名称"
+                                    style={{ margin: 8 }}
+                                    placeholder="请输入标签名称"
+                                    fullWidth
+                                    margin="normal"
+                                    autoComplete="false"
+                                    data-name="siteUrl"
+                                    value={ this.state.tagName }
+                                    onChange={ this.modifyTagName }
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                                <Button variant="contained" color="primary" className="setting-save" onClick={ this.addNewTag }>
+                                    添加新标签
+                                </Button>
+                            </div>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} sm={9}>
+                        <Paper className={classes.rootTable}>
+                            <Table className={classes.table}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center">名称</TableCell>
+                                        <TableCell align="center">数量</TableCell>
+                                        <TableCell align="center">操作</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.props.tags.map((item, ind) => (
+                                        <TableRow key={ ind }>
+                                            <TableCell align="center">{ item.tagName }</TableCell>
+                                            <TableCell align="center">{ item.tagNum }</TableCell>
+                                            <TableCell align="center" data-id={ item.tagName }>
+                                                <Button variant="contained" className="setting-save" onClick={ this.modifyRow }>
+                                                    编辑
+                                                </Button>
+                                                <Button variant="contained" color="secondary" className="setting-save" onClick={ this.deleteRow }>
+                                                    删除
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Paper>
+                        {/* 分页 */}
+                        <div className="text-center">
+                            <Pagination
+                                boundaryRange={0}
+                                defaultActivePage={1}
+                                ellipsisItem={null}
+                                firstItem={null}
+                                lastItem={null}
+                                siblingRange={1}
+                                totalPages={ Math.ceil(this.props.nums / 10) }
+                                onPageChange={ this.currentChange }
+                            />
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
         );
     }
@@ -242,5 +244,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
+TagSetting.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
 // 通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
-export default connect(mapStateToProps, mapDispatchToProps)(TagSetting);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TagSetting));

@@ -32,7 +32,7 @@ export default class Welcome extends React.Component {
     render() {
         return (
             <div className="welcome">
-                <Header as='h2'>欢迎使用blooog。</Header>
+                <Header as='h2'>欢迎使用<a href="https://github.com/2fps/blooog" target="_target">blooog</a>。此页面放点啥比较好呢。</Header>
                 {/* <Message>
                     <Message.Header >New Site Features</Message.Header>
                     <Message.List items={ sysTips} />

@@ -28,6 +28,8 @@ let scrollFn = function() {};
 const styles = theme => ({
     root: {
         width: '100%',
+        position: 'absolute',
+        top: '0px'
     },
     grow: {
         flexGrow: 1,
@@ -175,6 +177,6 @@ class Index extends React.Component {
 
 Index.propTypes = {
     classes: PropTypes.object.isRequired,
-  };
-  
-  export default withStyles(styles)(Index);
+};
+
+export default withStyles(styles)(Index);

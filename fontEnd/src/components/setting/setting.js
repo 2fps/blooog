@@ -37,13 +37,11 @@ class Setting extends React.Component {
         return (
             <div>
                 <TextField
-                    id="filled-full-width"
                     label="站点名称"
                     style={{ margin: 8 }}
                     placeholder="请输入站点名称"
                     fullWidth
                     margin="normal"
-                    variant="filled"
                     autoComplete="false"
                     data-name="siteName"
                     value={ this.props.website.siteName }
@@ -53,13 +51,11 @@ class Setting extends React.Component {
                     }}
                 />
                 <TextField
-                    id="filled-full-width"
                     label="站点副标题"
                     style={{ margin: 8 }}
                     placeholder="请输入站点副标题"
                     fullWidth
                     margin="normal"
-                    variant="filled"
                     autoComplete="false"
                     data-name="subTitle"
                     value={ this.props.website.subTitle }
@@ -69,13 +65,11 @@ class Setting extends React.Component {
                     }}
                 />
                 <TextField
-                    id="filled-full-width"
                     label="站点url"
                     style={{ margin: 8 }}
                     placeholder="请输入站点url"
                     fullWidth
                     margin="normal"
-                    variant="filled"
                     autoComplete="false"
                     data-name="siteUrl"
                     value={ this.props.website.siteUrl }
@@ -85,13 +79,11 @@ class Setting extends React.Component {
                     }}
                 />
                 <TextField
-                    id="filled-full-width"
                     label="网站备案号"
                     style={{ margin: 8 }}
                     placeholder="请输入网站备案号（可不输）"
                     fullWidth
                     margin="normal"
-                    variant="filled"
                     autoComplete="false"
                     data-name="webRecord"
                     value={ this.props.website.webRecord }

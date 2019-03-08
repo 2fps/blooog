@@ -87,7 +87,7 @@ class ShowAllArticle extends React.Component {
                         </TableHead>
                         <TableBody>
                             { this.props.articles.map((item, ind) => (
-                                <TableRow key={ item.id } data-id={ item.articleId }>
+                                <TableRow key={ ind } data-id={ item.articleId }>
                                     <TableCell align="center">{ item.title }</TableCell>
                                     <TableCell align="center">{ timeFormat(item.publishTime) }</TableCell>
                                     <TableCell align="center">{ item.viewNums }</TableCell>
@@ -103,19 +103,6 @@ class ShowAllArticle extends React.Component {
                         </TableBody>
                     </Table>
                 </Paper>
-{/*                 <Table striped selectable>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>序号</Table.HeaderCell>
-                            <Table.HeaderCell>文章名称</Table.HeaderCell>
-                            <Table.HeaderCell>时间</Table.HeaderCell>
-                            <Table.HeaderCell>阅读数</Table.HeaderCell>
-                            <Table.HeaderCell>点赞数</Table.HeaderCell>
-                            <Table.HeaderCell>操作</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    { this.renderBody() }
-                </Table> */}
                 {/* 分页 */}
                 <div className="text-center">
                     <Pagination
