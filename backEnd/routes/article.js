@@ -58,7 +58,7 @@ router.get('/articles', async (ctx, next) => {
 router.post('/article', async (ctx, next) => {
     let body = ctx.request.body,
         title = body.title,
-        // author = body.author,
+        brief = body.brief,
         // commentNums = 0,
         mdContent = body.mdContent,
         htmlContent = body.htmlContent,
@@ -77,7 +77,7 @@ router.post('/article', async (ctx, next) => {
         tagsId,
         articleId: timeStamp,
         publishTime: timeStamp,
-        brief: mdContent.slice(0, 110)
+        brief
     });
 
     // 更新数据库
@@ -176,6 +176,7 @@ router.put('/article', async (ctx, next) => {
         title = body.title,
         mdContent = body.mdContent,
         htmlContent = body.htmlContent,
+        brief = body.brief,
         newTags = body.tagsId,
         res = {
             result: true,
@@ -205,7 +206,7 @@ router.put('/article', async (ctx, next) => {
             mdContent,
             htmlContent,
             tagsId: newTags,
-            brief: mdContent.slice(0, 110)
+            brief
         }).exec();
     } catch (e) {
         res = errorCode.errorMsg(20005);

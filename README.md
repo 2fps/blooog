@@ -1,23 +1,29 @@
 # blooog
 blooog
-基于semantic-ui-react + react + koa2 + mongodb的个人博客，目前仍在开发中，只有很简单的功能。
+基于material-ui + react + koa2 + mongodb的个人博客，目前仍在开发中，只有很简单的功能。
 
 技术栈：
-UI: semantic-ui、toastr(全局提示组件)。  
+UI: semantic-ui、toastr(全局提示组件)、semantic-ui-react（pagination组件）。  
 JS：React、react-router、redux、redux-thunk。  
-服务端: koa2 + typescript(逐步替换js)。  
+服务端: koa2 (将逐步替换ts)。  
 数据库: mongodb（mongoose）。  
 
 demo地址：http://132.232.131.250:3000    admin / admin  
 上域名太麻烦了，请轻测。  
 
 主要目的：  
-1.练习无法在工作中使用的技术栈。  
-2.一直都想有个自己写的博客，可以随时替换一些功能，顺便替换现在的博客。
+1. 练习无法在工作中使用的技术栈。  
+2. 可能的话，替换掉现在的博客系统。
 
 文档详细地址：https://www.kancloud.cn/fps_2fps/test1/937003  
 API详细地址：https://www.showdoc.cc/234860389352945?page_id=1338365306594574  
-修改记录地址：https://github.com/2fps/blooog/wiki/ModifyRecord  
+修改记录地址：https://www.kancloud.cn/fps_2fps/test1/961710  
+
+## 已实现功能
+1. 文章的增删改查。
+2. 标签的增删改查。
+3. 站点配置。
+4. 加密登录和修改密码功能。
 
 ## fontEnd
 此文件夹下存放的是前端代码。
@@ -43,6 +49,9 @@ npm run build
 
 ## backEnd
 此文件夹下存放的是服务端代码。
+
+### 服务器启动
+我是在window下开发的，在mongodb安装目录的bin目录下启动powershell或者cmd，输入 ./mongod.exe --dbpath D:/data/ （我是选择D盘的data文件夹存放数据的）。
 
 ### 默认基础配置
 在config文件夹下的config.js中，可以设置默认用户的账户名和密码（服务器启动后会写入数据库），请启动前修改，或启动后修改密码。  
@@ -168,7 +177,7 @@ suzo unzip ***.zip
 ```
 
 ## 最后一步
-此时在浏览器的地址栏中输入，http://ip:3000（自己有域名的话，可以挂上），可以访问到blooog了。  
+此时在浏览器的地址栏中输入，http://ip:3000 （自己有域名的话，可以挂上），可以访问到blooog了。  
 如果使用admin/admin密码的请登录后，再右上角点击修改密码。  
 为了博客的一些功能的正常使用，请在设置中增加正确的配置。  
 

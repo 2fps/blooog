@@ -19,3 +19,9 @@ export function timeFormat(stamp) {
 
     return str;
 }
+
+export function removeLabel(str, num = 110) {
+    str = str.replace(/<[\/\!]*[^<>]*>/ig, "").replace(/[\r\n]/g,"");
+    
+    return str.substring(0, num);
+}

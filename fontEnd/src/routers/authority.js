@@ -7,7 +7,7 @@ class Authority extends React.Component {
             component: Component,
             ...rest
         } = this.props;
-        const isLogged = sessionStorage.getItem("token") != null ? true : false;
+        const isLogged = sessionStorage.getItem("token") ? true : false;
         return (
             <Route {...rest} render={props => {
                 return isLogged

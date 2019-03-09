@@ -64,7 +64,7 @@ export function modifyPass(username, oldpass, newpass) {
 
 // 保存修改的setting数据
 export function saveWebsiteConfig(condition) {
-    return axios.post('/api/website', condition)
+    return axios.put('/api/website', condition)
     .then(function (response) {
         return response;
     });

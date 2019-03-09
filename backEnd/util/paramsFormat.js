@@ -35,13 +35,6 @@ let paramsFormat = {
         articlesNum: {}
     },
     post: {
-        // 修改文章站点信息
-        website: {
-            siteName: Joi.string(),
-            subTitle: Joi.string(),
-            siteUrl: Joi.string(),
-            webRecord: Joi.string()
-        },
         // 保存标签
         tag: {
             tagName: Joi.string(),
@@ -57,12 +50,20 @@ let paramsFormat = {
             title: Joi.string(),
             mdContent: Joi.string(),
             htmlContent: Joi.string(),
+            brief: Joi.string(),
             tagsId: Joi.array().items(
                 Joi.number()
             )
         }
     },
     put: {
+        // 修改文章站点信息
+        website: {
+            siteName: Joi.string(),
+            subTitle: Joi.string(),
+            siteUrl: Joi.string(),
+            webRecord: Joi.string().allow('')
+        },
         // 修改 tag 名称
         tag: {
             tagName: Joi.string(),
@@ -80,6 +81,7 @@ let paramsFormat = {
             title: Joi.string(),
             mdContent: Joi.string(),
             htmlContent: Joi.string(),
+            brief: Joi.string(),
             tagsId: Joi.array().items(
                 Joi.number()
             )

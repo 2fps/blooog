@@ -18,11 +18,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
-
 import marked from 'marked';
 
 import * as Http from '../../api/http';
 import filterAction from '../../store/filter/filterAction';
+import { removeLabel } from '../../util/tool';
 
 import './writearticle.scss';
 
@@ -94,8 +94,10 @@ class WriteArticle extends React.Component {
         condition.mdContent = this.state.value;
         condition.title = this.state.title;
         condition.htmlContent = marked(this.state.value);
-        // 保存文章 tags 的id号
+        // 过滤标签，增加文章简介
+        condition.brief = removeLabel(condition.htmlContent, 110);
 
+        // 保存文章 tags 的id号
         condition.tagsId = [];
         this.state.tags.forEach((item, ind) => {
             condition.tagsId.push(this.props.nameToId[ item ]);
@@ -109,7 +111,6 @@ class WriteArticle extends React.Component {
 
             return;
         }
-
 
         Http.saveArticle(condition).then(handleSuccess, handleError);
     }
