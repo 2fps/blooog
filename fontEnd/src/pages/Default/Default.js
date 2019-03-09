@@ -397,7 +397,7 @@ class Default extends React.Component{
                             提示
                         </DialogTitle>
                         <DialogContent>
-                            <DialogContentText>
+                            <DialogContentText component="div">
                                 <p>即将要登出，确定吗？</p>
                             </DialogContentText>
                         </DialogContent>

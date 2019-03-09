@@ -80,12 +80,15 @@ class Login extends React.Component {
 
         // 获取公钥
         Http.getPublicKey().then((da) => {
-            let publicKey = da.data.secret,
-                encrypt = new JSEncrypt();
-
-            encrypt.setPublicKey(publicKey);
-            // 加密密码
-            password = encrypt.encrypt(password);
+            if (da.data.result) {
+                // 开启加密则加密 password 字段
+                let publicKey = da.data.secret,
+                    encrypt = new JSEncrypt();
+    
+                encrypt.setPublicKey(publicKey);
+                // 加密密码
+                password = encrypt.encrypt(password);
+            }
 
             Http.loginIn(username, password).then((data) => {
                 let da = data.data;

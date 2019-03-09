@@ -3,22 +3,35 @@ const userModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const RSA = require('../util/RSA.js');
 const errorCode = require('../util/errorCode');
+const config = require('../config/config');
 
 router.prefix('/api');
 
 router.post('/loginIn', async (ctx, next) => {
     let crypto = require('crypto'),
         hash = crypto.createHash('md5'),
-        query = ctx.request.body,
-        username = query.username,
-        password = query.password,
+        body = ctx.request.body,
+        username = body.username,
+        password = body.password,
+        decrypted = null,
+        info = null;
+
+    // 开启登录加密功能
+    if (config.loginEncryption) {
         // RSA解密
         decrypted = RSA.key.decrypt(password, 'utf8');
-
-    // console.log('decrypted: ', decrypted);
+    } else {
+        decrypted = password;
+    }
+    // MD5 加密
     password = hash.update(decrypted).digest('base64');
 
-    let info = await userModel.findOne({username}).exec();
+    try {
+        info = await userModel.findOne({username}).exec();
+    } catch (e) {
+
+    }
+
 
     if (info && info.password === password) {
         let userToken = {
@@ -51,9 +64,14 @@ router.put('/user', async (ctx, next) => {
         username = query.username,
         oldpass = MD5(query.oldpass),
         newpass = MD5(query.newpass),
-        res = null;
+        res = null,
+        hasUser = false;
 
-    let hasUser = await userModel.findOne({username}).exec();
+    try {
+        hasUser = await userModel.findOne({username}).exec();
+    } catch (e) {
+
+    }
 
     if (hasUser && oldpass == hasUser.password) {
         // 校验老密码，正确
