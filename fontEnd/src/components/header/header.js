@@ -38,12 +38,6 @@ const styles = theme => ({
         marginLeft: -12,
         marginRight: 20,
     },
-    title: {
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
-    },
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -54,10 +48,6 @@ const styles = theme => ({
         marginRight: theme.spacing.unit * 2,
         marginLeft: 0,
         width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit * 3,
-            width: 'auto',
-        },
     },
     searchIcon: {
         width: theme.spacing.unit * 9,
@@ -79,21 +69,6 @@ const styles = theme => ({
         paddingLeft: theme.spacing.unit * 10,
         transition: theme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200,
-        },
-    },
-    sectionDesktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
-    },
-    sectionMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
     },
 });
 

@@ -133,7 +133,7 @@ class Login extends React.Component {
         this.setState({ [prop]: event.target.value });
     }
     inputKeyPress = (e) => {
-        if (13 === e.keyCode) {
+        if (13 === e.charCode) {
             // 回车键
             this.loginIn();
         }
@@ -157,7 +157,7 @@ class Login extends React.Component {
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">密码</InputLabel>
-                            <Input name="password" type="password" id="password" value={ this.state.password } onChange={ this.modifyPass } autoComplete="current-password" onKeyPress={ this.inputKeyPress} />
+                            <Input name="password" type="password" id="password" value={ this.state.password } onChange={ this.modifyPass } autoComplete="current-password" onKeyPress={ this.inputKeyPress } />
                         </FormControl>
                         {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}

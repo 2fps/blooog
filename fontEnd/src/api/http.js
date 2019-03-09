@@ -24,9 +24,9 @@ export function getArticle(search, start, end) {
         url += '&end=' + end;
     }
 
-    if (!search) {
-        url += '&search=' + search;
-    }
+    // if (!search) {
+    //     url += '&search=' + search;
+    // }
 
     return axios.get(url).then(function(response) {
         return response;

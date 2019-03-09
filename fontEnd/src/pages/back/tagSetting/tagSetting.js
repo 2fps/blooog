@@ -11,6 +11,11 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { Pagination } from 'semantic-ui-react';
 
 import * as Http from '../../../api/http';
@@ -36,7 +41,7 @@ const styles = theme => ({
         overflowX: 'auto',
     },
     table: {
-        minWidth: 700,
+        // minWidth: 700,
     },
 });
 
@@ -86,16 +91,16 @@ class TagSetting extends React.Component {
         });
     }
     modifyRow = (e) => {
-        tagName = e.target.parentElement.getAttribute('data-id');
+        tagName = e.target.parentElement.parentElement.getAttribute('data-id');
 
         this.setState({
             updateVisible: true,
-            oldTagName: tagName
+            oldTagName: tagName || ''
         });
     }
     // 表格内删除按钮
     deleteRow = (e) => {
-        tagName = e.target.parentElement.getAttribute('data-id');
+        tagName = e.target.parentElement.parentElement.getAttribute('data-id');
 
         this.setState({ dialogVisible: true });
     }
@@ -147,12 +152,12 @@ class TagSetting extends React.Component {
         this.props.getTags(start, end);
     }
     render() {
-        const { classes } = this.props;
+        const { classes, fullScreen } = this.props;
 
         return (
             <div className={classes.root}>
                 <Grid container spacing={24}>
-                    <Grid item xs={12} sm={3}>
+                    <Grid item sm={12} md={3}>
                         <div className="left-side">
                             <h4>标签</h4>
                             <div>
@@ -176,7 +181,7 @@ class TagSetting extends React.Component {
                             </div>
                         </div>
                     </Grid>
-                    <Grid item xs={12} sm={9}>
+                    <Grid item sm={12} md={9}>
                         <Paper className={classes.rootTable}>
                             <Table className={classes.table}>
                                 <TableHead>
@@ -192,10 +197,10 @@ class TagSetting extends React.Component {
                                             <TableCell align="center">{ item.tagName }</TableCell>
                                             <TableCell align="center">{ item.tagNum }</TableCell>
                                             <TableCell align="center" data-id={ item.tagName }>
-                                                <Button variant="contained" className="setting-save" onClick={ this.modifyRow }>
+                                                <Button variant="contained" className="setting-save" onClick={ this.modifyRow } size="small">
                                                     编辑
                                                 </Button>
-                                                <Button variant="contained" color="secondary" className="setting-save" onClick={ this.deleteRow }>
+                                                <Button variant="contained" color="secondary" className="setting-save" onClick={ this.deleteRow } size="small">
                                                     删除
                                                 </Button>
                                             </TableCell>
@@ -219,6 +224,80 @@ class TagSetting extends React.Component {
                         </div>
                     </Grid>
                 </Grid>
+                {/* 编辑 tag 弹出框 */}
+                <Dialog
+                    fullScreen={ fullScreen }
+                    open={ this.state.updateVisible }
+                    aria-labelledby="responsive-dialog-title"
+                    >
+                    <DialogTitle id="responsive-dialog-title">
+                        编辑
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText component="div">
+                            <TextField
+                                label="旧标签名"
+                                style={{ margin: 8 }}
+                                placeholder="请输入旧标签名"
+                                fullWidth
+                                data-name="oldTagName"
+                                autoComplete="false"
+                                margin="normal"
+                                disabled
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={ this.state.oldTagName }
+                                onChange={ this.modifyInfo }
+                            />
+                            <TextField
+                                label="新标签名"
+                                style={{ margin: 8 }}
+                                placeholder="请输入新标签名"
+                                fullWidth
+                                data-name="newTagName"
+                                autoComplete="false"
+                                margin="normal"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={ this.state.newTagName }
+                                onChange={ this.modifyNewTagName }
+                            />
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={ () => this.setState({ updateVisible: false }) } color="secondary" size="small">
+                            取消
+                        </Button>
+                        <Button onClick={ this.updateTag } color="primary" size="small">
+                            确定
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                {/* 删除提示框 */}
+                <Dialog
+                    fullScreen={ fullScreen }
+                    open={ this.state.dialogVisible }
+                    aria-labelledby="responsive-dialog-title"
+                    >
+                    <DialogTitle id="responsive-dialog-title">
+                        提示
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText component="div">
+                            <p>即将要删除该标签，确定吗？</p>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={ () => this.setState({ dialogVisible: false }) } color="secondary">
+                            取消
+                        </Button>
+                        <Button onClick={ this.deleteTag } color="primary" autoFocus>
+                            确定
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }

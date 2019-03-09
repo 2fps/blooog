@@ -1,8 +1,10 @@
 import React from 'react';
-import { Pagination, Modal } from 'semantic-ui-react'
+import { Pagination } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { createHashHistory } from 'history';
 import Toastr from 'toastr';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +12,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import * as Http from '../../api/http';
 import { timeFormat } from '../../util/tool';
@@ -19,6 +26,17 @@ import filterAction from '../../store/filter/filterAction';
 import './showallarticle.scss';
 
 const history = createHashHistory();
+
+const styles = theme => ({
+    root: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+        overflowX: 'auto',
+    },
+    table: {
+        // minWidth: 700,
+    },
+});
 
 // 用来保存被删除行的数据
 let deleteRowId = '';
@@ -71,18 +89,19 @@ class ShowAllArticle extends React.Component {
         this.props.getArticles('', start, end);
     }
     render() {
+        const { classes, fullScreen } = this.props;
+
         return (
             <div>
-                <Paper className="all-article-container">
-                    <Table className="all-article-table">
+                <Paper className={classes.root}>
+                    <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center">文章名称</TableCell>
                                 <TableCell align="center">发布日期</TableCell>
                                 <TableCell align="center">阅读数</TableCell>
                                 <TableCell align="center">点赞数</TableCell>
-                                <TableCell align="center">编辑</TableCell>
-                                <TableCell align="center">删除</TableCell>
+                                <TableCell align="center">操作</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -93,9 +112,7 @@ class ShowAllArticle extends React.Component {
                                     <TableCell align="center">{ item.viewNums }</TableCell>
                                     <TableCell align="center">{ item.likeNums }</TableCell>
                                     <TableCell align="center">
-                                        <Button variant="contained"  onClick={ this.modifyRow }>编辑</Button>&nbsp;
-                                    </TableCell>
-                                    <TableCell align="center">
+                                        <Button variant="contained"  onClick={ this.modifyRow } size="small">编辑</Button>&nbsp;
                                         <Button variant="contained" color="secondary" onClick={ this.deleteRow } size="small">删除</Button>
                                     </TableCell>
                                 </TableRow>
@@ -117,19 +134,28 @@ class ShowAllArticle extends React.Component {
                     />
                 </div>
 
-                <Modal
+                <Dialog
+                    fullScreen={ fullScreen }
                     open={ this.state.dialogVisible }
-                    onClose={ () => this.setState({ dialogVisible: false }) }
-                    size="tiny">
-                    <Modal.Header>提示</Modal.Header>
-                    <Modal.Content>
-                        <p>确定删除吗？</p>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button negative onClick={ () => this.setState({ dialogVisible: false }) }>取消</Button>
-                        <Button positive onClick={ this.deleteArticle }>确定</Button>
-                    </Modal.Actions>
-                </Modal>
+                    aria-labelledby="responsive-dialog-title"
+                    >
+                    <DialogTitle id="responsive-dialog-title">
+                        提示
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText component="div">
+                            <p>即将要删除该文章，确定吗？</p>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={ () => this.setState({ dialogVisible: false }) } color="secondary">
+                            取消
+                        </Button>
+                        <Button onClick={ this.deleteArticle } color="primary" autoFocus>
+                            确定
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }
@@ -152,5 +178,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
+ShowAllArticle.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
 // 通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
-export default connect(mapStateToProps, mapDispatchToProps)(ShowAllArticle);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ShowAllArticle));

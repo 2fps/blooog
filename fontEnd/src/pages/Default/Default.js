@@ -55,6 +55,7 @@ import Showallarticle from '../../components/showallarticle/showallarticle';
 import Writearticle from '../../components/writearticle/writearticle';
 import Setting from '../../components/setting/setting';
 import TagSetting from '../../pages/back/tagSetting/tagSetting.js';
+import websiteAction from '../../store/website/websiteAction';
 
 import './Default.scss';
 const history = createHashHistory();
@@ -98,7 +99,7 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
-  },
+    },
     drawerClose: {
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
@@ -122,7 +123,11 @@ const styles = theme => ({
         padding: theme.spacing.unit * 3,
     },
     white: {
-        color: '#fff !important'
+        color: '#fff !important',
+    },
+    navbarRight: {
+        position: 'absolute',
+        right: '0px',
     },
 });
 
@@ -230,6 +235,9 @@ class Default extends React.Component{
     handleLoginOut = () => {
         this.setState({ openLoginOut: true });
     };
+    componentDidMount() {
+        this.props.getWebsiteConifg();
+    }
     render() {
         const { activeIndex, open2 } = this.state;
         const { classes, theme, fullScreen } = this.props;
@@ -259,14 +267,15 @@ class Default extends React.Component{
                                 { this.props.website.siteName }
                             </a>
                         </Typography>
-                        <div>
+                        <div className={ classes.navbarRight }>
                             <Button
                                 buttonRef={node => {
-                                this.anchorEl = node;
+                                    this.anchorEl = node;
                                 }}
                                 aria-owns={open2 ? 'menu-list-grow' : undefined}
                                 aria-haspopup="true"
                                 onClick={this.handleToggle}
+                                className={ classes.white }
                             >
                                 设置
                             </Button>
@@ -415,7 +424,6 @@ class Default extends React.Component{
                         <DialogContent>
                             <DialogContentText>
                                 <TextField
-                                    id="filled-full-width"
                                     label="旧密码"
                                     style={{ margin: 8 }}
                                     placeholder="请输入旧密码"
@@ -423,7 +431,6 @@ class Default extends React.Component{
                                     data-name="oldPass"
                                     autoComplete="false"
                                     margin="normal"
-                                    variant="filled"
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
@@ -431,7 +438,6 @@ class Default extends React.Component{
                                     onChange={ this.modifyInfo }
                                 />
                                 <TextField
-                                    id="filled-full-width"
                                     label="新密码"
                                     style={{ margin: 8 }}
                                     placeholder="请输入新密码"
@@ -439,7 +445,6 @@ class Default extends React.Component{
                                     data-name="newPass1"
                                     autoComplete="false"
                                     margin="normal"
-                                    variant="filled"
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
@@ -447,7 +452,6 @@ class Default extends React.Component{
                                     onChange={ this.modifyInfo }
                                 />
                                 <TextField
-                                    id="filled-full-width"
                                     label="新密码"
                                     style={{ margin: 8 }}
                                     placeholder="再一次输入新密码"
@@ -455,7 +459,6 @@ class Default extends React.Component{
                                     data-name="newPass2"
                                     autoComplete="false"
                                     margin="normal"
-                                    variant="filled"
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
@@ -494,6 +497,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
+        getWebsiteConifg: () => dispatch(websiteAction.getConfig()),
     }
 };
 
