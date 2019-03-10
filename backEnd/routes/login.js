@@ -7,31 +7,28 @@ const config = require('../config/config');
 
 router.prefix('/api');
 
+// 用户登录
 router.post('/loginIn', async (ctx, next) => {
     let crypto = require('crypto'),
         hash = crypto.createHash('md5'),
         body = ctx.request.body,
         username = body.username,
         password = body.password,
-        decrypted = null,
         info = null;
 
     // 开启登录加密功能
     if (config.loginEncryption) {
         // RSA解密
-        decrypted = RSA.key.decrypt(password, 'utf8');
-    } else {
-        decrypted = password;
+        password = RSA.key.decrypt(password, 'utf8');
     }
-    // MD5 加密
-    password = hash.update(decrypted).digest('base64');
+    // MD5 处理
+    password = MD5(password);
 
     try {
         info = await userModel.findOne({username}).exec();
     } catch (e) {
 
     }
-
 
     if (info && info.password === password) {
         let userToken = {
@@ -62,10 +59,20 @@ router.post('/loginOut', async (ctx, next) => {
 router.put('/user', async (ctx, next) => {
     let query = ctx.request.body,
         username = query.username,
-        oldpass = MD5(query.oldpass),
-        newpass = MD5(query.newpass),
+        oldpass = query.oldpass,
+        newpass = query.newpass,
         res = null,
         hasUser = false;
+
+    // 开启登录加密功能
+    if (config.loginEncryption) {
+        // RSA解密
+        oldpass = RSA.key.decrypt(oldpass, 'utf8');
+        newpass = RSA.key.decrypt(newpass, 'utf8');
+    }
+    // MD5 处理
+    oldpass = MD5(oldpass);
+    newpass = MD5(newpass);
 
     try {
         hasUser = await userModel.findOne({username}).exec();

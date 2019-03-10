@@ -3,7 +3,7 @@ blooog
 基于material-ui + react + koa2 + mongodb的个人博客，目前仍在开发中，只有很简单的功能。
 
 技术栈：
-UI: semantic-ui、toastr(全局提示组件)、semantic-ui-react（pagination组件）。  
+UI: material-ui、toastr(全局提示组件)、semantic-ui-react（pagination组件）。  
 JS：React、react-router、redux、redux-thunk。  
 服务端: koa2 (将逐步替换ts)。  
 数据库: mongodb（mongoose）。  
@@ -18,6 +18,7 @@ demo地址：http://132.232.131.250:3000    admin / admin
 文档详细地址：https://www.kancloud.cn/fps_2fps/test1/937003  
 API详细地址：https://www.showdoc.cc/234860389352945?page_id=1338365306594574  
 修改记录地址：https://www.kancloud.cn/fps_2fps/test1/961710  
+问题记录：https://www.kancloud.cn/fps_2fps/test1/973491  
 
 ## 已实现功能
 1. 文章的增删改查。

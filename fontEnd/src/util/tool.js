@@ -20,6 +20,11 @@ export function timeFormat(stamp) {
     return str;
 }
 
+/**
+ * 将字符串中的标签剔除
+ * @param {String} str 需要处理的字符串
+ * @param {Number} num 提取处理完成后的字符串中多少个字符
+ */
 export function removeLabel(str, num = 110) {
     str = str.replace(/<[\/\!]*[^<>]*>/ig, "").replace(/[\r\n]/g,"");
     

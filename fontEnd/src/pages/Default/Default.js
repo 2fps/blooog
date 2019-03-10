@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import Toastr from 'toastr';
 import { createHashHistory } from 'history';
+import { JSEncrypt } from 'jsencrypt';
 import {
     Switch,
     Route
@@ -35,6 +36,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 // icon 图标
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -47,6 +49,8 @@ import Description from '@material-ui/icons/Description';
 import DeveloperBoard from '@material-ui/icons/DeveloperBoard';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import * as Http from '../../api/http';
 
@@ -141,6 +145,9 @@ class Default extends React.Component{
             open1: false,
             open2: false,
             openLoginOut: false,        // 登出的弹出框
+            showPassword: false,        // 老密码明文显示
+            showPassword1: false,       // 密码1明文显示
+            showPassword2: false,       // 密码2明文显示
             form: {
                 oldPass: '',
                 newPass1: '',
@@ -160,8 +167,9 @@ class Default extends React.Component{
     };
     // 退出弹出框点击确定，触发退出事件
     loginOut = () => {
-        // 清除token
+        // 清除token,用户名等信息
         sessionStorage.setItem('token', '');
+        sessionStorage.setItem('username', '');
         history.push('/login');
     }
     showModifyPass = () => {
@@ -185,31 +193,49 @@ class Default extends React.Component{
         let form = this.state.form;
 
         if ('' === form.oldPass.trim()) {
-            form.newPassError = true;
-            this.setState({form});
+            Toastr.error('请输入密码！', '提示');
 
             return;
         }
         // 校验
         if (form.newPass1 !== form.newPass2 || 
             '' == form.newPass1 || '' == form.newPass2) {
-            form.oldPassError = true;
-            this.setState({form});
+            Toastr.error('两次密码输入不相同！', '提示');
 
             return;
         }
-        let username = sessionStorage.getItem('username');
-        // send
-        Http.modifyPass(username, form.oldPass, form.newPass1).then((data) => {
-            if (data.data.result) {
-                // 修改成功
-                sessionStorage.setItem('token', '');
-                sessionStorage.setItem('username', '');
+        let username = sessionStorage.getItem('username'),
+            oldPass = form.oldPass,
+            newPass = form.newPass1;
 
-                history.push('/login');
-                Toastr.success('修改成功，请重新登录!', '提示');
+        // 获取公钥
+        
+        Http.getPublicKey().then((da) => {
+            if (da.data.result) {
+                // 开启加密则加密 password 字段
+                let publicKey = da.data.secret,
+                    encrypt = new JSEncrypt();
+    
+                encrypt.setPublicKey(publicKey);
+                // 加密密码
+                oldPass = encrypt.encrypt(oldPass);
+                newPass = encrypt.encrypt(newPass);
             }
+
+            // send
+            Http.modifyPass(username, oldPass, newPass).then((data) => {
+                if (data.data.result) {
+                    // 修改成功
+                    sessionStorage.setItem('token', '');
+                    sessionStorage.setItem('username', '');
+    
+                    history.push('/login');
+                    Toastr.success('修改成功，请重新登录!', '提示');
+                }
+            });
         });
+
+
 
         this.handleClose();
 
@@ -235,6 +261,15 @@ class Default extends React.Component{
     handleLoginOut = () => {
         this.setState({ openLoginOut: true });
     };
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    }
+    handleClickShowPassword1 = () => {
+        this.setState(state => ({ showPassword1: !state.showPassword1 }));
+    }
+    handleClickShowPassword2 = () => {
+        this.setState(state => ({ showPassword2: !state.showPassword2 }));
+    }
     componentDidMount() {
         this.props.getWebsiteConifg();
     }
@@ -422,11 +457,12 @@ class Default extends React.Component{
                             提示
                         </DialogTitle>
                         <DialogContent>
-                            <DialogContentText>
+                            <DialogContentText component="div">
                                 <TextField
                                     label="旧密码"
                                     style={{ margin: 8 }}
                                     placeholder="请输入旧密码"
+                                    type={ this.state.showPassword ? 'text' : 'password' }
                                     fullWidth
                                     data-name="oldPass"
                                     autoComplete="false"
@@ -436,11 +472,24 @@ class Default extends React.Component{
                                     }}
                                     value={ this.state.form.oldPass }
                                     onChange={ this.modifyInfo }
+                                    InputProps={{
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="Toggle password visibility"
+                                            onClick={ this.handleClickShowPassword }
+                                          >
+                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      ),
+                                    }}
                                 />
                                 <TextField
                                     label="新密码"
                                     style={{ margin: 8 }}
                                     placeholder="请输入新密码"
+                                    type={ this.state.showPassword1 ? 'text' : 'password' }
                                     fullWidth
                                     data-name="newPass1"
                                     autoComplete="false"
@@ -450,11 +499,24 @@ class Default extends React.Component{
                                     }}
                                     value={ this.state.form.newPass1 }
                                     onChange={ this.modifyInfo }
+                                    InputProps={{
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="Toggle password visibility"
+                                            onClick={ this.handleClickShowPassword1 }
+                                          >
+                                            {this.state.showPassword1 ? <VisibilityOff /> : <Visibility />}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      ),
+                                    }}
                                 />
                                 <TextField
                                     label="新密码"
                                     style={{ margin: 8 }}
                                     placeholder="再一次输入新密码"
+                                    type={ this.state.showPassword2 ? 'text' : 'password' }
                                     fullWidth
                                     data-name="newPass2"
                                     autoComplete="false"
@@ -464,6 +526,18 @@ class Default extends React.Component{
                                     }}
                                     value={ this.state.form.newPass2 } 
                                     onChange={ this.modifyInfo }
+                                    InputProps={{
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="Toggle password visibility"
+                                            onClick={ this.handleClickShowPassword2 }
+                                          >
+                                            {this.state.showPassword2 ? <VisibilityOff /> : <Visibility />}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      ),
+                                    }}
                                 />
                             </DialogContentText>
                         </DialogContent>
