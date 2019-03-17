@@ -20,10 +20,6 @@ import login from './pages/Login/Login.js';
 import Default from './pages/Default/Default.js';
 import Authority from './routers/authority';
 
-import * as name from './util/test';
-
-console.log(name.getA());
-
 class App extends Component {
     render() {
         return (
