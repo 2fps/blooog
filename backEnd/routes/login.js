@@ -9,12 +9,20 @@ router.prefix('/api');
 
 // 用户登录
 router.post('/loginIn', async (ctx, next) => {
-    let crypto = require('crypto'),
-        hash = crypto.createHash('md5'),
-        body = ctx.request.body,
+    let body = ctx.request.body,
         username = body.username,
         password = body.password,
+        verificationCode = body.verificationCode,
         info = null;
+    // 先判断验证码
+    if (config.verificationCode && verificationCode !== global.captcha) {
+        // 验证码不正确的时候，直接返回
+        ctx.body = errorCode.errorMsg(20009);
+
+        return;
+    }
+    // 删除验证码
+    delete global.captcha;
 
     // 开启登录加密功能
     if (config.loginEncryption) {

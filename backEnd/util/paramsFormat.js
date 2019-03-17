@@ -32,7 +32,8 @@ let paramsFormat = {
             articleId: Joi.string()
         },
         // 获取总文章的数量
-        articlesNum: {}
+        articlesNum: {},
+        verificationCode: {}
     },
     post: {
         // 保存标签
@@ -43,7 +44,8 @@ let paramsFormat = {
         // 登录接口
         loginIn: {
             username: Joi.string(),
-            password: Joi.string()
+            password: Joi.string(),
+            verificationCode: Joi.string().allow('')
         },
         // 写文章
         article: {

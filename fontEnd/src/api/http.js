@@ -40,10 +40,11 @@ export function getNewestArticle() {
 }
 
 // 登录
-export function loginIn(username, password) {
+export function loginIn(username, password, verificationCode) {
     return axios.post('/api/loginIn', {
         username,
-        password
+        password,
+        verificationCode
     })
     .then(function (response) {
         return response;
@@ -151,6 +152,15 @@ export function updateTag(tagName, newName) {
         tagName,
         newName
     }).then(function(response) {
+        return response;
+    });
+}
+
+/**
+ * 获取验证码的svg格式
+ */
+export function getVerificationCode() {
+    return axios.get('/api/verificationCode').then(function(response) {
         return response;
     });
 }

@@ -57,6 +57,9 @@ const styles = theme => ({
     submit: {
         marginTop: theme.spacing.unit * 3,
     },
+    pointer: {
+        cursor: 'pointer'
+    },
 });
 
 class Login extends React.Component {
@@ -67,13 +70,16 @@ class Login extends React.Component {
             password: '',
             isLogining: false,
             formError: false,
-            showPassword: false
+            showPassword: false,
+            verificationCode: '',       // 验证码内容
+            verificationCodeValue: '',  // 用户输入的验证码内容
         };
     }
     // 登录接口
     loginIn = () => {
         let username = this.state.username.trim(),
-            password = this.state.password.trim();
+            password = this.state.password.trim(),
+            verificationCodeValue = this.state.verificationCodeValue.trim();
 
         this.setState({
             isLogining: true,
@@ -91,8 +97,8 @@ class Login extends React.Component {
                 // 加密密码
                 password = encrypt.encrypt(password);
             }
-
-            Http.loginIn(username, password).then((data) => {
+            // 用户登录
+            Http.loginIn(username, password, verificationCodeValue).then((data) => {
                 let da = data.data;
             
                 if (da.result) {
@@ -102,7 +108,9 @@ class Login extends React.Component {
             
                     history.push('/default/welcome');
                 } else {
-                    Toastr.error('用户名或密码错误!', '错误');
+                    Toastr.error(da.msg);
+                    // 重新刷新并获取验证码
+                    this.refreshVerificationCode();
                 }
             }).catch(() => {
             
@@ -143,6 +151,51 @@ class Login extends React.Component {
             this.loginIn();
         }
     }
+    inputVerificationCode = (e) => {
+        this.setState({
+            verificationCodeValue: e.target.value
+        });
+    }
+    refreshVerificationCode = () => {
+        Http.getVerificationCode().then((data) => {
+            let da = data.data;
+
+            if (da.result) {
+                // 有验证码，需要去显示他
+                this.setState({
+                    verificationCode: da.data
+                });
+            }
+        });
+    }
+    renderVerificationCode = (classes) => {
+        if (this.state.verificationCode) {
+            return (
+                <FormControl margin="normal" required fullWidth>
+                    <InputLabel htmlFor="password">验证码</InputLabel>
+                    <Input name="password"
+                        id="password"
+                        value={ this.state.verificationCodeValue }
+                        onChange={ this.inputVerificationCode }
+                        autoComplete="current-password"
+                        onKeyPress={ this.inputKeyPress }
+                        endAdornment={
+                            <InputAdornment position="end" className={ classes.pointer } onClick={ this.refreshVerificationCode }>
+                                <span dangerouslySetInnerHTML={{ __html: this.state.verificationCode }} />
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
+            );
+        } else {
+            return (
+                <span></span>
+            );
+        }
+    }
+    componentWillMount() {
+        this.refreshVerificationCode();
+    }
     render() {
         const { classes } = this.props;
         return (
@@ -169,16 +222,17 @@ class Login extends React.Component {
                                 onKeyPress={ this.inputKeyPress }
                                 endAdornment={
                                     <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="Toggle password visibility"
-                                        onClick={ this.handleClickShowPassword }
-                                    >
-                                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
+                                        <IconButton
+                                            aria-label="Toggle password visibility"
+                                            onClick={ this.handleClickShowPassword }
+                                        >
+                                            {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
                                     </InputAdornment>
                                 }
                             />
                         </FormControl>
+                        { this.renderVerificationCode(classes) }
                         {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"

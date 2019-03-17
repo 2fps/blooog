@@ -36,6 +36,7 @@ app.use(jwtKoa({secret}).unless({
         /^\/api\/articles/,
         /^\/api\/likeArticle/,
         /^\/api\/article/,
+        /^\/api\/verificationCode/,
         /^\/api\/tag/,
         /^\/api\/publicKey/,
         /^\/api\/website/] //数组中的路径不需要通过jwt验证
